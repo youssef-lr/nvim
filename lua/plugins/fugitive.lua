@@ -3,6 +3,8 @@ return {
     config = function()
         -- Key mappings for Git and diff management
         vim.api.nvim_set_keymap('n', '<leader>s', ':Git<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', 'gs', ':Git<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', 'gp', ':Git push<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<leader>gd', ':Gvdiffsplit!<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<leader>gw', ':Gwrite<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<leader>gr', ':Gread<CR>', { noremap = true, silent = true })

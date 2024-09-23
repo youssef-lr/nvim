@@ -45,14 +45,16 @@ return {
         vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>FzfLua diagnostics_document<CR>',
             { noremap = true, silent = true })
 
-        ---- Rgp and Rl Commands
+        vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
+
         --vim.api.nvim_set_keymap('n', '<leader><leader>r', ':Rgp', { noremap = true, silent = true })
         ----vim.api.nvim_set_keymap('n', '<leader>rl', ':Rl', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
         --vim.api.nvim_set_keymap('v', '<leader>rg', '"vy:Rg <C-R>v<CR>', { noremap = true, silent = true })
         --vim.api.nvim_set_keymap('v', '<leader>rl', '"vy:Rl <C-R>v<CR>', { noremap = true, silent = true })
 
-        vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>FzfLua live_grep<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>FzfLua grep<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<leader><leader>lg', '<cmd>FzfLua live_grep<CR>', { noremap = true, silent = true })
 
         ---- Terminal Mode Mapping
         --vim.api.nvim_set_keymap('t', '<C-p>', '<C-\\><C-n>:GFiles<CR>', { noremap = true, silent = true, buffer = true })

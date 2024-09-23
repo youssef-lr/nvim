@@ -28,9 +28,20 @@ return {
           },
         },
         mru = { limit = 10, cwd_only = true },
-        project = { enable = true, limit = 8, action = 'FzfLua oldfiles cwd=' },
+        project = {
+          enable = true,
+          limit = 8,
+          action = 'FzfLua oldfiles cwd=',
+          only = {
+            '~/Expensidev/Auth',
+            '~/Expensidev/Web-Expensify',
+            '~/Expensidev/App',
+            '~/.config/nvim',
+          }
+        },
       },
     }
+    local dashboard = require('dashboard')
   end,
   dependencies = { { 'nvim-tree/nvim-web-devicons' } }
 }
