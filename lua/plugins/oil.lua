@@ -1,7 +1,10 @@
 return {
   'stevearc/oil.nvim',
+  keys = {
+    { "<leader><leader>o", "<cmd>Oil --float<CR>", desc = "Oil float" },
+  },
   config = function()
-    require('stevearc/oil.nvim').setup({
+    require('oil').setup({
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
       -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
       default_file_explorer = false,
@@ -184,7 +187,5 @@ return {
         border = "rounded",
       },
     })
-
-    vim.keymap.set('n', '<leader><leader>o', '<cmd>Oil --float<CR>', { noremap = true })
   end
 }
