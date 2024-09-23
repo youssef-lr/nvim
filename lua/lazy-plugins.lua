@@ -12,22 +12,13 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-surround',
   "junegunn/seoul256.vim",
-  "stephpy/vim-php-cs-fixer",
 
   require 'plugins/gitsigns',
-
-  -- require 'plugins/which-key',
-
   require 'plugins/lspconfig',
-
   require 'plugins/conform',
-
   require 'plugins/nvim_cmp',
-
   require 'plugins/todo-comments',
-
   require 'plugins/treesitter',
-
   require 'plugins.indent_line',
   require 'plugins.autopairs',
   require 'plugins.nvimtree',
@@ -41,6 +32,8 @@ require('lazy').setup({
   require 'plugins.dashbord',
   require 'plugins.gitlinker',
   require 'plugins.lint',
+  require 'plugins.phpcsfixer',
+  -- require 'plugins/which-key',
 }, {
   defaults = {
     lazy = false

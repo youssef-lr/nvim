@@ -160,13 +160,6 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
     end
 })
 
--- Notification after file change
-vim.api.nvim_create_autocmd('FileChangedShellPost', {
-    callback = function()
-        vim.cmd('echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None')
-    end
-})
-
 -- Uncrustify configuration
 vim.g.uncrustify_cfg_file_path = '/Users/youssef/Code/Expensidev/Auth/ci/uncrustify_config.txt'
 
