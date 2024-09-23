@@ -60,7 +60,6 @@ vim.opt.scrolloff = 10
 vim.cmd('filetype plugin on')
 vim.cmd('filetype plugin indent on')
 
-
 -- General settings
 vim.cmd('set nolist')
 vim.opt.cursorline = true
@@ -147,39 +146,6 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
     callback = function() vim.bo.filetype = 'typescriptreact' end
 })
 
--- FZF settings
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'fzf',
-    callback = function() vim.opt_local.conceallevel = 0 end
-})
-
--- Autoread trigger when files are changed on disk
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
-    callback = function()
-        if vim.fn.mode() ~= 'c' then vim.cmd('checktime') end
-    end
-})
-
--- Uncrustify configuration
-vim.g.uncrustify_cfg_file_path = '/Users/youssef/Code/Expensidev/Auth/ci/uncrustify_config.txt'
-
--- Uncrustify key mappings
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'c', 'cpp' },
-    callback = function()
-        vim.api.nvim_buf_set_keymap(0, 'n', '<leader><leader>f', ':Uncrustify<CR>:w<CR>', { noremap = true })
-    end
-})
-
--- php cs fixer
---vim.api.nvim_create_autocmd('FileType', {
---pattern = 'php',
---callback = function()
---vim.api.nvim_buf_set_keymap(0, 'n', '<leader><leader>f', ':CocCommand php-cs-fixer.fix<CR>:w<CR>',
---{ noremap = true })
---end
---})
-
 -- Abbreviations
 vim.cmd([[
     iabbr cosnt const
@@ -196,16 +162,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
     desc = 'return cursor to where it was last time closing the file',
     pattern = '*',
     command = 'silent! normal! g`"zv',
-})
-
-vim.g.php_cs_fixer_config_file = '/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php' -- options: --config
-vim.g.php_cs_fixer_allow_risky = 'yes'                                                  -- options: --allow-risky
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { "php" },
-    callback = function()
-        vim.b.autoformat = false
-    end,
 })
 
 -- disable builtin plugins

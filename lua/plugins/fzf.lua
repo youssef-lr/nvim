@@ -16,6 +16,19 @@ return {
             },
         })
 
+        -- FZF settings
+        vim.api.nvim_create_autocmd('FileType', {
+            pattern = 'fzf',
+            callback = function() vim.opt_local.conceallevel = 0 end
+        })
+
+        -- Autoread trigger when files are changed on disk
+        vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+            callback = function()
+                if vim.fn.mode() ~= 'c' then vim.cmd('checktime') end
+            end
+        })
+
         -- Normal Mode Mappings
         vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>FzfLua files<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<C-r>', '<cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })

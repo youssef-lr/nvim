@@ -1,2 +1,44 @@
 snippet si
-    SINFO("youssef-auth logging $0")
+    SINFO("youssef-auth logging $0");
+
+snippet newcommandcpp
+    #pragma once
+
+    #include "$0.h"
+
+    class $0 : public AuthCommand
+    {
+    public:
+
+        static const string name;
+
+        $0(SQLiteCommand&& baseCommand, BedrockPlugin_Auth& auth) : AuthCommand(move(baseCommand), auth)
+        {
+        };
+
+        virtual void process() override;
+        virtual bool peek() override;
+
+    private:
+
+    protected:
+    };
+
+snippet newcommandh
+    #pragma once
+
+    #include "../AuthCommand.h"
+
+    class $0 : public AuthCommand
+    {
+    public:
+
+        static const string name;
+
+        $0(SQLiteCommand&& baseCommand, BedrockPlugin_Auth& auth) : AuthCommand(move(baseCommand), auth)
+        {
+        };
+
+        virtual bool peek();
+        virtual void process();
+    };

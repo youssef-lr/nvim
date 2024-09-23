@@ -1,3 +1,6 @@
+vim.g.php_cs_fixer_config_file = '/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php' -- options: --config
+vim.g.php_cs_fixer_allow_risky = 'yes'                                                  -- options: --allow-risky
+
 function fixPHP()
     -- Save current 'shortmess' setting
     local original_shortmess = vim.opt.shortmess:get()

@@ -11,7 +11,10 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-surround',
-  "junegunn/seoul256.vim",
+  'junegunn/seoul256.vim',
+  'mattn/emmet-vim',
+  'nvim-pack/nvim-spectre',
+  'embear/vim-uncrustify',
 
   require 'plugins/gitsigns',
   require 'plugins/lspconfig',
