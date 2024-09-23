@@ -55,6 +55,7 @@ return {
           if client then
             client.server_capabilities.semanticTokensProvider = nil
 
+            -- Disable auto formatting from intelephense but keep `documentRangeFormattingProvider` (`f` in visual mode to format selected range)
             if client.name == 'intelephense' then
               client.server_capabilities.documentFormattingProvider = nil
               client.server_capabilities.documentOnTypeFormattingProvider = nil
