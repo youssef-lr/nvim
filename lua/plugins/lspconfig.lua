@@ -42,7 +42,6 @@ return {
           map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
           map('<leader>j', vim.diagnostic.goto_next, '')
           map('<leader>k', vim.diagnostic.goto_prev, '')
-          map('<C-e>', '<cmd>ClangdSwitchSourceHeader<CR>', '')
 
           local function formatRange()
             vim.lsp.buf.format()
@@ -110,6 +109,7 @@ return {
           },
         },
         ts_ls = {},
+        jsonls = {},
         intelephense = {},
         lua_ls = {
           settings = {

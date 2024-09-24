@@ -21,10 +21,10 @@ return {
                 -- see :h nvim_open_win for details on borders however
                 -- the 'curved' BOrder is a custom Border type
                 -- not natively supported but implemented in this plugin.
-                Border = 'curved',
+                border = 'curved',
                 width = 100,
                 height = 30,
-                winblend = 3,
+                winblend = 0,
                 highlights = {
                     border = "Normal",
                     background = "Normal",

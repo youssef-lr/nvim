@@ -45,12 +45,22 @@ vim.keymap.set('n', '<leader>d', '"*d', { silent = true, noremap = true })
 vim.keymap.set('v', '<leader>y', '"*y', { silent = true, noremap = true })
 vim.keymap.set('v', '<leader>d', '"*d', { silent = true, noremap = true })
 
+vim.keymap.set('n', '<D-c>', '"*y', { silent = true, noremap = true })
+vim.keymap.set('n', '<D-c>', '"*y', { silent = true, noremap = true })
+vim.keymap.set('v', '<D-c>', '"*y', { silent = true, noremap = true })
+vim.keymap.set('n', '<D-v>', '"*p', { silent = true, noremap = true })
+vim.keymap.set('v', '<D-v>', '"*p', { silent = true, noremap = true })
+
 vim.keymap.set('n', 'Y', 'y$', { noremap = true })
 vim.keymap.set('n', '<leader>Y', '"*y$', { noremap = true })
 
 vim.keymap.set('n', '<ESC>', ":noh<CR>:echon ''<ESC>", { silent = true, noremap = true })
 vim.keymap.set('n', '<C-S>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-S>', '<Esc>:w<cr>', { noremap = true })
+vim.keymap.set('n', '<D-s>', ':w<CR>', { noremap = true })
+vim.keymap.set('i', '<D-s>', '<Esc>:w<cr>', { noremap = true })
+
+vim.keymap.set('i', '<D-s>', '<Esc>:w<cr>', { noremap = true })
 
 vim.keymap.set('n', '<leader><CR>', ':noh<cr>', { silent = true })
 
@@ -63,6 +73,16 @@ vim.keymap.set('i', '<C-j>', '<C-w>j', { noremap = true })
 vim.keymap.set('i', '<C-k>', '<C-w>k', { noremap = true })
 vim.keymap.set('i', '<C-h>', '<C-w>h', { noremap = true })
 vim.keymap.set('i', '<C-l>', '<C-w>l', { noremap = true })
+
+-- ALt mappings
+vim.keymap.set('n', '<M-j>', '<C-w>j', { noremap = true })
+vim.keymap.set('n', '<M-k>', '<C-w>k', { noremap = true })
+vim.keymap.set('n', '<M-h>', '<C-w>h', { noremap = true })
+vim.keymap.set('n', '<M-l>', '<C-w>l', { noremap = true })
+vim.keymap.set('i', '<M-j>', '<C-w>j', { noremap = true })
+vim.keymap.set('i', '<M-k>', '<C-w>k', { noremap = true })
+vim.keymap.set('i', '<M-h>', '<C-w>h', { noremap = true })
+vim.keymap.set('i', '<M-l>', '<C-w>l', { noremap = true })
 
 -- Close all buffers
 vim.keymap.set('n', '<leader>ba', ':bufdo bd<cr>', { noremap = true })
@@ -119,6 +139,11 @@ vim.keymap.set('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 vim.keymap.set('i', '<C-Q>', '<Esc>ZZ', { noremap = true })
 vim.keymap.set('n', '<C-Q>', 'ZZ', { noremap = true })
 vim.keymap.set('t', '<C-Q>', '<C-\\><C-n>ZZ', { noremap = true })
+vim.keymap.set('i', '<M-q>', '<Esc>ZZ', { noremap = true })
+vim.keymap.set('n', '<M-q>', 'ZZ', { noremap = true })
+vim.keymap.set('t', '<M-q>', '<C-\\><C-n>ZZ', { noremap = true })
+vim.api.nvim_buf_set_keymap(0, 'n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', '<D-q>', ':q<CR>', { noremap = true, silent = true })
 
 -- Diff this
 vim.keymap.set('n', '<leader><leader>dt', ':windo diffthis<CR>', { noremap = true })
@@ -137,13 +162,20 @@ vim.keymap.set('v', '*', 'y<ESC>/<C-R>"<CR>', { noremap = true })
 --vim.keymap.set('n', '<leader><leader>p', 'ggvG!php<CR>', { noremap = true })
 
 -- Terminal mode mappings
-vim.api.nvim_buf_set_keymap(0, 't', 'jj', '<C-\\><C-n>', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<leader><tab>', '<C-\\><C-n><C-w>w', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 't', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true })
+vim.api.nvim_set_keymap('t', 'jj', '<C-\\><C-n>', { noremap = true })
+vim.api.nvim_set_keymap('t', '<leader><tab>', '<C-\\><C-n><C-w>w', { noremap = true })
 
--- Normal mode mapping in terminal buffers
-vim.api.nvim_buf_set_keymap(0, 'n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-k>', '<C-\\><C-n><C-w>k', { noremap = true })
+
+vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-j>', '<C-\\><C-n><C-w>j', { noremap = true })
+
+vim.api.nvim_set_keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-h>', '<C-\\><C-n><C-w>h', { noremap = true })
+
+vim.api.nvim_set_keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-l>', '<C-\\><C-n><C-w>l', { noremap = true })
+
+vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-q>', '<C-\\><C-n>:q<CR>', { noremap = true })

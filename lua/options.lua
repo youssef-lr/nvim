@@ -1,6 +1,8 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.opt.title = true
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -20,6 +22,8 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+
+vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true

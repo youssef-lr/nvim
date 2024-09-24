@@ -36,6 +36,7 @@ require('lazy').setup({
   require 'plugins.gitlinker',
   require 'plugins.lint',
   require 'plugins.phpcsfixer',
+  require 'plugins.tabby',
   -- require 'plugins/which-key',
 }, {
   defaults = {
