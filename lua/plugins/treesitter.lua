@@ -67,6 +67,7 @@ return {
             ["=f"] = "@function.outer",
             ["=if"] = "@function.inner",
             ["=p"] = "@parameter.inner",
+            ["=c"] = "@call.outer",
             --
             -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
             ["=l"] = "@loop.*",
@@ -86,6 +87,7 @@ return {
             [")if"] = "@function.inner",
             [")p"] = "@parameter.inner",
             [")l"] = "@loop.*",
+            [")c"] = "@call.outer",
           },
           goto_previous_end = {
             [")ef"] = "@function.outer",

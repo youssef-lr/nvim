@@ -18,3 +18,6 @@ local function fixPHP()
 end
 
 vim.keymap.set('n', '<leader><leader>f', fixPHP, { noremap = true })
+
+vim.api.nvim_buf_set_keymap(0, 'i', '-', '->', { noremap = true })
+vim.api.nvim_buf_set_keymap(0, 'i', 'ù', '->', { noremap = true })
