@@ -19,7 +19,7 @@ return {
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true, php = true }
+        local disable_filetypes = { c = true, cpp = true }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
@@ -31,6 +31,12 @@ return {
           lsp_format = lsp_format_opt,
         }
       end,
+      callback = function()
+        vim.defer_fn(function()
+          local lint = require('lint')
+          lint.try_lint();
+        end, 1500)
+      end,
       formatters_by_ft = {
         html = { "prettierd" },
         javascript = { "prettierd" },
@@ -38,6 +44,7 @@ return {
         markdown = { "prettierd" },
         typescript = { "prettierd" },
         typescriptreact = { "prettierd" },
+        php = { "php" },
         ["*"] = { "trim_whitespace" },
       },
       formatters = {
@@ -47,6 +54,20 @@ return {
                 vim.loop.fs_realpath(".prettierrc.json")
           end,
         },
+        php = function()
+          return {
+            command = require("conform.util").find_executable({
+              "tools/php-cs-fixer/vendor/bin/php-cs-fixer",
+              "vendor/bin/php-cs-fixer",
+            }, "php-cs-fixer"),
+            args = {
+              "fix",
+              "$FILENAME",
+              "--config=/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php"
+            },
+            stdin = false,
+          }
+        end
       },
     },
   },

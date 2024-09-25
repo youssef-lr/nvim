@@ -17,6 +17,7 @@ require('lazy').setup({
 
   require 'plugins/gitsigns',
   require 'plugins/lspconfig',
+  require 'plugins.lint',
   require 'plugins/conform',
   require 'plugins/nvim_cmp',
   require 'plugins/todo-comments',
@@ -33,8 +34,6 @@ require('lazy').setup({
   require 'plugins.saga',
   require 'plugins.dashbord',
   require 'plugins.gitlinker',
-  require 'plugins.lint',
-  require 'plugins.phpcsfixer',
   require 'plugins.tabby',
   require 'plugins.spectre',
   -- require 'plugins/which-key',
