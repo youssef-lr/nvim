@@ -13,7 +13,6 @@ require('lazy').setup({
   'tpope/vim-surround',
   'junegunn/seoul256.vim',
   'mattn/emmet-vim',
-  'nvim-pack/nvim-spectre',
   'embear/vim-uncrustify',
 
   require 'plugins/gitsigns',
@@ -37,6 +36,7 @@ require('lazy').setup({
   require 'plugins.lint',
   require 'plugins.phpcsfixer',
   require 'plugins.tabby',
+  require 'plugins.spectre',
   -- require 'plugins/which-key',
 }, {
   defaults = {
