@@ -38,7 +38,7 @@ return {
         vim.api.nvim_set_keymap('n', '<D-r>', '<cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<D-b>', '<cmd>FzfLua buffers<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<D-f>', '<cmd>FzfLua grep<CR>', { noremap = true, silent = true })
-
+        vim.api.nvim_set_keymap('n', '<D-o>', '<cmd>FzfLua lsp_document_symbols<CR>', { noremap = true })
 
         vim.api.nvim_set_keymap('t', '<D-p>', '<C-\\><C-n><cmd>FzfLua files<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('t', '<D-r>', '<C-\\><C-n><cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })
