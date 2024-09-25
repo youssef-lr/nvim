@@ -30,10 +30,6 @@ return {
         })
 
         -- Normal Mode Mappings
-        vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>FzfLua files<CR>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<C-r>', '<cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>FzfLua grep<CR>', { noremap = true, silent = true })
-
         vim.api.nvim_set_keymap('n', '<D-p>', '<cmd>FzfLua files<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<D-r>', '<cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<D-b>', '<cmd>FzfLua buffers<CR>', { noremap = true, silent = true })
