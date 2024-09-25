@@ -45,11 +45,11 @@ vim.keymap.set('n', '<leader>d', '"*d', { silent = true, noremap = true })
 vim.keymap.set('v', '<leader>y', '"*y', { silent = true, noremap = true })
 vim.keymap.set('v', '<leader>d', '"*d', { silent = true, noremap = true })
 
-vim.keymap.set('n', '<D-c>', '"*y', { silent = true, noremap = true })
-vim.keymap.set('n', '<D-c>', '"*y', { silent = true, noremap = true })
+vim.keymap.set('n', '<D-c>', '"*yy', { silent = true, noremap = true })
 vim.keymap.set('v', '<D-c>', '"*y', { silent = true, noremap = true })
 vim.keymap.set('n', '<D-v>', '"*p', { silent = true, noremap = true })
 vim.keymap.set('v', '<D-v>', '"*p', { silent = true, noremap = true })
+vim.keymap.set('i', '<D-v>', '<C-r>+', { silent = true, noremap = true })
 
 vim.keymap.set('n', 'Y', 'y$', { noremap = true })
 vim.keymap.set('n', '<leader>Y', '"*y$', { noremap = true })
