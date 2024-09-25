@@ -32,6 +32,7 @@ vim.api.nvim_set_hl(0, 'DiffAdd', { bg = '#5f875f', fg = '#ffffff' })
 
 vim.api.nvim_set_hl(0, 'SignColumn', { fg = '#d75fff', bg = '#3a3a3a' })
 vim.api.nvim_set_hl(0, 'VertSplit', { fg = '#3a3a3a' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#3a3a3a' })
 
 -- Startify
 --vim.api.nvim_set_hl(0, 'StartifyFile', { cterm = 'bold', fg = '#87afaf' })
