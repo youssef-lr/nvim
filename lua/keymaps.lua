@@ -54,11 +54,23 @@ vim.keymap.set('i', '<D-v>', '<C-r>+', { silent = true, noremap = true })
 vim.keymap.set('n', 'Y', 'y$', { noremap = true })
 vim.keymap.set('n', '<leader>Y', '"*y$', { noremap = true })
 
+local save = function(isInsertMode)
+    if (isInsertMode) then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
+    end
+
+    -- Save the file
+    vim.cmd('w')
+
+    -- Enter insert mode and then exit
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
+end
+
 vim.keymap.set('n', '<ESC>', ":noh<CR>:echon ''<ESC>", { silent = true, noremap = true })
-vim.keymap.set('n', '<C-S>', ':w<CR>', { noremap = true })
-vim.keymap.set('i', '<C-S>', '<Esc>:w<cr>', { noremap = true })
-vim.keymap.set('n', '<D-s>', ':w<CR>', { noremap = true })
-vim.keymap.set('i', '<D-s>', '<Esc>:w<cr>', { noremap = true })
+vim.keymap.set('n', '<C-S>', save, { noremap = true })
+vim.keymap.set('i', '<C-S>', function() save(true) end, { noremap = true })
+vim.keymap.set('n', '<D-s>', save, { noremap = true })
+vim.keymap.set('i', '<D-s>', function() save(true) end, { noremap = true })
 
 vim.keymap.set('i', '<D-s>', '<Esc>:w<cr>', { noremap = true })
 
@@ -100,7 +112,6 @@ vim.keymap.set('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
 vim.api.nvim_create_user_command('W', 'w !sudo tee % > /dev/null', {})
 
 -- Other movement and copy/paste commands
-vim.keymap.set('n', '<C-N><C-P>', '^f(lyi( :!npm install <C-R>"', { noremap = true })
 vim.keymap.set('n', 'dJ', 'dG', { noremap = true })
 vim.keymap.set('n', 'dK', 'dgg', { noremap = true })
 vim.keymap.set('n', 'dA', 'ggdG', { noremap = true })
