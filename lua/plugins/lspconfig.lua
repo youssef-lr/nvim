@@ -18,12 +18,12 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      { 'williamboman/mason.nvim', config = true }, -- NOTE = Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      -- NOTE = `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
@@ -35,7 +35,7 @@ return {
         callback = function(event)
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP = ' .. desc })
           end
 
           map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
@@ -58,6 +58,13 @@ return {
             if client.name == 'intelephense' then
               client.server_capabilities.documentFormattingProvider = nil
               client.server_capabilities.documentOnTypeFormattingProvider = nil
+            end
+
+            if client.name == 'ts_ls' then
+              print "deleting cap"
+              client.server_capabilities.documentFormattingProvider = nil
+              client.server_capabilities.documentOnTypeFormattingProvider = nil
+              client.server_capabilities.documentRangeFormattingProvider = nil
             end
 
             -- The following code creates a keymap to toggle inlay hints in your
@@ -106,11 +113,31 @@ return {
             '--background-index-priority=normal',
             '--limit-references=0',
             '--pch-storage=memory',
+            '--clang-tidy',
           },
         },
-        ts_ls = {},
+        ts_ls = {
+          init_options = {
+            maxTsServerMemory = 8192,
+            preferences = {
+              allowIncompleteCompletions = true,
+              allowRenameOfImportPath = true,
+              allowTextChangesInNewFiles = true,
+              displayPartsForJSDoc = true,
+              generateReturnInDocTemplate = true,
+              includeAutomaticOptionalChainCompletions = true,
+              includeCompletionsForImportStatements = true,
+              includeCompletionsForModuleExports = true,
+              includeCompletionsWithClassMemberSnippets = true,
+              includeCompletionsWithInsertText = true,
+              includeCompletionsWithSnippetText = true,
+              jsxAttributeCompletionStyle = "auto",
+            }
+          },
+        },
         jsonls = {},
         intelephense = {},
+        sqlls = {},
         lua_ls = {
           settings = {
             Lua = {

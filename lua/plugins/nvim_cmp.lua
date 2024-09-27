@@ -57,6 +57,20 @@ return {
         end
       end
 
+      local cmp_confirm = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
+      })
+      -- don't confirm for signature help to allow new line without selecting argument name
+      local confirm = cmp.sync(function(fallback)
+        local e = cmp.core.view:get_selected_entry()
+        if e and e.source.name == "nvim_lsp_signature_help" then
+          fallback()
+        else
+          cmp_confirm(fallback)
+        end
+      end)
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -92,7 +106,7 @@ return {
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<Tab>'] = cmp.mapping.confirm { select = true },
-          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = confirm,
 
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.

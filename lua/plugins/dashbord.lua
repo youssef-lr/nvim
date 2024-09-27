@@ -27,7 +27,6 @@ return {
             key = 'r',
           },
         },
-        mru = { limit = 10, cwd_only = true },
         project = {
           enable = true,
           limit = 8,
@@ -39,6 +38,7 @@ return {
             '~/.config/nvim',
           }
         },
+        mru = { limit = 10, cwd_only = true },
       },
     }
     local dashboard = require('dashboard')

@@ -42,7 +42,7 @@ return {
         vim.api.nvim_set_keymap('t', '<D-f>', '<C-\\><C-n><cmd>FzfLua grep<CR>', { noremap = true, silent = true })
 
         vim.api.nvim_set_keymap('t', '<M-p>', '<C-\\><C-n><cmd>FzfLua files<CR>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('t', '<M-r>', '<C-\\><C-n><cmd>FzfLua oldfiles<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('t', '<M-r>', '<C-r>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('t', '<M-b>', '<C-\\><C-n><cmd>FzfLua buffers<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('t', '<M-f>', '<C-\\><C-n><cmd>FzfLua grep<CR>', { noremap = true, silent = true })
 

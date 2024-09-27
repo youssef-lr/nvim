@@ -44,6 +44,9 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true })
 
+-- Buffer switching
+vim.keymap.set('n', '<S-Tab>', '<cmd>b#<CR>', { noremap = true })
+
 -- Alternative navigation using Alt (Meta) key
 vim.keymap.set('n', '<M-j>', '<C-w>j', { noremap = true })
 vim.keymap.set('n', '<M-k>', '<C-w>k', { noremap = true })
@@ -101,6 +104,8 @@ vim.keymap.set('n', '<leader><CR>', ':noh<cr>', { silent = true })
 vim.keymap.set('n', '<ESC>', ":noh<CR>:echon ''<ESC>", { silent = true, noremap = true })
 vim.keymap.set('n', '<leader><leader>s', ':setlocal spell!<cr>', { noremap = true })
 vim.keymap.set('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
+vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true })
+vim.keymap.set('t', '<M-v>', '<C-v>', { noremap = true })
 
 -- Custom function to go to path
 local function GoToPath()
@@ -124,15 +129,20 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Terminal mode mappings
 -- ========================
 vim.api.nvim_set_keymap('t', 'jj', '<C-\\><C-n>', { noremap = true })
-vim.api.nvim_set_keymap('t', '<leader><tab>', '<C-\\><C-n><C-w>w', { noremap = true })
+
 vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true })
-vim.api.nvim_set_keymap('t', '<M-j>', '<C-\\><C-n><C-w>j', { noremap = true })
+
 vim.api.nvim_set_keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true })
-vim.api.nvim_set_keymap('t', '<M-k>', '<C-\\><C-n><C-w>k', { noremap = true })
+
 vim.api.nvim_set_keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true })
-vim.api.nvim_set_keymap('t', '<M-h>', '<C-\\><C-n><C-w>h', { noremap = true })
+
 vim.api.nvim_set_keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true })
-vim.api.nvim_set_keymap('t', '<M-l>', '<C-\\><C-n><C-w>l', { noremap = true })
+vim.api.nvim_set_keymap('t', '<M-r>', '<C-r>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('t', '<M-j>', '<Down>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<M-k>', '<Up>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<D-j>', '<Down>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<D-k>', '<Up>', { noremap = true, silent = true })
 
 -- ========================
 -- Macros

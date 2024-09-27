@@ -8,6 +8,6 @@ if vim.g.neovide then
     vim.g.neovide_light_radius = 20
     vim.g.neovide_padding_left = 10
     vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
-    vim.g.neovide_scroll_animation_length = 0.3
+    vim.g.neovide_scroll_animation_length = 0.05
     vim.g.neovide_cursor_animation_length = 0
 end

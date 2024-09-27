@@ -30,7 +30,7 @@ return {
         },
         inactive_sections = {
             lualine_a = {},
-            lualine_b = {},
+            lualine_b = { 'diff', 'diagnostics' },
             lualine_c = { 'filename' },
             lualine_x = { 'location' },
             lualine_y = {},

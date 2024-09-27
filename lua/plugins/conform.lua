@@ -27,15 +27,9 @@ return {
           lsp_format_opt = 'fallback'
         end
         return {
-          timeout_ms = 1000,
+          timeout_ms = 9000,
           lsp_format = lsp_format_opt,
         }
-      end,
-      callback = function()
-        vim.defer_fn(function()
-          local lint = require('lint')
-          lint.try_lint();
-        end, 1500)
       end,
       formatters_by_ft = {
         html = { "prettierd" },

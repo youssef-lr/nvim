@@ -15,9 +15,10 @@ require('lazy').setup({
   'mattn/emmet-vim',
   'embear/vim-uncrustify',
 
-  require 'plugins/gitsigns',
-  require 'plugins/lspconfig',
+  require 'plugins.gitsigns',
+  require 'plugins.lspconfig',
   require 'plugins.lint',
+  require 'plugins.neodim',
   require 'plugins/conform',
   require 'plugins/nvim_cmp',
   require 'plugins/todo-comments',
