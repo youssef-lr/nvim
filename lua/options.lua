@@ -1,6 +1,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Enable filetype plugins and indentation
+vim.cmd('filetype plugin on')
+vim.cmd('filetype plugin indent on')
+
 vim.opt.title = true
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
@@ -15,10 +19,16 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
-vim.opt.diffopt = { 'internal', 'filler', 'closeoff', 'vertical', 'iwhiteall' }
+vim.opt.spell = true
+vim.opt.spelloptions = "camel"
 
 -- Enable break indent
 vim.opt.breakindent = true
+
+-- Hide deprecation warnings
+vim.g.deprecation_warnings = false
+
+vim.go.autowrite = true
 
 -- Save undo history
 vim.opt.undofile = true
@@ -51,10 +61,7 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
--- Enable filetype plugins and indentation
-vim.cmd('filetype plugin on')
-vim.cmd('filetype plugin indent on')
+vim.opt.sidescrolloff = 12
 
 -- General settings
 vim.cmd('set nolist')
@@ -95,9 +102,6 @@ vim.opt.cmdheight = 1
 
 -- Buffer becomes hidden when abandoned
 vim.opt.hidden = true
-
--- Smart case for searching
-vim.opt.smartcase = true
 
 -- Incremental search
 vim.opt.incsearch = true
@@ -177,7 +181,6 @@ local disabled_plugins = {
     "tar",
     "tarPlugin",
     "rrhelper",
-    "spellfile_plugin",
     "vimball",
     "vimballPlugin",
     "zip",
@@ -187,3 +190,98 @@ local disabled_plugins = {
 for _, plugin in ipairs(disabled_plugins) do
     vim.g['loaded_' .. plugin] = 1
 end
+
+
+-- Function to get the Git root directory's folder name
+local function get_git_root()
+    local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+    if handle == nil then
+        return ""
+    end
+    local git_root = handle:read("*a")
+    handle:close()
+
+    -- Remove trailing newline and extract only the folder name (last part of the path)
+    local git_root_name = git_root:gsub("\n", ""):match("([^/]+)$")
+    return git_root_name or "" -- Return the folder name or an empty string if not found
+end
+
+-- Set the window title dynamically
+vim.opt.title = true
+vim.opt.titlestring = "%{v:lua.get_git_root()} %f"
+
+-- Helper function to find the Git root and set title
+function _G.set_window_title()
+    local git_root = get_git_root()
+    if git_root ~= "" then
+        -- Get the relative file path from Git root
+        local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+        vim.opt.titlestring = git_root .. " - " .. relative_path
+    else
+        -- Fall back to default file path if not in a Git repository
+        vim.opt.titlestring = vim.fn.expand("%:p")
+    end
+end
+
+-- Call the function to set the window title whenever the file is changed
+vim.api.nvim_exec([[
+  autocmd BufEnter,BufReadPost * lua set_window_title()
+]], false)
+
+vim.api.nvim_create_user_command('GotoFile', function(opts)
+    if not string.find(opts.args, ":") then
+        return
+    end
+    -- Split the argument into the file and line number
+    local args = vim.split(opts.args, ":", true)
+    local file = args[1]
+
+    if not tonumber(args[2]) then
+        return
+    end
+
+    local line = tonumber(args[2])
+
+    -- Open the file
+    vim.cmd('edit ' .. file)
+
+    -- Jump to the specified line
+    if line then
+        vim.fn.cursor(line, 1)
+    end
+end, { nargs = 1 })
+
+vim.keymap.set('n', '<leader>gt', ':GotoFile <C-r>*<CR>', { noremap = true, silent = true })
+
+
+-- Custom function to handle indentation
+local function custom_indent()
+    -- Get the current line text
+    local line = vim.fn.getline(vim.v.lnum)
+
+    -- If the line contains 'report:', don't indent (return 0)
+    if string.match(line, "    report:") then
+        return 0
+    end
+
+    -- Otherwise, use default indentation (return -1)
+    return -1
+end
+
+-- Set up an autocmd to apply this custom indenting rule for specific file types
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*", -- Apply this to all file types, or specify a file type like "markdown"
+    callback = function()
+        vim.opt_local.indentexpr = "v:lua.custom_indent()"
+    end,
+})
+
+-- Register the custom indent function globally in Neovim
+_G.custom_indent = custom_indent
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "cpp", -- Apply to markdown files only
+    callback = function()
+        vim.opt_local.indentexpr = "v:lua.custom_indent()"
+    end,
+})

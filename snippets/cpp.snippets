@@ -24,6 +24,7 @@ snippet newcommandcpp
     protected:
     };
 
+
 snippet newcommandh
     #pragma once
 
@@ -42,3 +43,15 @@ snippet newcommandh
         virtual bool peek();
         virtual void process();
     };
+
+snippet co
+    cout << $0 << endl;
+
+snippet dbt
+    tester->getDBTransaction()
+
+snippet cint
+    const int64_t $0
+
+snippet int
+    int64_t $0

@@ -41,9 +41,10 @@ return {
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
+      local types = require("cmp.types")
+      local compare = require("cmp.config.compare")
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
-
 
       local goToNextLocation = function()
         if luasnip.expand_or_locally_jumpable() then
@@ -71,6 +72,20 @@ return {
         end
       end)
 
+      ---@type table<integer, integer>
+      local modified_priority = {
+        [types.lsp.CompletionItemKind.Snippet] = 0, -- top
+        [types.lsp.CompletionItemKind.Variable] = 1,
+        [types.lsp.CompletionItemKind.Keyword] = 2, -- top
+        [types.lsp.CompletionItemKind.Class] = 3,   -- top
+        [types.lsp.CompletionItemKind.Text] = 100,  -- bottom
+      }
+
+      ---@param kind integer: kind of completion entry
+      local function modified_kind(kind)
+        return modified_priority[kind] or kind
+      end
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -93,9 +108,9 @@ return {
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<M-j>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<M-k>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -106,7 +121,6 @@ return {
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<Tab>'] = cmp.mapping.confirm { select = true },
-          ['<CR>'] = confirm,
 
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
@@ -124,7 +138,12 @@ return {
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
-          { name = 'nvim_lsp' },
+          {
+            name = "nvim_lsp",
+            entry_filter = function(entry)
+              return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+            end
+          },
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
@@ -139,6 +158,27 @@ return {
             border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
           }
+        },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            compare.offset,
+            compare.exact,
+            -- compare.scopes,
+            compare.score,
+            compare.recently_used,
+            compare.locality,
+            function(entry1, entry2) -- sort by compare kind (Variable, Function etc)
+              local kind1 = modified_kind(entry1:get_kind())
+              local kind2 = modified_kind(entry2:get_kind())
+              if kind1 ~= kind2 then
+                return kind1 - kind2 < 0
+              end
+            end,
+            -- compare.sort_text,
+            compare.length,
+            compare.order,
+          },
         },
       }
       local ls = require("luasnip")

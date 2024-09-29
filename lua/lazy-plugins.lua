@@ -37,6 +37,7 @@ require('lazy').setup({
   require 'plugins.gitlinker',
   require 'plugins.tabby',
   require 'plugins.spectre',
+  -- require 'plugins.avante',
   -- require 'plugins/which-key',
 }, {
   defaults = {

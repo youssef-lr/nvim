@@ -14,6 +14,7 @@ return {
         vim.api.nvim_set_keymap('n', 'gdl', ':diffget //3<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<leader><Right>', ':diffget //2<CR>', { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', '<leader><Left>', ':diffget //3<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<leader>gm', ':Gvsplit main:%<CR>', { noremap = true, silent = true })
 
         -- Set the highlight color for DiffAdd
         vim.cmd('hi DiffAdd ctermbg=65')
