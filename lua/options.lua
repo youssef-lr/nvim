@@ -21,7 +21,6 @@ vim.opt.smoothscroll = true
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
-vim.opt.spell = true
 vim.opt.spelloptions = "camel"
 
 -- Enable break indent
@@ -166,34 +165,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
     command = 'silent! normal! g`"zv',
 })
 
--- disable builtin plugins
-local disabled_plugins = {
-    "2html_plugin",
-    "getscript",
-    "getscriptPlugin",
-    "gzip",
-    "logipat",
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "matchit",
-    "matchparen",
-    "spec",
-    "tar",
-    "tarPlugin",
-    "rrhelper",
-    "vimball",
-    "vimballPlugin",
-    "zip",
-    "zipPlugin"
-}
-
-for _, plugin in ipairs(disabled_plugins) do
-    vim.g['loaded_' .. plugin] = 1
-end
-
-
 -- Function to get the Git root directory's folder name
 local function get_git_root()
     local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
@@ -287,3 +258,28 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.indentexpr = "v:lua.custom_indent()"
     end,
 })
+
+-- disable builtin plugins
+local disabled_plugins = {
+    "2html_plugin",
+    "getscript",
+    "getscriptPlugin",
+    "gzip",
+    "logipat",
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "spec",
+    "tar",
+    "tarPlugin",
+    "rrhelper",
+    "vimball",
+    "vimballPlugin",
+    "zip",
+    "zipPlugin"
+}
+
+for _, plugin in ipairs(disabled_plugins) do
+    vim.g['loaded_' .. plugin] = 1
+end
