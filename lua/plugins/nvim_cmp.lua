@@ -140,13 +140,17 @@ return {
           },
           {
             name = "nvim_lsp",
-            entry_filter = function(entry)
-              return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
-            end
           },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = 'buffer' },
+          {
+            name = 'buffer',
+            option = {
+              get_bufnrs = function()
+                return vim.api.nvim_list_bufs()
+              end
+            }
+          },
           { name = 'nvim_lsp_signature_help' },
           { name = 'nvim_lua' },
         },
