@@ -62,12 +62,10 @@ vim.api.nvim_set_hl(0, 'Delimiter', { fg = '#ad9493', bold = true })
 
 vim.api.nvim_set_hl(0, 'fugitiveUnstagedHeading', { fg = '#e09b99' })
 
-
-vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "Grey60" })
-vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#909090" })
-vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#ffffff" })
-vim.api.nvim_set_hl(0, "DiagnosticWarning", { fg = "#ffaf87" })
-vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#d75f5f" })
+vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#b7b7c2", bg = '#3a3a3a' })
+vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#cdd7d3", bg = '#3a3a3a' })
+vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#ffd787", bg = '#3a3a3a' })
+vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#e09b99", bg = '#3a3a3a' })
 
 vim.api.nvim_set_hl(0, 'ErrorMsg', { bg = '#875f5f' })
 
@@ -92,3 +90,33 @@ vim.g.terminal_color_15 = "#d9d8d4"
 vim.api.nvim_set_hl(0, 'lualine_b_inactive', { fg = '#909090', bg = '#434343' })
 vim.api.nvim_set_hl(0, 'lualine_a_inactive', { fg = '#909090', bg = '#434343' })
 vim.api.nvim_set_hl(0, 'lualine_c_inactive', { fg = '#909090', bg = '#434343' })
+
+local changedBlue = '#afd4f2'
+local addedGreen = '#bce7bd'
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_normal', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_insert', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_visual', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_replace', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_command', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_terminal', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_modified_inactive', { fg = changedBlue, bg = '#30302c' })
+
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_normal', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_insert', { fg = changedBlue, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_visual', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_replace', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_command', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_terminal', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_0_inactive', { fg = addedGreen, bg = '#30302c' })
+
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_normal', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_insert', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_visual', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_replace', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_command', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_terminal', { fg = addedGreen, bg = '#4e4e43' })
+vim.api.nvim_set_hl(0, 'lualine_b_diff_added_inactive', { fg = addedGreen, bg = '#30302c' })
+
+vim.api.nvim_set_hl(0, 'Added', { fg = addedGreen })
+vim.api.nvim_set_hl(0, 'Changed', { fg = changedBlue })
+vim.api.nvim_set_hl(0, 'GitSignsStagedChange', { fg = '#466e8d' })

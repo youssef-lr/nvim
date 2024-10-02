@@ -74,11 +74,13 @@ return {
 
       ---@type table<integer, integer>
       local modified_priority = {
-        [types.lsp.CompletionItemKind.Snippet] = 0, -- top
+        [types.lsp.CompletionItemKind.Snippet] = 0,    -- top
         [types.lsp.CompletionItemKind.Variable] = 1,
-        [types.lsp.CompletionItemKind.Keyword] = 2, -- top
-        [types.lsp.CompletionItemKind.Class] = 3,   -- top
-        [types.lsp.CompletionItemKind.Text] = 100,  -- bottom
+        [types.lsp.CompletionItemKind.Keyword] = 2,    -- top
+        [types.lsp.CompletionItemKind.Class] = 3,      -- top
+        [types.lsp.CompletionItemKind.Enum] = 4,       -- top
+        [types.lsp.CompletionItemKind.Interface] = 20, -- bottom
+        [types.lsp.CompletionItemKind.Text] = 100,     -- bottom
       }
 
       ---@param kind integer: kind of completion entry

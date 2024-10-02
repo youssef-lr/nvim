@@ -34,6 +34,12 @@ return {
                         info = '● ',
                         hint = '● ',
                     },
+                    diagnostics_color = {
+                        hint = { fg = '#b7b7c2' },
+                        info = { fg = '#cdd7d3' },
+                        warn = { fg = '#ffd787' },
+                        error = { fg = '#e09b99' },
+                    },
                 },
             },
             lualine_c = { 'filename' },

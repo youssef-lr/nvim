@@ -1,5 +1,4 @@
 return {
-
   { -- Linting
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -34,11 +33,15 @@ return {
         end
       }
 
+      local psalm = require("lint").linters.psalm
+      psalm.ignore_exitcode = true
+
       lint.linters_by_ft = {
         javascript = { 'eslint_custom' },
         javascriptreact = { 'eslint_custom' },
         typescript = { 'eslint_custom' },
         typescriptreact = { 'eslint_custom' },
+        php = { 'psalm' },
       }
 
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })

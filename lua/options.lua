@@ -201,27 +201,48 @@ vim.api.nvim_exec([[
   autocmd BufEnter,BufReadPost * lua set_window_title()
 ]], false)
 
-vim.api.nvim_create_user_command('GotoFile', function(opts)
-    if not string.find(opts.args, ":") then
-        return
+local function getPathAndLineNumber(str)
+    -- Matches lib/ReportAPI.php' function 'structureTransactionsForOnyx' line '6297'
+    local file, line = str:match("^(.-)' function.- line '(%d+)'")
+    if file and line and tonumber(line) then
+        return file, line
     end
+
+    -- Matches lib/TransactionUtils.php' exceptionLine: '741'
+    file, line = str:match("^(.-)' exceptionLine: '(%d+)'")
+    if file and line and tonumber(line) then
+        return file, line
+    end
+
+    if not string.find(str, ":") and not string.find(str, "#L") then
+        return nil
+    end
+
     -- Split the argument into the file and line number
-    local args = vim.split(opts.args, ":", true)
-    local file = args[1]
+    local separator = string.find(str, "#L") and "#L" or ":"
+    local args = vim.split(str, separator, true)
+    file = args[1]
 
     if not tonumber(args[2]) then
-        return
+        return nil
     end
 
-    local line = tonumber(args[2])
+    line = tonumber(args[2])
+
+    return file, line
+end
+
+
+vim.api.nvim_create_user_command('GotoFile', function(opts)
+    local file, line = getPathAndLineNumber(opts.args)
+    if not file or not line then
+        local fidget = require("fidget")
+        fidget.notify("Not a valid line number")
+    end
 
     -- Open the file
     vim.cmd('edit ' .. file)
-
-    -- Jump to the specified line
-    if line then
-        vim.fn.cursor(line, 1)
-    end
+    vim.fn.cursor(line, 1)
 end, { nargs = 1 })
 
 vim.keymap.set('n', '<leader>gt', ':GotoFile <C-r>*<CR>', { noremap = true, silent = true })

@@ -14,11 +14,12 @@ require('lazy').setup({
   'junegunn/seoul256.vim',
   'mattn/emmet-vim',
   'embear/vim-uncrustify',
+  --'brenoprata10/nvim-highlight-colors',
 
   require 'plugins.gitsigns',
   require 'plugins.lspconfig',
   require 'plugins.lint',
-  require 'plugins.neodim',
+  --require 'plugins.neodim',
   require 'plugins/conform',
   require 'plugins/nvim_cmp',
   require 'plugins/todo-comments',

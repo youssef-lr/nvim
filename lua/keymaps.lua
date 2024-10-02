@@ -70,10 +70,6 @@ map('n', '<M-h>', '<C-w>h', { noremap = true })
 map('n', '<M-l>', '<C-w>l', { noremap = true })
 
 -- Navigate within files
-map('n', '<Up>', '[c', { noremap = true })
-map('n', '<Down>', ']c', { noremap = true })
-map('n', '0', '^', { noremap = true })
-map('n', '<leader><TAB>', '<C-w>w', { noremap = true })
 map('n', '<BS>', '<C-o>', { noremap = true })
 
 -- ========================
@@ -87,7 +83,8 @@ map('n', '<leader>y', '"*y', { silent = true, noremap = true })
 map('n', '<leader>d', '"*d', { silent = true, noremap = true })
 map('v', '<leader>y', '"*y', { silent = true, noremap = true })
 map('v', '<leader>d', '"*d', { silent = true, noremap = true })
-map('n', '<D-c>', '"*yy', { silent = true, noremap = true })
+map('n', '<D-c>', '"*y', { silent = true, noremap = true })
+map('n', '<D-c><D-c>', '"*yy', { silent = true, noremap = true })
 map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
 map('v', '<D-v>', '"*p', { silent = true, noremap = true })
@@ -122,6 +119,7 @@ map('n', '<leader><leader>s', ':setlocal spell!<cr>', { noremap = true })
 map('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
 map('n', '<M-v>', '<C-v>', { noremap = true })
 map('t', '<M-v>', '<C-v>', { noremap = true })
+map('i', '<M-à>', '@', { noremap = true })
 
 -- Custom function to go to path
 local function GoToPath()

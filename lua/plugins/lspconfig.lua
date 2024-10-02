@@ -54,12 +54,34 @@ return {
                         mode = mode or 'n'
                         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP = ' .. desc })
                     end
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
 
                     map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-                    map('<leader>j', vim.diagnostic.goto_next, '')
-                    map('<leader>k', vim.diagnostic.goto_prev, '')
+
+                    -- Initialize diagnostic mode based on client (php code has lots of warnings)
+                    local diagnosticMode = client and client.name == 'intelephense' and 'error' or 'all'
+                    local severity = diagnosticMode == 'error' and vim.diagnostic.severity.ERROR or nil
+
+                    -- Define diagnostic navigation with dynamic severity
+                    map('<leader>j', function()
+                        vim.diagnostic.jump({ count = 1, float = true, severity = severity })
+                    end, '')
+
+                    map('<leader>k', function()
+                        vim.diagnostic.jump({ count = -1, float = true, severity = severity })
+                    end, '')
+
+                    -- Toggle between showing only errors and showing all diagnostics
+                    local function toggleAllDiagnostics()
+                        -- Toggle between 'error' and 'all' modes
+                        diagnosticMode = diagnosticMode == 'error' and 'all' or 'error'
+
+                        -- Adjust severity based on the current mode
+                        severity = diagnosticMode == 'error' and vim.diagnostic.severity.ERROR or nil
+                    end
+                    map('<D-D>', toggleAllDiagnostics, '')
 
                     local function formatRange()
                         vim.lsp.buf.format()
@@ -67,7 +89,6 @@ return {
                     end
                     map("f", formatRange, '', 'v');
 
-                    local client = vim.lsp.get_client_by_id(event.data.client_id)
 
                     if client then
                         client.server_capabilities.semanticTokensProvider = nil
@@ -78,8 +99,20 @@ return {
                             client.server_capabilities.documentOnTypeFormattingProvider = nil
                         end
 
+                        if client.name == 'phpactor' then
+                            client.server_capabilities.completionProvider = nil
+                            client.server_capabilities.documentOnTypeFormattingProvider = nil
+                            client.server_capabilities.documentFormattingProvider = nil
+                            client.server_capabilities.renameProvider = nil
+                            client.server_capabilities.referencesProvider = nil
+                            client.server_capabilities.hoverProvider = nil
+                            client.server_capabilities.implementationProvider = nil
+                            client.server_capabilities.documentSymbolProvider = nil
+                            client.server_capabilities.signatureHelpProvider = nil
+                            client.server_capabilities.inlineCompletionProvider = nil
+                        end
+
                         if client.name == 'ts_ls' then
-                            print "deleting cap"
                             client.server_capabilities.documentFormattingProvider = nil
                             client.server_capabilities.documentOnTypeFormattingProvider = nil
                             client.server_capabilities.documentRangeFormattingProvider = nil
@@ -107,10 +140,10 @@ return {
                         },
                         signs = {
                             text = {
-                                [vim.diagnostic.severity.ERROR] = '●', -- or other icon of your choice here, this is just what my config has:
-                                [vim.diagnostic.severity.WARN] = '●',
-                                [vim.diagnostic.severity.INFO] = '●',
-                                [vim.diagnostic.severity.HINT] = '●',
+                                [vim.diagnostic.severity.ERROR] = ' ●', -- or other icon of your choice here, this is just what my config has:
+                                [vim.diagnostic.severity.WARN] = ' ●',
+                                [vim.diagnostic.severity.INFO] = ' ●',
+                                [vim.diagnostic.severity.HINT] = ' ●',
                             },
                         },
                         underline = false,
@@ -155,6 +188,7 @@ return {
                 },
                 jsonls = {},
                 intelephense = {},
+                --phpactor = {},
                 sqlls = {},
                 lua_ls = {
                     settings = {

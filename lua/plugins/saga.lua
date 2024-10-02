@@ -5,7 +5,7 @@ return {
       finder = {
         keys = {
           shuttle = '<M-l>',
-          quit = '<C-q>'
+          quit = 'q'
         },
         max_height = 1,
         left_width = 0.2,
@@ -28,7 +28,7 @@ return {
     vim.keymap.set('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<leader>rf', '<cmd>Lspsaga finder<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', { silent = true, noremap = true })
-    vim.keymap.set('n', 'à', '<cmd>Lspsaga peek_definition<CR>', { silent = true, noremap = true })
+
     vim.keymap.set('n', '<leader>lb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
     require('lspsaga').config.definition.width = 1;
     require('lspsaga').config.definition.height = 1;

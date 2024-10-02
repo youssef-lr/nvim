@@ -10,5 +10,7 @@ vim.api.nvim_buf_set_keymap(0, 'n', '<M-e>', '<cmd>ClangdSwitchSourceHeader<CR>'
 
 vim.cmd("setlocal indentkeys-=:")
 
-vim.cmd('iabbr cint const int64_t ')
+vim.cmd('iabbr cint const int64_t')
 vim.cmd('iabbr cont const')
+
+vim.api.nvim_buf_set_keymap(0, 'n', '<leader><leader>ts', 'ciwto_string(<ESC>pa)', { noremap = true })
