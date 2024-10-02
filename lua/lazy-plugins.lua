@@ -19,7 +19,6 @@ require('lazy').setup({
   require 'plugins.gitsigns',
   require 'plugins.lspconfig',
   require 'plugins.lint',
-  --require 'plugins.neodim',
   require 'plugins/conform',
   require 'plugins/nvim_cmp',
   require 'plugins/todo-comments',
@@ -38,6 +37,7 @@ require('lazy').setup({
   require 'plugins.gitlinker',
   require 'plugins.tabby',
   require 'plugins.spectre',
+  -- require 'plugins.neodim',
   -- require 'plugins.avante',
   -- require 'plugins/which-key',
 }, {
@@ -64,5 +64,3 @@ require('lazy').setup({
     },
   },
 })
-
--- vim: ts=2 sts=2 sw=2 et
