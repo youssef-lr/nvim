@@ -2,27 +2,27 @@
 
 vim.cmd('colorscheme seoul256')
 
-local background = "#3f3f3f"
+local background = '#3f3f3f'
 
 vim.api.nvim_set_hl(0, 'Normal', { bg = background, fg = 'Grey90' })
 
 -- Terminal color settings
-vim.g.terminal_color_0 = "#000000"
-vim.g.terminal_color_1 = "#d96969"
-vim.g.terminal_color_2 = "#98bc99"
-vim.g.terminal_color_3 = "#ffde99"
-vim.g.terminal_color_4 = "#98bede"
-vim.g.terminal_color_5 = "#d87180"
-vim.g.terminal_color_6 = "#72bcba"
-vim.g.terminal_color_7 = "#d9d8d4"
-vim.g.terminal_color_8 = "#000000"
-vim.g.terminal_color_9 = "#f08686"
-vim.g.terminal_color_10 = "#8bb898"
-vim.g.terminal_color_11 = "#daddbd"
-vim.g.terminal_color_12 = "#99bedd"
-vim.g.terminal_color_13 = "#eaaf9b"
-vim.g.terminal_color_14 = "#72bcba"
-vim.g.terminal_color_15 = "#d9d8d4"
+vim.g.terminal_color_0 = '#000000'
+vim.g.terminal_color_1 = '#d96969'
+vim.g.terminal_color_2 = '#98bc99'
+vim.g.terminal_color_3 = '#ffde99'
+vim.g.terminal_color_4 = '#98bede'
+vim.g.terminal_color_5 = '#d87180'
+vim.g.terminal_color_6 = '#72bcba'
+vim.g.terminal_color_7 = '#d9d8d4'
+vim.g.terminal_color_8 = '#000000'
+vim.g.terminal_color_9 = '#f08686'
+vim.g.terminal_color_10 = '#8bb898'
+vim.g.terminal_color_11 = '#daddbd'
+vim.g.terminal_color_12 = '#99bedd'
+vim.g.terminal_color_13 = '#eaaf9b'
+vim.g.terminal_color_14 = '#72bcba'
+vim.g.terminal_color_15 = '#d9d8d4'
 
 -- Cursor and Line Highlighting
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'NONE' })
@@ -50,10 +50,10 @@ vim.api.nvim_set_hl(0, 'QuickFixLine', { fg = '#e09b99', bg = '#2f2e2e' })
 vim.api.nvim_set_hl(0, 'qfFilename', { link = 'LineNr' })
 
 -- Diagnostic highlights
-vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#b7b7c2", bg = background })
-vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#cdd7d3", bg = background })
-vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#ffd787", bg = background })
-vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#e09b99", bg = background })
+vim.api.nvim_set_hl(0, 'DiagnosticHint', { fg = '#b7b7c2', bg = background })
+vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = background })
+vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = '#ffd787', bg = background })
+vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = '#e09b99', bg = background })
 
 -- Syntax highlighting
 vim.api.nvim_set_hl(0, 'Boolean', { fg = '#98bede' })

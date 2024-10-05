@@ -30,14 +30,14 @@ return {
                     notification = {
                         override_vim_notify = false,
                         window = {
-                            normal_hl = "Type",  -- Base highlight group in the notification window
+                            normal_hl = 'Type',  -- Base highlight group in the notification window
                             winblend = 0,        -- Background color opacity in the notification window
-                            border = "shadow",   -- Border around the notification window
+                            border = 'shadow',   -- Border around the notification window
                             zindex = 45,         -- Stacking priority of the notification window
                             x_padding = 1,       -- Padding from right edge of window boundary
                             y_padding = 1,       -- Padding from bottom edge of window boundary
-                            align = "bottom",    -- How to align the notification window
-                            relative = "editor", -- What the notification window position is relative to
+                            align = 'bottom',    -- How to align the notification window
+                            relative = 'editor', -- What the notification window position is relative to
                         },
                     },
                 }
@@ -85,9 +85,9 @@ return {
 
                     local function formatRange()
                         vim.lsp.buf.format()
-                        vim.api.nvim_input "<Esc>"
+                        vim.api.nvim_input '<Esc>'
                     end
-                    map("f", formatRange, '', 'v');
+                    map('f', formatRange, '', 'v');
 
 
                     if client then
@@ -182,7 +182,7 @@ return {
                             includeCompletionsWithClassMemberSnippets = true,
                             includeCompletionsWithInsertText = true,
                             includeCompletionsWithSnippetText = true,
-                            jsxAttributeCompletionStyle = "auto",
+                            jsxAttributeCompletionStyle = 'auto',
                         }
                     },
                 },
@@ -196,6 +196,12 @@ return {
                             completion = {
                                 callSnippet = 'Replace',
                             },
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    quote_style = 'single',
+                                }
+                            }
                         },
                     },
                 },

@@ -1,6 +1,7 @@
 if vim.g.neovide then
+    vim.g.neovide_remember_window_size = true
     vim.g.neovide_input_use_logo = 1
-    vim.o.guifont = "SauceCodePro Nerd Font Mono:h13.6:w-1.5"
+    vim.o.guifont = 'SauceCodePro Nerd Font Mono:h13.6:w-1.5'
     vim.g.neovide_floating_shadow = false
     vim.g.neovide_window_blurred = true
     vim.g.neovide_floating_z_height = 10
@@ -15,13 +16,13 @@ if vim.g.neovide then
     local change_scale_factor = function(delta)
         vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
     end
-    vim.keymap.set({ "n", "i", "v", "s", "t" }, "<D-+>", function()
+    vim.keymap.set({ 'n', 'i', 'v', 's', 't' }, '<D-+>', function()
         change_scale_factor(1.1)
     end)
-    vim.keymap.set({ "n", "i", "v", "s", "t" }, "<D-°>", function()
+    vim.keymap.set({ 'n', 'i', 'v', 's', 't' }, '<D-°>', function()
         change_scale_factor(1 / 1.1)
     end)
-    vim.keymap.set({ "n", "i", "v", "s", "t" }, "<D-0>", function()
+    vim.keymap.set({ 'n', 'i', 'v', 's', 't' }, '<D-0>', function()
         vim.g.neovide_scale_factor = 1.0
     end)
 
@@ -36,14 +37,14 @@ if vim.g.neovide then
     vim.g.neovide_scroll_animation_far_lines = scrollAnimationFarLines
     vim.g.neovide_scroll_animation_length = scrollAnimationLength
 
-    vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*",
+    vim.api.nvim_create_autocmd('BufEnter', {
+        pattern = '*',
         callback = function(args)
             -- Get the buffer number that triggered the autocommand
             local bufnr = args.buf
 
             -- Get the file type of the buffer
-            local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+            local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
 
             if filetype == '' or filetype == 'terminal' then
                 vim.g.neovide_scroll_animation_far_lines = 0
