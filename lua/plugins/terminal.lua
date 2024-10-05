@@ -1,7 +1,8 @@
 return {
     'akinsho/toggleterm.nvim',
     config = function()
-        require 'toggleterm'.setup({
+        local toggleterm = require "toggleterm"
+        toggleterm.setup({
             open_mapping = [[<c-\>]],
             hide_numbers = true, -- hide the number column in toggleterm buffers
             shade_filetypes = {},
@@ -22,8 +23,8 @@ return {
                 -- the 'curved' BOrder is a custom Border type
                 -- not natively supported but implemented in this plugin.
                 border = 'curved',
-                width = 100,
-                height = 30,
+                width = 120,
+                height = 40,
                 winblend = 0,
                 highlights = {
                     border = "Normal",
@@ -34,6 +35,7 @@ return {
                 },
             }
         })
+
         -- Terminal autocmds and key mappings for toggleterm in Lua
 
         -- Terminal Enter autocmd with mapping

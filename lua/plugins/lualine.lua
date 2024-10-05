@@ -48,8 +48,7 @@ return {
             lualine_z = { 'location' }
         },
         inactive_sections = {
-            lualine_a = {},
-            lualine_b = {
+            lualine_a = {
                 'diff',
                 {
                     'diagnostics',
@@ -60,12 +59,16 @@ return {
                         info = '● ',
                         hint = '● ',
                     },
+                    diagnostics_color = {
+                        hint = { fg = '#b7b7c2', bg = '#484844' },
+                        info = { fg = '#cdd7d3', bg = '#484844' },
+                        warn = { fg = '#ffd787', bg = '#484844' },
+                        error = { fg = '#e09b99', bg = '#484844' },
+                    },
                 }
             },
-            lualine_c = { 'filename' },
-            lualine_x = { 'location' },
-            lualine_y = {},
-            lualine_z = {}
+            lualine_b = { 'filename' },
+            lualine_c = { 'location' },
         },
         tabline = {},
         winbar = {},

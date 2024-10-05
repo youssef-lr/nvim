@@ -32,12 +32,12 @@ return {
         }
       end,
       formatters_by_ft = {
-        html = { "prettierd" },
-        javascript = { "prettierd" },
-        javascriptreact = { "prettierd" },
+        html = { "prettierd", "eslint_d" },
+        javascript = { "prettierd", "eslint_d" },
+        javascriptreact = { "prettierd", "eslint_d" },
         markdown = { "prettierd" },
-        typescript = { "prettierd" },
-        typescriptreact = { "prettierd" },
+        typescript = { "prettierd", "eslint_d" },
+        typescriptreact = { "prettierd", "eslint_d" },
         php = { "php" },
         ["*"] = { "trim_whitespace" },
       },

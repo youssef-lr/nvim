@@ -5,22 +5,30 @@ return {
     config = function()
       local lint = require 'lint'
 
+      local eslintArgs = {
+        '--format',
+        'json',
+        '--cache',
+        '--stdin',
+        '--stdin-filename',
+        function() return vim.api.nvim_buf_get_name(0) end,
+      }
+
+      -- use custom lightweight and git ignored eslintrc to speed up linting, rely on GH actions if it misses anythign
+      local current_folder = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+      if current_folder == 'App' then
+        table.insert(eslintArgs, 3, '--config')
+        table.insert(eslintArgs, 4, './.eslintrc.custom.js')
+      end
+
       local binary_name = "eslint_d"
       lint.linters.eslint_custom = {
+        name = 'eslint_custom',
         cmd = function()
           local local_binary = vim.fn.fnamemodify('./node_modules/.bin/' .. binary_name, ':p')
           return vim.loop.fs_stat(local_binary) and local_binary or binary_name
         end,
-        args = {
-          '--format',
-          'json',
-          '--config',
-          './.eslintrc.custom.js',
-          '--cache',
-          '--stdin',
-          '--stdin-filename',
-          function() return vim.api.nvim_buf_get_name(0) end,
-        },
+        args = eslintArgs,
         stdin = true,
         stream = 'stdout',
         ignore_exitcode = true,

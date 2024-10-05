@@ -28,16 +28,16 @@ return {
                 'j-hui/fidget.nvim',
                 opts = {
                     notification = {
-                        override_vim_notify = true,
+                        override_vim_notify = false,
                         window = {
-                            normal_hl = "Comment", -- Base highlight group in the notification window
-                            winblend = 0,          -- Background color opacity in the notification window
-                            border = "shadow",     -- Border around the notification window
-                            zindex = 45,           -- Stacking priority of the notification window
-                            x_padding = 1,         -- Padding from right edge of window boundary
-                            y_padding = 1,         -- Padding from bottom edge of window boundary
-                            align = "top",         -- How to align the notification window
-                            relative = "editor",   -- What the notification window position is relative to
+                            normal_hl = "Type",  -- Base highlight group in the notification window
+                            winblend = 0,        -- Background color opacity in the notification window
+                            border = "shadow",   -- Border around the notification window
+                            zindex = 45,         -- Stacking priority of the notification window
+                            x_padding = 1,       -- Padding from right edge of window boundary
+                            y_padding = 1,       -- Padding from bottom edge of window boundary
+                            align = "bottom",    -- How to align the notification window
+                            relative = "editor", -- What the notification window position is relative to
                         },
                     },
                 }
@@ -140,10 +140,10 @@ return {
                         },
                         signs = {
                             text = {
-                                [vim.diagnostic.severity.ERROR] = ' ●', -- or other icon of your choice here, this is just what my config has:
-                                [vim.diagnostic.severity.WARN] = ' ●',
-                                [vim.diagnostic.severity.INFO] = ' ●',
-                                [vim.diagnostic.severity.HINT] = ' ●',
+                                [vim.diagnostic.severity.ERROR] = '●', -- or other icon of your choice here, this is just what my config has:
+                                [vim.diagnostic.severity.WARN] = '●',
+                                [vim.diagnostic.severity.INFO] = '●',
+                                [vim.diagnostic.severity.HINT] = '●',
                             },
                         },
                         underline = false,

@@ -48,7 +48,7 @@ return {
             ["rh"] = "@assignment.rhs",
             ["lh"] = "@assignment.lhs",
             ["ip"] = "@parameter.inner",
-            ["op"] = "@parameter.outer",
+            ["ap"] = "@parameter.outer",
           },
         },
         swap = {

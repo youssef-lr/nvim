@@ -16,10 +16,11 @@ return {
         vim.keymap.set('n', '<leader><Left>', ':diffget //3<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>gm', ':Gvsplit main:%<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', 'gsm', ':Gvsplit main:%<CR>', { noremap = true, silent = true })
-        vim.keymap.set('n', '<D-=>', '[c', { noremap = true })
-        vim.keymap.set('n', '<D-)>', ']c', { noremap = true })
+        vim.keymap.set('n', '<D-=>', ']c', { noremap = true })
+        vim.keymap.set('n', '<D-)>', '[c', { noremap = true })
 
         -- Set the highlight color for DiffAdd
         vim.cmd('hi DiffAdd ctermbg=65')
+        vim.cmd('set diffopt=internal,filler,closeoff,vertical')
     end
 }

@@ -88,7 +88,7 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
 
 -- History settings
-vim.opt.history = 1000
+vim.opt.history = 3000
 
 -- Auto-read when a file changes
 vim.opt.autoread = true
@@ -234,14 +234,20 @@ end
 
 
 vim.api.nvim_create_user_command('GotoFile', function(opts)
-    local file, line = getPathAndLineNumber(opts.args)
-    if not file or not line then
-        local fidget = require("fidget")
-        fidget.notify("Not a valid line number")
+    local filepath, line = getPathAndLineNumber(opts.args)
+    local fidget = require("fidget")
+    if not filepath or not line then
+        fidget.notify("Not a valid line number `" .. opts.args .. "`")
+        return
+    end
+
+    if filepath and not io.open(filepath, 'r') then
+        fidget.notify("File doesn't exist: `" .. filepath .. "`")
+        return
     end
 
     -- Open the file
-    vim.cmd('edit ' .. file)
+    vim.cmd('edit ' .. filepath)
     vim.fn.cursor(line, 1)
 end, { nargs = 1 })
 

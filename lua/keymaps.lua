@@ -59,6 +59,10 @@ map('n', '<C-j>', '<C-w>j', { noremap = true })
 map('n', '<C-k>', '<C-w>k', { noremap = true })
 map('n', '<C-h>', '<C-w>h', { noremap = true })
 map('n', '<C-l>', '<C-w>l', { noremap = true })
+map('n', '<leader>cn', ':cnext<CR>', { noremap = true })
+map('n', '<leader>cp', ':cprev<CR>', { noremap = true })
+map('n', '<D-ù>', ':cnext<CR>', { noremap = true })
+map('n', '<leader>cp', ':cprev<CR>', { noremap = true })
 
 -- Buffer switching
 map('n', '<S-Tab>', '<cmd>b#<CR>', { noremap = true })
@@ -120,6 +124,9 @@ map('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
 map('n', '<M-v>', '<C-v>', { noremap = true })
 map('t', '<M-v>', '<C-v>', { noremap = true })
 map('i', '<M-à>', '@', { noremap = true })
+
+-- disable one of the most annoying default keymaps
+map('n', 'q:', ':', { noremap = true })
 
 -- Custom function to go to path
 local function GoToPath()
