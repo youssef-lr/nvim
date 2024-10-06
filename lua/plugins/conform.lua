@@ -32,36 +32,21 @@ return {
         }
       end,
       formatters_by_ft = {
-        html = { "prettierd", "eslint_d" },
-        javascript = { "prettierd", "eslint_d" },
-        javascriptreact = { "prettierd", "eslint_d" },
-        markdown = { "prettierd" },
-        typescript = { "prettierd", "eslint_d" },
-        typescriptreact = { "prettierd", "eslint_d" },
-        php = { "php" },
-        ["*"] = { "trim_whitespace" },
+        html = { 'prettierd', 'eslint_d', stop_after_first = true },
+        javascript = { 'prettierd', 'eslint_d', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },
+        markdown = { 'prettierd', stop_after_first = true },
+        typescript = { 'prettierd', 'eslint_d', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },
+        ['*'] = { 'trim_whitespace' },
       },
       formatters = {
         prettierd = {
           condition = function()
-            return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil or
-                vim.loop.fs_realpath(".prettierrc.json")
+            return vim.loop.fs_realpath('.prettierrc.js') ~= nil or vim.loop.fs_realpath('.prettierrc.mjs') ~= nil or
+                vim.loop.fs_realpath('.prettierrc.json')
           end,
         },
-        php = function()
-          return {
-            command = require("conform.util").find_executable({
-              "tools/php-cs-fixer/vendor/bin/php-cs-fixer",
-              "vendor/bin/php-cs-fixer",
-            }, "php-cs-fixer"),
-            args = {
-              "fix",
-              "$FILENAME",
-              "--config=/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php"
-            },
-            stdin = false,
-          }
-        end
       },
     },
   },
