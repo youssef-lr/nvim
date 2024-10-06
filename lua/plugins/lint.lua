@@ -21,7 +21,7 @@ return {
         table.insert(eslintArgs, 4, './.eslintrc.custom.js')
       end
 
-      local binary_name = "eslint_d"
+      local binary_name = 'eslint_d'
       lint.linters.eslint_custom = {
         name = 'eslint_custom',
         cmd = function()
@@ -33,7 +33,7 @@ return {
         stream = 'stdout',
         ignore_exitcode = true,
         parser = function(output, bufnr)
-          local result = require("lint.linters.eslint").parser(output, bufnr)
+          local result = require('lint.linters.eslint').parser(output, bufnr)
           for _, d in ipairs(result) do
             d.source = binary_name
           end
@@ -41,7 +41,7 @@ return {
         end
       }
 
-      local psalm = require("lint").linters.psalm
+      local psalm = require('lint').linters.psalm
       psalm.ignore_exitcode = true
 
       lint.linters_by_ft = {

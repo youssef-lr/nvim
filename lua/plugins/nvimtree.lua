@@ -1,12 +1,12 @@
 return {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
+    'nvim-tree/nvim-tree.lua',
+    version = '*',
     lazy = false,
     dependencies = {
-        "nvim-tree/nvim-web-devicons",
+        'nvim-tree/nvim-web-devicons',
     },
     config = function()
-        require("nvim-tree").setup {
+        require('nvim-tree').setup {
             disable_netrw                      = false,
             hijack_netrw                       = true,
             auto_reload_on_write               = true,
@@ -21,10 +21,10 @@ return {
             diagnostics                        = {
                 enable = false,
                 icons = {
-                    hint = "",
-                    info = "",
-                    warning = "",
-                    error = "",
+                    hint = '',
+                    info = '',
+                    warning = '',
+                    error = '',
                 }
             },
             update_focused_file                = {
@@ -51,10 +51,10 @@ return {
                 preserve_window_proportions = false,
                 number = false,
                 relativenumber = false,
-                signcolumn = "yes"
+                signcolumn = 'yes'
             },
             trash                              = {
-                cmd = "trash",
+                cmd = 'trash',
                 require_confirm = true
             },
             actions                            = {
@@ -67,10 +67,10 @@ return {
                     resize_window = false,
                     window_picker = {
                         enable = true,
-                        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+                        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
                         exclude = {
-                            filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame", },
-                            buftype  = { "nofile", "terminal", "help", },
+                            filetype = { 'notify', 'packer', 'qf', 'diff', 'fugitive', 'fugitiveblame', },
+                            buftype  = { 'nofile', 'terminal', 'help', },
                         }
                     }
                 }

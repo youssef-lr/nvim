@@ -1,7 +1,7 @@
 return {
     'akinsho/toggleterm.nvim',
     config = function()
-        local toggleterm = require "toggleterm"
+        local toggleterm = require 'toggleterm'
         toggleterm.setup({
             open_mapping = [[<c-\>]],
             hide_numbers = true, -- hide the number column in toggleterm buffers
@@ -27,11 +27,11 @@ return {
                 height = 40,
                 winblend = 0,
                 highlights = {
-                    border = "Normal",
-                    background = "Normal",
+                    border = 'Normal',
+                    background = 'Normal',
                 },
                 Normal = {
-                    guibg = "Normal"
+                    guibg = 'Normal'
                 },
             }
         })
@@ -39,8 +39,8 @@ return {
         -- Terminal autocmds and key mappings for toggleterm in Lua
 
         -- Terminal Enter autocmd with mapping
-        vim.api.nvim_create_autocmd("TermEnter", {
-            pattern = "term://*toggleterm#*",
+        vim.api.nvim_create_autocmd('TermEnter', {
+            pattern = 'term://*toggleterm#*',
             callback = function()
                 vim.api.nvim_set_keymap('t', '<c-t>', [[<Cmd>exe v:count1 . "ToggleTerm"<CR>]],
                     { noremap = true, silent = true })
@@ -52,36 +52,36 @@ return {
         vim.api.nvim_set_keymap('n', 'é', [[<Cmd>exe "2ToggleTerm"<CR>]], { noremap = true, silent = true })
 
         -- Buffer read autocmd for restoring cursor position
-        vim.api.nvim_create_autocmd("BufReadPost", {
+        vim.api.nvim_create_autocmd('BufReadPost', {
             callback = function()
-                if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
+                if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line('$') then
                     vim.cmd([[normal! g'"]])
                 end
             end,
         })
 
         -- BufEnter autocmd for toggleterm specific behavior
-        vim.api.nvim_create_autocmd("BufEnter", {
+        vim.api.nvim_create_autocmd('BufEnter', {
             callback = function()
                 if vim.bo.buftype == 'terminal' then
-                    vim.cmd("startinsert")
+                    vim.cmd('startinsert')
                     vim.bo.filetype = 'terminal'
                 end
             end,
         })
 
         -- Terminal autocmd for entering insert mode automatically
-        vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
-            pattern = "term://*",
+        vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
+            pattern = 'term://*',
             callback = function()
-                vim.cmd("startinsert")
+                vim.cmd('startinsert')
             end,
         })
 
         -- Start insert mode when opening a terminal
-        vim.api.nvim_create_autocmd("TermOpen", {
+        vim.api.nvim_create_autocmd('TermOpen', {
             callback = function()
-                vim.cmd("startinsert")
+                vim.cmd('startinsert')
             end,
         })
     end

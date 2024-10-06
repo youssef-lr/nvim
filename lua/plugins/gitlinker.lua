@@ -1,6 +1,6 @@
 return {
   'ruifm/gitlinker.nvim',
   opts = {
-    mappings = "<leader>gy"
+    mappings = '<leader>gy'
   }
 }

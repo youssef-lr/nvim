@@ -3,12 +3,12 @@ return {
   opts = {
 
     replace_engine = {
-      ["sed"] = {
-        cmd = "sed",
+      ['sed'] = {
+        cmd = 'sed',
         args = {
-          "-i",
-          "",
-          "-E",
+          '-i',
+          '',
+          '-E',
         },
       },
     },
