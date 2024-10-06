@@ -1,6 +1,6 @@
 return {
   { -- Autocompletion
-    'hrsh7th/nvim-cmp',
+    'iguanacucumber/magazine.nvim',
     event = 'InsertEnter',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
@@ -41,8 +41,8 @@ return {
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
-      local types = require("cmp.types")
-      local compare = require("cmp.config.compare")
+      local types = require('cmp.types')
+      local compare = require('cmp.config.compare')
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
@@ -65,7 +65,7 @@ return {
       -- don't confirm for signature help to allow new line without selecting argument name
       local confirm = cmp.sync(function(fallback)
         local e = cmp.core.view:get_selected_entry()
-        if e and e.source.name == "nvim_lsp_signature_help" then
+        if e and e.source.name == 'nvim_lsp_signature_help' then
           fallback()
         else
           cmp_confirm(fallback)
@@ -89,31 +89,31 @@ return {
       end
 
       local kind_icons = {
-        Text = "",
-        Method = "󰆧",
-        Function = "󰊕",
-        Constructor = "",
-        Field = "󰇽",
-        Variable = "󰂡",
-        Class = "󰠱",
-        Interface = "",
-        Module = "",
-        Property = "󰜢",
-        Unit = "",
-        Value = "󰎠",
-        Enum = "",
-        Keyword = "󰌋",
-        Snippet = "",
-        Color = "󰏘",
-        File = "󰈙",
-        Reference = "",
-        Folder = "󰉋",
-        EnumMember = "",
-        Constant = "󰏿",
-        Struct = "",
-        Event = "",
-        Operator = "󰆕",
-        TypeParameter = "󰅲",
+        Text = '',
+        Method = '󰆧',
+        Function = '󰊕',
+        Constructor = '',
+        Field = '󰇽',
+        Variable = '󰂡',
+        Class = '󰠱',
+        Interface = '',
+        Module = '',
+        Property = '󰜢',
+        Unit = '',
+        Value = '󰎠',
+        Enum = '',
+        Keyword = '󰌋',
+        Snippet = '',
+        Color = '󰏘',
+        File = '󰈙',
+        Reference = '',
+        Folder = '󰉋',
+        EnumMember = '',
+        Constant = '󰏿',
+        Struct = '',
+        Event = '',
+        Operator = '󰆕',
+        TypeParameter = '󰅲',
       }
 
       cmp.setup {
@@ -145,7 +145,7 @@ return {
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+          ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
 
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
@@ -169,7 +169,7 @@ return {
             group_index = 0,
           },
           {
-            name = "nvim_lsp",
+            name = 'nvim_lsp',
           },
           { name = 'luasnip' },
           { name = 'path' },
@@ -220,25 +220,32 @@ return {
             vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
 
             -- Clangd completion has some extra whitespace in the beginning of the word, delete it
-            vim_item.abbr = vim_item.abbr:gsub("^%s+", "")
+            vim_item.abbr = vim_item.abbr:gsub('^%s+', '')
+
+            -- If the function signature is longer than maxLength characters, truncate it
+            -- eg: (Sqlite& db, int64_t reportID, ...)
+            local maxLength = 120
+            if vim_item.menu and #vim_item.menu > maxLength then
+              vim_item.menu = string.sub(vim_item.menu, 1, maxLength) .. '...)'
+            end
             return vim_item
           end
         },
       }
-      local ls = require("luasnip")
+      local ls = require('luasnip')
 
-      vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
-      vim.keymap.set({ "i" }, "<M-k>", function() ls.expand() end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
+      vim.keymap.set({ 'i' }, '<C-K>', function() ls.expand() end, { silent = true })
+      vim.keymap.set({ 'i' }, '<M-k>', function() ls.expand() end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-L>', function() ls.jump(1) end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-J>', function() ls.jump(-1) end, { silent = true })
 
-      vim.keymap.set({ "i", "s" }, "<C-E>", function()
+      vim.keymap.set({ 'i', 's' }, '<C-E>', function()
         if ls.choice_active() then
           ls.change_choice(1)
         end
       end, { silent = true })
 
-      require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
+      require('luasnip.loaders.from_snipmate').lazy_load({ paths = '~/.config/nvim/snippets' })
     end,
   },
 }
