@@ -58,3 +58,6 @@ vim.api.nvim_set_hl(0, 'lualine_d_inactive', { bg = lualineBackground })
 
 -- Terminal color settings
 vim.g.terminal_color_3 = '#e0c182'
+vim.g.terminal_color_4 = '#8cadc6'
+vim.g.terminal_color_5 = '#d87180'
+vim.g.terminal_color_9 = '#f08686'

@@ -1,10 +1,10 @@
 return {
-    "ibhagwan/fzf-lua",
+    'ibhagwan/fzf-lua',
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
         -- calling `setup` is optional for customization
-        require("fzf-lua").setup({
+        require('fzf-lua').setup({
             oldfiles = {
                 prompt                  = 'History❯ ',
                 cwd_only                = true,
@@ -14,6 +14,21 @@ return {
                 -- stat_file = function() return true end,
                 include_current_session = true, -- include bufs from current session
             },
+            fzf_colors = {
+                ['gutter']  = { 'bg', 'Normal' },
+                ['fg']      = { 'fg', 'CursorLine' },
+                ['bg']      = { 'bg', 'Normal' },
+                ['hl']      = { 'fg', 'Comment' },
+                ['fg+']     = { 'fg', 'String' },
+                ['bg+']     = { 'bg', 'CursorLine' },
+                ['hl+']     = { 'fg', 'Statement' },
+                ['info']    = { 'fg', 'PreProc' },
+                ['prompt']  = { 'fg', 'Conditional' },
+                ['pointer'] = { 'fg', 'String' },
+                ['marker']  = { 'fg', 'Keyword' },
+                ['spinner'] = { 'fg', 'Label' },
+                ['header']  = { 'fg', 'Comment' },
+            }
         })
 
         -- FZF settings
@@ -25,7 +40,7 @@ return {
         -- Autoread trigger when files are changed on disk
         vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
             callback = function()
-                if vim.bo.filetype ~= "vim" and vim.fn.mode() ~= 'c' then
+                if vim.bo.filetype ~= 'vim' and vim.fn.mode() ~= 'c' then
                     vim.cmd('checktime')
                 end
             end

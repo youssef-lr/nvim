@@ -68,10 +68,12 @@ return {
     vim.api.nvim_set_hl(0, '@function.call', { fg = '#bc9a9c', bg = bg })
     vim.api.nvim_set_hl(0, '@variable.parameter', { link = '@variable' })
     vim.api.nvim_set_hl(0, '@keyword.import', { link = '@keyword' })
+    vim.api.nvim_set_hl(0, '@variable.member.tsx', { link = '@variable' })
+
     vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
-    vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'NONE' })
-    vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = colors.func, bg = '#27292d' })
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = bg })
+    vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = colors.func, bg = '#27292d', bold = true })
 
     vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = bg })
     vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = colors.warning, bg = bg })

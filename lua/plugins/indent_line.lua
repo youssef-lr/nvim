@@ -5,9 +5,9 @@ return {
             whitespace = {
                 remove_blankline_trail = false,
             },
-            scope = { enabled = true, show_start = false, show_end = false, show_exact_scope = true, highlight = "Character" },
+            scope = { enabled = true, show_start = false, show_end = false, show_exact_scope = true, highlight = 'Character' },
             exclude = { filetypes = { 'dashboard' } },
-            indent = { highlight = 'Comment', char = "│" },
+            indent = { highlight = 'Comment', char = '│' },
         })
     end
 }

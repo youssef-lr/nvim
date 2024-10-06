@@ -15,16 +15,16 @@ map('n', 'zff', 'zfi{', { noremap = true })
 -- ========================
 -- Move lines with <Option+[jk]>
 -- ========================
-map("v", "<M-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
-map("v", "<M-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
+map('v', '<M-j>', ":m '>+1<cr>gv=gv", { desc = 'Move Down' })
+map('v', '<M-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next Search Result' })
+map('x', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next Search Result' })
+map('o', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next Search Result' })
+map('n', 'N', "'nN'[v:searchforward].'zv'", { expr = true, desc = 'Prev Search Result' })
+map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Search Result' })
+map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Search Result' })
 
 -- ========================
 -- File operations
@@ -93,7 +93,7 @@ map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
 map('v', '<D-v>', '"*p', { silent = true, noremap = true })
 map('i', '<D-v>', '<C-r>+', { silent = true, noremap = true })
-vim.cmd("map! <D-v> <C-r>+")
+vim.cmd('map! <D-v> <C-r>+')
 
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
@@ -209,3 +209,5 @@ vim.api.nvim_buf_set_keymap(0, 'n', '<D-q>', ':q<CR>', { noremap = true, silent 
 -- ========================
 map('n', '<leader><leader>dt', ':windo diffthis<CR>', { noremap = true })
 map('n', '<leader><leader>do', ':windo diffoff<CR>', { noremap = true })
+
+map('n', ':', '<cmd>FineCmdline<CR>', { noremap = true })
