@@ -24,6 +24,11 @@ return {
       rename = {
         auto_save = true
       },
+      code_action = {
+        keys = {
+          quit = { 'q', '<ESC>' }
+        }
+      }
     })
     vim.keymap.set('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<leader>rf', '<cmd>Lspsaga finder<CR>', { silent = true, noremap = true })
@@ -31,8 +36,6 @@ return {
     vim.keymap.set('n', '<D-e>', '<cmd>Lspsaga peek_definition<CR>', { silent = true, noremap = true })
 
     vim.keymap.set('n', '<leader>lb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
-    require('lspsaga').config.definition.width = 1;
-    require('lspsaga').config.definition.height = 1;
   end,
   dependencies = {
     'nvim-treesitter/nvim-treesitter', -- optional

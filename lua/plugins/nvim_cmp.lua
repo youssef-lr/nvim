@@ -62,15 +62,6 @@ return {
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
       })
-      -- don't confirm for signature help to allow new line without selecting argument name
-      local confirm = cmp.sync(function(fallback)
-        local e = cmp.core.view:get_selected_entry()
-        if e and e.source.name == 'nvim_lsp_signature_help' then
-          fallback()
-        else
-          cmp_confirm(fallback)
-        end
-      end)
 
       ---@type table<integer, integer>
       local modified_priority = {
@@ -249,4 +240,3 @@ return {
     end,
   },
 }
--- vim: ts=2 sts=2 sw=2 et

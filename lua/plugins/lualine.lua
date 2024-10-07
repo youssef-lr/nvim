@@ -126,7 +126,7 @@ local M = {
         tabline = {},
         winbar = {},
         inactive_winbar = {},
-        extensions = {}
+        extensions = { 'nvim-tree', 'fugitive', 'lazy', 'mason', 'fzf', 'toggleterm', 'oil' }
     }
 }
 

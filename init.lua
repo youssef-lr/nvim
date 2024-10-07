@@ -57,7 +57,8 @@ vim.api.nvim_set_hl(0, 'lualine_d_inactive', { bg = lualineBackground })
 -- vim.api.nvim_set_hl(0, 'lualine_d_command', { bg = lualineBackground })
 
 -- Terminal color settings
-vim.g.terminal_color_3 = '#e0c182'
-vim.g.terminal_color_4 = '#8cadc6'
-vim.g.terminal_color_5 = '#d87180'
-vim.g.terminal_color_9 = '#f08686'
+vim.g.terminal_color_1 = '#be8c8c' -- Red
+vim.g.terminal_color_2 = '#9da380' -- Green
+vim.g.terminal_color_3 = '#c2ac7b' -- Yellow
+vim.g.terminal_color_4 = '#a1b3b9' -- Blue
+vim.g.terminal_color_5 = '#be8c8c' -- Magenta (I hate it, make it red)

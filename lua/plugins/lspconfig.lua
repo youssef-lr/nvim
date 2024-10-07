@@ -84,6 +84,7 @@ return {
                     map('<D-D>', toggleAllDiagnostics, '')
 
                     local function formatRange()
+                        print 'formatting'
                         vim.lsp.buf.format()
                         vim.api.nvim_input '<Esc>'
                     end
@@ -206,7 +207,11 @@ return {
                     },
                 },
             }
-            require('mason').setup()
+            require('mason').setup({
+                ui = {
+                    border = 'single',
+                },
+            })
 
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {

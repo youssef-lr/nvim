@@ -13,7 +13,6 @@ require('lazy').setup({
   'tpope/vim-surround',
   --'junegunn/seoul256.vim',
   'mattn/emmet-vim',
-  'embear/vim-uncrustify',
   require 'plugins.vague',
   require 'plugins.gitsigns',
   require 'plugins.lspconfig',
@@ -36,7 +35,6 @@ require('lazy').setup({
   require 'plugins.gitlinker',
   require 'plugins.spectre',
   require 'plugins.highlight',
-  require 'plugins.finecmdline',
   -- require 'plugins.leap',
   -- require 'plugins.hlchunk',
   -- require 'plugins.neodim',
@@ -64,5 +62,6 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
+    border = 'single'
   },
 })
