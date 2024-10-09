@@ -15,7 +15,6 @@ local diagnosticsSection = {
     },
 }
 
-local bg = '#2a2c30'
 local sections = {
     mode = {
         'mode',
@@ -24,6 +23,9 @@ local sections = {
                 n = { fg = '#000000', bg = '#96b0ad', gui = 'bold' }, -- Normal
                 i = { fg = '#000000', bg = '#b3b993', gui = 'bold' }, -- Insert
                 c = { fg = '#000000', bg = '#bc9a9c', gui = 'bold' }, -- Command
+                R = { fg = '#000000', bg = '#bc9a9c', gui = 'bold' }, -- Command
+                V = { fg = '#000000', bg = '#a3b8b6', gui = 'bold' }, -- Command
+                v = { fg = '#000000', bg = '#a3b8b6', gui = 'bold' }, -- Command
             }
             return mode_color[vim.fn.mode()]
         end
@@ -36,7 +38,8 @@ local sections = {
                 n = { fg = '#c2ac7b', bg = bg }, -- Normal
                 i = { fg = '#c2ac7b', bg = bg }, -- Insert
                 c = { fg = '#c2ac7b', bg = bg }, -- Command
-                v = { fg = '#c2ac7b', bg = bg }, -- Command
+                v = { fg = '#c2ac7b', bg = bg }, -- Visual
+                V = { fg = '#c2ac7b', bg = bg }, -- Visual
             }
             return mode_color[vim.fn.mode()]
         end
@@ -65,13 +68,15 @@ local sections = {
         'filename',
         color = function()
             local bg = '#2a2c30'
-            local fg = '#acacac'
+            local fg = '#b3b0b0'
             local mode_color = {
                 n = { fg = fg, bg = bg }, -- Normal
                 i = { fg = fg, bg = bg }, -- Insert
                 c = { fg = fg, bg = bg }, -- Command
                 v = { fg = fg, bg = bg }, -- Visual
+                V = { fg = fg, bg = bg }, -- Visual
                 t = { fg = fg, bg = bg }, -- Visual
+                R = { fg = fg, bg = bg }, -- Visual
             }
             return mode_color[vim.fn.mode()]
         end
@@ -99,7 +104,6 @@ local M = {
                 tabline = 1000,
                 winbar = 1000,
             },
-            color = { bg = '#2a2c30' },
         },
         sections = {
             lualine_a = {
@@ -111,7 +115,20 @@ local M = {
                 sections.diagnostics
             },
             lualine_c = { sections.filename },
-            lualine_x = { 'encoding', 'fileformat', 'filetype' },
+            lualine_x = { 'encoding', 'fileformat', {
+                'filetype',
+                color = function()
+                    local bg = '#2a2c30'
+                    local mode_color = {
+                        n = { fg = '#c2ac7b', bg = bg }, -- Normal
+                        i = { fg = '#c2ac7b', bg = bg }, -- Insert
+                        c = { fg = '#c2ac7b', bg = bg }, -- Command
+                        v = { fg = '#c2ac7b', bg = bg }, -- Visual
+                        V = { fg = '#c2ac7b', bg = bg }, -- Visual
+                    }
+                    return mode_color[vim.fn.mode()]
+                end
+            } },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
         },

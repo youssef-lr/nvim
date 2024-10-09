@@ -219,6 +219,7 @@ return {
             if vim_item.menu and #vim_item.menu > maxLength then
               vim_item.menu = string.sub(vim_item.menu, 1, maxLength) .. '...)'
             end
+
             return vim_item
           end
         },

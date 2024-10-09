@@ -124,6 +124,9 @@ map('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
 map('n', '<M-v>', '<C-v>', { noremap = true })
 map('t', '<M-v>', '<C-v>', { noremap = true })
 map('i', '<M-à>', '@', { noremap = true })
+map('n', 'dA', 'ggdG', { noremap = true })
+map('', '<M-à>', '@', { noremap = true })
+map({ 'c', 't' }, '<M-à>', '@', { noremap = true })
 
 -- Custom function to go to path
 local function GoToPath()
@@ -206,3 +209,5 @@ vim.api.nvim_buf_set_keymap(0, 'n', '<D-q>', ':q<CR>', { noremap = true, silent 
 -- ========================
 map('n', '<leader><leader>dt', ':windo diffthis<CR>', { noremap = true })
 map('n', '<leader><leader>do', ':windo diffoff<CR>', { noremap = true })
+
+map('n', '<leader>es', ':edit ./scratch/', { noremap = true });

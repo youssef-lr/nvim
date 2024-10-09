@@ -11,7 +11,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-surround',
-  --'junegunn/seoul256.vim',
   'mattn/emmet-vim',
   require 'plugins.vague',
   require 'plugins.gitsigns',
@@ -34,7 +33,9 @@ require('lazy').setup({
   require 'plugins.dashbord',
   require 'plugins.gitlinker',
   require 'plugins.spectre',
-  require 'plugins.highlight',
+  --require 'plugins.supermaven',
+  --require 'plugins.highlight',
+  --require 'plugins.blink',
   -- require 'plugins.leap',
   -- require 'plugins.hlchunk',
   -- require 'plugins.neodim',

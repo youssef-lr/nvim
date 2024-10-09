@@ -150,6 +150,13 @@ return {
                         underline = false,
                         update_in_insert = true,
                     })
+
+                    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+                        vim.lsp.handlers.hover, {
+                            border = 'rounded',
+                            title = 'Documentation'
+                        }
+                    )
                 end,
             })
 
@@ -187,7 +194,11 @@ return {
                         }
                     },
                 },
-                jsonls = {},
+                biome = {
+                    filetypes = {
+                        'json',
+                    },
+                },
                 intelephense = {},
                 --phpactor = {},
                 sqlls = {},

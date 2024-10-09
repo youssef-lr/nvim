@@ -286,6 +286,31 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
+
+-- Autoread trigger when files are changed on disk
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+    callback = function()
+        if vim.bo.filetype ~= '' and vim.bo.filetype ~= 'vim' and vim.fn.mode() ~= 'c' then
+            vim.cmd('checktime')
+        end
+    end
+})
+
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+    callback = function(args)
+        local highlighter = require 'vim.treesitter.highlighter'
+        local ts_was_active = highlighter.active[args.buf]
+        local file_size = vim.fn.getfsize(args.file)
+        if (file_size > 1024 * 1024) then
+            vim.cmd('TSBufDisable highlight')
+            vim.cmd('NoMatchParen')
+            if (ts_was_active) then
+                vim.notify('File larger than 1MB, turned off syntax highlighting')
+            end
+        end
+    end
+})
+
 -- disable builtin plugins
 local disabled_plugins = {
     '2html_plugin',

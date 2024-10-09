@@ -32,12 +32,11 @@ if vim.g.neovide then
     vim.g.neovide_cursor_animate_command_line = true
 
     vim.g.neovide_cursor_trail_size = 0
+    vim.g.neovide_position_animation_length = 0
 
-    local positionAnimationLength = 0.2
     local animationFarLines = 0.1
-    local scrollAnimationLength = 0.1
+    local scrollAnimationLength = 0.08
 
-    vim.g.neovide_position_animation_length = positionAnimationLength
     vim.g.neovide_scroll_animation_far_lines = animationFarLines
     vim.g.neovide_scroll_animation_length = scrollAnimationLength
 
@@ -47,12 +46,10 @@ if vim.g.neovide then
             local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
 
             -- When entering terminal for first time I noticed the filetype is empty
-            if filetype == '' or filetype == 'terminal' then
-                vim.g.neovide_position_animation_length = 0
+            if filetype == 'terminal' then
                 vim.g.neovide_scroll_animation_far_lines = 0
                 vim.g.neovide_scroll_animation_length = 0
             else
-                vim.g.neovide_position_animation_length = positionAnimationLength
                 vim.g.neovide_scroll_animation_far_lines = animationFarLines
                 vim.g.neovide_scroll_animation_length = scrollAnimationLength
             end

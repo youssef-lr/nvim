@@ -37,14 +37,6 @@ return {
             callback = function() vim.opt_local.conceallevel = 0 end
         })
 
-        -- Autoread trigger when files are changed on disk
-        vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
-            callback = function()
-                if vim.bo.filetype ~= 'vim' and vim.fn.mode() ~= 'c' then
-                    vim.cmd('checktime')
-                end
-            end
-        })
 
         -- Files mappings
         local files = '<cmd>FzfLua files<CR>'

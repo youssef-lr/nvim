@@ -4,7 +4,7 @@ return {
     require('lspsaga').setup({
       finder = {
         keys = {
-          shuttle = '<M-l>',
+          shuttle = { '<Tab>', '<M-l>' },
           quit = 'q'
         },
         max_height = 1,
