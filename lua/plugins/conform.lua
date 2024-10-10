@@ -16,13 +16,15 @@ return {
     opts = {
       notify_on_error = false,
       format_after_save = function(bufnr)
+        -- no auto formatting for cpp & c files
         local filetype = vim.bo[bufnr].filetype
         if filetype == 'cpp' or filetype == 'c' then
           return
         end
 
-        -- Disable format_after_save for these filetypes
-        local disable_filetypes_lsp = { c = true, cpp = true, php = true }
+        -- Disable LSP format_after_save for PHP
+        -- this won't use the LSP formatting fallback, but we'll use our custom php formatter as defined below
+        local disable_filetypes_lsp = { php = true }
         local lsp_format_opt = disable_filetypes_lsp[filetype] and 'never' or 'fallback'
 
         return {

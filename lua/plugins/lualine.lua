@@ -1,4 +1,51 @@
-local diagnosticsSection = {
+local colors = {
+    black        = '#000000',
+    white        = 'c8c4c4',
+    red          = '#bc9a9c',
+    green        = '#9da380',
+    blue         = '#a1b3b9',
+    yellow       = '#c2ac7b',
+    gray         = '#acacac',
+    darkgray     = '#acacac',
+    lightgray    = '#504945',
+    inactivegray = '#7c6f64',
+    bg           = '#34383d',
+}
+
+local custom = {
+    normal = {
+        a = { bg = colors.blue, fg = colors.black, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.white },
+        c = { bg = colors.bg, fg = colors.white }
+    },
+    insert = {
+        a = { bg = colors.green, fg = colors.black, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.white },
+        c = { bg = colors.bg, fg = colors.white }
+    },
+    visual = {
+        a = { bg = colors.yellow, fg = colors.black, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.white },
+        c = { bg = colors.bg, fg = colors.white }
+    },
+    replace = {
+        a = { bg = colors.red, fg = colors.black, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.white },
+        c = { bg = colors.bg, fg = colors.white }
+    },
+    command = {
+        a = { bg = colors.red, fg = colors.black, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.white },
+        c = { bg = colors.bg, fg = colors.white }
+    },
+    inactive = {
+        a = { bg = colors.bg, fg = colors.gray, gui = 'bold' },
+        b = { bg = colors.bg, fg = colors.gray },
+        c = { bg = colors.bg, fg = colors.gray }
+    }
+}
+
+diagnostics = {
     'diagnostics',
     sources = { 'nvim_diagnostic' },
     symbols = {
@@ -15,73 +62,27 @@ local diagnosticsSection = {
     },
 }
 
-local sections = {
-    mode = {
-        'mode',
-        color = function()
-            local mode_color = {
-                n = { fg = '#000000', bg = '#96b0ad', gui = 'bold' }, -- Normal
-                i = { fg = '#000000', bg = '#b3b993', gui = 'bold' }, -- Insert
-                c = { fg = '#000000', bg = '#bc9a9c', gui = 'bold' }, -- Command
-                R = { fg = '#000000', bg = '#bc9a9c', gui = 'bold' }, -- Command
-                V = { fg = '#000000', bg = '#a3b8b6', gui = 'bold' }, -- Command
-                v = { fg = '#000000', bg = '#a3b8b6', gui = 'bold' }, -- Command
-            }
-            return mode_color[vim.fn.mode()]
-        end
-    },
-    branch = {
-        'branch',
-        color = function()
-            local bg = '#2a2c30'
-            local mode_color = {
-                n = { fg = '#c2ac7b', bg = bg }, -- Normal
-                i = { fg = '#c2ac7b', bg = bg }, -- Insert
-                c = { fg = '#c2ac7b', bg = bg }, -- Command
-                v = { fg = '#c2ac7b', bg = bg }, -- Visual
-                V = { fg = '#c2ac7b', bg = bg }, -- Visual
-            }
-            return mode_color[vim.fn.mode()]
-        end
+local function fugitive_branch()
+    local icon = '' -- e0a0
+    return icon .. ' ' .. vim.fn.FugitiveHead()
+end
+local function get_short_cwd()
+    return vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+end
 
+local fugitive = {
+    sections = {
+        lualine_b = { fugitive_branch },
     },
-    diff = {
-        'diff',
-    },
-    diagnostics = {
-        'diagnostics',
-        sources = { 'nvim_diagnostic' },
-        symbols = {
-            error = '● ',
-            warn = '● ',
-            info = '● ',
-            hint = '● ',
-        },
-        diagnostics_color = {
-            hint = { fg = '#b7b7c2' },
-            info = { fg = '#cdd7d3' },
-            warn = { fg = '#c2ac7b' },
-            error = { fg = '#be8c8c' },
-        },
-    },
-    filename = {
-        'filename',
-        color = function()
-            local bg = '#2a2c30'
-            local fg = '#b3b0b0'
-            local mode_color = {
-                n = { fg = fg, bg = bg }, -- Normal
-                i = { fg = fg, bg = bg }, -- Insert
-                c = { fg = fg, bg = bg }, -- Command
-                v = { fg = fg, bg = bg }, -- Visual
-                V = { fg = fg, bg = bg }, -- Visual
-                t = { fg = fg, bg = bg }, -- Visual
-                R = { fg = fg, bg = bg }, -- Visual
-            }
-            return mode_color[vim.fn.mode()]
-        end
-    }
+    filetypes = { 'fugitive' }
 }
+local nvimtree = {
+    sections = {
+        lualine_b = { get_short_cwd },
+    },
+    filetypes = { 'NvimTree' }
+}
+vim.api.nvim_set_hl(0, 'NvimTreeStatusLine', { bg = colors.bg })
 
 local M = {
     'nvim-lualine/lualine.nvim',
@@ -89,9 +90,9 @@ local M = {
     opts = {
         options = {
             icons_enabled = true,
-            theme = 'auto',
-            component_separators = { left = '▒', right = '░' },
-            section_separators = { left = '▒', right = '░' },
+            theme = custom,
+            component_separators = { left = '', right = '' },
+            section_separators = { left = '', right = '' },
             disabled_filetypes = {
                 statusline = {},
                 winbar = {},
@@ -100,50 +101,34 @@ local M = {
             always_divide_middle = true,
             globalstatus = false,
             refresh = {
-                statusline = 1000,
+                statusline = 500,
                 tabline = 1000,
                 winbar = 1000,
             },
         },
         sections = {
-            lualine_a = {
-                sections.mode,
-            },
+            lualine_a = { 'mode' },
             lualine_b = {
-                sections.branch,
-                sections.diff,
-                sections.diagnostics
+                'branch',
+                'diff',
+                diagnostics
             },
-            lualine_c = { sections.filename },
-            lualine_x = { 'encoding', 'fileformat', {
-                'filetype',
-                color = function()
-                    local bg = '#2a2c30'
-                    local mode_color = {
-                        n = { fg = '#c2ac7b', bg = bg }, -- Normal
-                        i = { fg = '#c2ac7b', bg = bg }, -- Insert
-                        c = { fg = '#c2ac7b', bg = bg }, -- Command
-                        v = { fg = '#c2ac7b', bg = bg }, -- Visual
-                        V = { fg = '#c2ac7b', bg = bg }, -- Visual
-                    }
-                    return mode_color[vim.fn.mode()]
-                end
-            } },
+            lualine_c = { 'filename' },
+            lualine_x = { 'filetype' },
             lualine_y = { 'progress' },
-            lualine_z = { 'location' }
+            lualine_z = { 'location' },
         },
         inactive_sections = {
             lualine_a = {
-                sections.diff,
-                sections.diagnostics,
+                'diff',
+                diagnostics,
             },
-            lualine_b = { sections.filename },
-            lualine_c = { 'location' },
+            lualine_b = { 'filename' },
         },
         tabline = {},
         winbar = {},
         inactive_winbar = {},
-        extensions = { 'nvim-tree', 'fugitive', 'lazy', 'mason', 'fzf', 'toggleterm', 'oil' }
+        extensions = { nvimtree, fugitive, 'lazy', 'mason', 'fzf', 'toggleterm', 'oil' }
     }
 }
 
