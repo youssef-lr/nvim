@@ -130,21 +130,28 @@ vim.opt.encoding = 'utf8'
 vim.opt.backup = false
 vim.opt.swapfile = false
 
--- Ack configuration
-vim.g.ackprg = 'rg --files --hidden --follow --glob "!*.lock*"'
+-- Auto commands for multiple filetypes in a single autocmd
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'BufEnter' }, {
+    pattern = { '*' },
+    callback = function(args)
+        local filename = vim.fn.expand('%:t')
+        if filename:match('%.js$') or filename:match('%.jsx$') then
+            vim.bo.filetype = 'javascriptreact'
+        elseif filename:match('%.ts$') or filename:match('%.tsx$') then
+            vim.bo.filetype = 'typescriptreact'
+        elseif filename:match('%.snippets$') then
+            vim.bo.filetype = 'snippets'
+        end
 
--- Auto commands for filetypes
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.js',
-    callback = function() vim.bo.filetype = 'javascriptreact' end
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.jsx',
-    callback = function() vim.bo.filetype = 'javascriptreact' end
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = { '*.ts', '*.tsx' },
-    callback = function() vim.bo.filetype = 'typescriptreact' end
+        local is_file = vim.bo[args.buf].buftype == ''
+        if is_file then
+            vim.opt_local.numberwidth = 4
+            vim.opt_local.statuscolumn = [[%!v:lua.require'utils'.statuscolumn()]]
+        else
+            vim.opt_local.numberwidth = 1
+            vim.opt_local.statuscolumn = ''
+        end
+    end
 })
 
 -- Abbreviations
