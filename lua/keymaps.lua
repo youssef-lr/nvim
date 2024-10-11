@@ -211,3 +211,18 @@ map('n', '<leader><leader>dt', ':windo diffthis<CR>', { noremap = true })
 map('n', '<leader><leader>do', ':windo diffoff<CR>', { noremap = true })
 
 map('n', '<leader>es', ':edit ./scratch/', { noremap = true });
+
+local function get_git_root()
+    -- Execute a shell command to get the Git root directory
+    local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+    print(git_root)
+
+    -- Check if the git command was successful
+    if vim.v.shell_error == 0 then
+        return git_root
+    else
+        return nil
+    end
+end
+
+map('n', '<leader><leader>p', "<cmd>1TermExec cmd='git push'<CR>")
