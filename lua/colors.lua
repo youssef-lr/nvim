@@ -17,9 +17,10 @@ vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = bg, underline = false })
 vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = VagueColors.func, bg = '#27292d', bold = true })
 
-vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = bg })
-vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = VagueColors.warning, bg = bg })
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#9f9f9f', bg = bg })
+vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = '' })
+vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = VagueColors.warning, bg = '' })
+vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = VagueColors.error, bg = '' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#9f9f9f', bg = '' })
 
 -- Don't set fg so syntax highlighting is kept
 vim.api.nvim_set_hl(0, 'Visual', { bg = VagueColors.visual })
@@ -59,3 +60,11 @@ vim.api.nvim_set_hl(0, 'fugitiveSymbolicRef', { link = 'Number' })
 vim.api.nvim_set_hl(0, 'NvimTreeStatusLine', { bg = '#34383d' })
 
 vim.cmd('hi QuickfixLine gui=NONE')
+
+-- Terminal color settings
+vim.g.terminal_color_1 = '#be8c8c'  -- Red
+vim.g.terminal_color_2 = '#9da380'  -- Green
+vim.g.terminal_color_3 = '#c2ac7b'  -- Yellow
+vim.g.terminal_color_4 = '#90a0a5'  -- Blue
+vim.g.terminal_color_12 = '#90a0a5' -- Bright Blue
+vim.g.terminal_color_5 = '#905858'  -- Magenta (I hate it, make it red)

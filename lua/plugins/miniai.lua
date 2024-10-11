@@ -1,6 +1,4 @@
 return {
-  {
-    'echasnovski/mini.ai',
-    version = 'main',
-  },
+  'echasnovski/mini.ai',
+  version = false,
 }

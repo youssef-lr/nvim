@@ -42,11 +42,11 @@ if vim.g.neovide then
 
     vim.api.nvim_create_autocmd('BufEnter', {
         pattern = '*',
-        callback = function(args)
+        callback = function()
             local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
 
             -- When entering terminal for first time I noticed the filetype is empty
-            if filetype == 'terminal' then
+            if filetype == 'terminal' or filetype == 'fugitive' then
                 vim.g.neovide_scroll_animation_far_lines = 0
                 vim.g.neovide_scroll_animation_length = 0
             else

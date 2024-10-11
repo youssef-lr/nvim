@@ -21,10 +21,9 @@ return {
         table.insert(eslintArgs, 4, './.eslintrc.custom.js')
       end
 
-      local binary_name = os.getenv('HOME') .. '/.local/share/nvim/mason/bin/eslint_d'
       lint.linters.eslint_custom = {
         name = 'eslint_custom',
-        cmd = binary_name,
+        cmd = os.getenv('HOME') .. '/.local/share/nvim/mason/bin/eslint_d',
         args = eslintArgs,
         stdin = true,
         stream = 'stdout',
@@ -32,7 +31,7 @@ return {
         parser = function(output, bufnr)
           local result = require('lint.linters.eslint').parser(output, bufnr)
           for _, d in ipairs(result) do
-            d.source = binary_name
+            d.source = 'eslint_d'
           end
           return result
         end

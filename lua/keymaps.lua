@@ -92,8 +92,8 @@ map('n', '<D-c><D-c>', '"*yy', { silent = true, noremap = true })
 map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
 map('v', '<D-v>', '"*p', { silent = true, noremap = true })
-map('i', '<D-v>', '<C-r>+', { silent = true, noremap = true })
 vim.cmd('map! <D-v> <C-r>+')
+map('i', '<D-v>', '<Esc>"*pi', { silent = true, noremap = true })
 
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
