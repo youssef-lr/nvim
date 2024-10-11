@@ -62,6 +62,7 @@ function M.statuscolumn()
     local win = vim.g.statusline_winid
     local buf = vim.api.nvim_win_get_buf(win)
     local is_file = vim.bo[buf].buftype == ''
+
     local show_signs = vim.wo[win].signcolumn ~= 'no'
 
     local components = { '', '', '', '' } -- left, middle, right

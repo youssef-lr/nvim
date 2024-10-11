@@ -34,11 +34,11 @@ if vim.g.neovide then
     vim.g.neovide_cursor_trail_size = 0
     vim.g.neovide_position_animation_length = 0
 
-    local animationFarLines = 0.1
-    local scrollAnimationLength = 0.08
+    local scroll_animation_far_lines = 0.1
+    local scroll_animation_length = 0.08
 
-    vim.g.neovide_scroll_animation_far_lines = animationFarLines
-    vim.g.neovide_scroll_animation_length = scrollAnimationLength
+    vim.g.neovide_scroll_animation_far_lines = scroll_animation_far_lines
+    vim.g.neovide_scroll_animation_length = scroll_animation_length
 
     vim.api.nvim_create_autocmd('BufEnter', {
         pattern = '*',
@@ -50,8 +50,8 @@ if vim.g.neovide then
                 vim.g.neovide_scroll_animation_far_lines = 0
                 vim.g.neovide_scroll_animation_length = 0
             else
-                vim.g.neovide_scroll_animation_far_lines = animationFarLines
-                vim.g.neovide_scroll_animation_length = scrollAnimationLength
+                vim.g.neovide_scroll_animation_far_lines = scroll_animation_far_lines
+                vim.g.neovide_scroll_animation_length = scroll_animation_length
             end
         end,
     })
