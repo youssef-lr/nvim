@@ -1,7 +1,6 @@
 vim.cmd('colorscheme vague')
 
 local bg = VagueColors.bg
-local fg = VagueColors.fg
 
 vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#3f3f3f' })
 

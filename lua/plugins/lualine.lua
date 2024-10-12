@@ -55,10 +55,10 @@ diagnostics = {
         hint = '● ',
     },
     diagnostics_color = {
-        hint = { fg = '#b7b7c2' },
+        hint = { fg = VagueColors.hint },
         info = { fg = '#cdd7d3' },
-        warn = { fg = '#c2ac7b' },
-        error = { fg = '#be8c8c' },
+        warn = { fg = VagueColors.warning },
+        error = { fg = VagueColors.error },
     },
 }
 
@@ -123,7 +123,6 @@ local M = {
                 'diff',
                 diagnostics,
             },
-            lualine_b = { 'filename' },
         },
         tabline = {},
         winbar = {},
