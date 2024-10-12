@@ -32,6 +32,8 @@ require('lazy').setup({
     require 'plugins.saga',
     require 'plugins.dashbord',
     require 'plugins.miniai',
+    require 'plugins.grug-far',
+    require 'plugins.gitlinker',
     --require 'plugins.supermaven',
     --require 'plugins.highlight',
     --require 'plugins.blink',
