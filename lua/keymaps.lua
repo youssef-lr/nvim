@@ -40,6 +40,11 @@ vim.api.nvim_create_user_command('W', 'w !sudo tee % > /dev/null', {})
 
 -- Custom save function
 local save = function(isInsertMode)
+    local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
+    if buftype ~= '' then
+        vim.notify('read only buffer')
+        return
+    end
     if isInsertMode then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
     end
@@ -221,8 +226,25 @@ local function get_git_root()
     if vim.v.shell_error == 0 then
         return git_root
     else
+        print('nothing found')
         return nil
     end
 end
 
-map('n', '<leader><leader>p', "<cmd>1TermExec cmd='git push'<CR>")
+local function exec_git_push()
+    -- Execute the Git status command
+    local handle = io.popen('git status --porcelain')
+    local result = handle and handle:read('*a') -- Read the output
+    if handle then handle:close() end
+
+    if result ~= '' then
+        vim.notify('changes found, aborting git push')
+        return
+    end
+
+    local git_root = get_git_root()
+    local cmd = 'cd ' .. git_root .. ' && git push'
+    local wrapped = '"' .. cmd .. '"'
+    vim.cmd('1TermExec cmd=' .. wrapped)
+end
+map('n', '<leader><leader>p', exec_git_push)
