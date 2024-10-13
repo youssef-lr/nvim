@@ -261,40 +261,6 @@ end, { nargs = 1 })
 
 vim.keymap.set('n', '<leader>gt', ':GotoFile <C-r>*<CR>', { noremap = true, silent = true })
 
-
--- Custom function to handle indentation
-local function custom_indent()
-    -- Get the current line text
-    local line = vim.fn.getline(vim.v.lnum)
-
-    -- If the line contains 'report:', don't indent (return 0)
-    if string.match(line, '    report:') then
-        return 0
-    end
-
-    -- Otherwise, use default indentation (return -1)
-    return -1
-end
-
--- Set up an autocmd to apply this custom indenting rule for specific file types
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = '*', -- Apply this to all file types, or specify a file type like "markdown"
-    callback = function()
-        vim.opt_local.indentexpr = 'v:lua.custom_indent()'
-    end,
-})
-
--- Register the custom indent function globally in Neovim
-_G.custom_indent = custom_indent
-
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'cpp', -- Apply to markdown files only
-    callback = function()
-        vim.opt_local.indentexpr = 'v:lua.custom_indent()'
-    end,
-})
-
-
 -- Autoread trigger when files are changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
     callback = function()

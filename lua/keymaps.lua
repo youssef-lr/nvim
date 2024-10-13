@@ -40,11 +40,21 @@ vim.api.nvim_create_user_command('W', 'w !sudo tee % > /dev/null', {})
 
 -- Custom save function
 local save = function(isInsertMode)
+    -- Save find&replace changes if we're inside grug-far
+    local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
+    if filetype == 'grug-far' then
+        vim.api.nvim_input('<ESC>,s')
+        return
+    end
+
     local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
-    if buftype ~= '' then
+
+    -- while oil does have a buftype, it still supports `:w` to save changes, make an exception
+    if buftype ~= '' and filetype ~= 'oil' then
         vim.notify('read only buffer')
         return
     end
+
     if isInsertMode then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
     end
@@ -60,23 +70,18 @@ map('i', '<D-s>', function() save(true) end, { noremap = true })
 -- Navigation mappings
 -- ========================
 -- Window navigation
-map('n', '<C-j>', '<C-w>j', { noremap = true })
-map('n', '<C-k>', '<C-w>k', { noremap = true })
-map('n', '<C-h>', '<C-w>h', { noremap = true })
-map('n', '<C-l>', '<C-w>l', { noremap = true })
-map('n', '<leader>cn', ':cnext<CR>', { noremap = true })
-map('n', '<leader>cp', ':cprev<CR>', { noremap = true })
-map('n', '<D-ù>', ':cnext<CR>', { noremap = true })
-map('n', '<leader>cp', ':cprev<CR>', { noremap = true })
+map('n', '<M-j>', '<C-w>j', { noremap = true })
+map('n', '<M-k>', '<C-w>k', { noremap = true })
+map('n', '<M-h>', '<C-w>h', { noremap = true })
+map('n', '<M-l>', '<C-w>l', { noremap = true })
+map('n', '<M-=>', '<C-w>=', { noremap = true })
+map('n', '<D-à>', ':cnext<CR>', { noremap = true })
+map('n', '<D-ç>', ':cprev<CR>', { noremap = true })
 
 -- Buffer switching
 map('n', '<S-Tab>', '<cmd>b#<CR>', { noremap = true })
 
 -- Alternative navigation using Alt (Meta) key
-map('n', '<M-j>', '<C-w>j', { noremap = true })
-map('n', '<M-k>', '<C-w>k', { noremap = true })
-map('n', '<M-h>', '<C-w>h', { noremap = true })
-map('n', '<M-l>', '<C-w>l', { noremap = true })
 
 -- Navigate within files
 map('n', '<BS>', '<C-o>', { noremap = true })
@@ -98,7 +103,7 @@ map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
 map('v', '<D-v>', '"*p', { silent = true, noremap = true })
 vim.cmd('map! <D-v> <C-r>+')
-map('i', '<D-v>', '<Esc>"*pi', { silent = true, noremap = true })
+map('i', '<D-v>', '<Esc>"*pA', { silent = true, noremap = true })
 
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
@@ -192,22 +197,14 @@ map('n', '<Right>', ':vertical res +5<CR>', { noremap = true })
 map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 
 -- ========================
--- MacOS-specific mappings
+-- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
-map('n', '<D-l>', 'gT', { noremap = true })
-map('n', '<D-h>', 'gt', { noremap = true })
-
--- ========================
--- Quit mappings
--- ========================
-map('i', '<C-Q>', '<Esc>ZZ', { noremap = true })
-map('n', '<C-Q>', 'ZZ', { noremap = true })
-map('t', '<C-Q>', '<C-\\><C-n>ZZ', { noremap = true })
-map('i', '<M-q>', '<Esc>ZZ', { noremap = true })
-map('n', '<M-q>', 'ZZ', { noremap = true })
-map('t', '<M-q>', '<C-\\><C-n>ZZ', { noremap = true })
-vim.api.nvim_buf_set_keymap(0, 'n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, 'n', '<D-q>', ':q<CR>', { noremap = true, silent = true })
+local quit = '<ESC><cmd>q!<CR>'
+local tquit = '<C-\\><C-n>:q!<CR>'
+map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true })
+map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true })
+map('t', '<C-Q>', tquit, { noremap = true })
+map('t', '<M-q>', tquit, { noremap = true })
 
 -- ========================
 -- Diff mappings
@@ -248,3 +245,5 @@ local function exec_git_push()
     vim.cmd('1TermExec cmd=' .. wrapped)
 end
 map('n', '<leader><leader>p', exec_git_push)
+
+vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })

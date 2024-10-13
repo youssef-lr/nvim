@@ -57,7 +57,7 @@ return {
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
                     map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
-                    map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
+                    --map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
                     -- Initialize diagnostic mode based on client (php code has lots of warnings)

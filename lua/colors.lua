@@ -2,7 +2,7 @@ vim.cmd('colorscheme vague')
 
 local bg = VagueColors.bg
 
-vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#3f3f3f' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#4b4848' })
 
 vim.api.nvim_set_hl(0, '@function.method.call', { fg = '#bc9a9c', bg = bg })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#bc9a9c', bg = bg })
@@ -14,7 +14,7 @@ vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#a4bac1' })
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = bg, underline = false })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = VagueColors.func, bg = '#27292d', bold = true })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = VagueColors.func, bold = true })
 
 vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = '' })
 vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = VagueColors.warning, bg = '' })
@@ -23,9 +23,9 @@ vim.api.nvim_set_hl(0, 'LineNr', { fg = '#9f9f9f', bg = '' })
 
 -- Don't set fg so syntax highlighting is kept
 vim.api.nvim_set_hl(0, 'Visual', { bg = VagueColors.visual })
-vim.api.nvim_set_hl(0, 'IncSearch', { fg = bg, bg = VagueColors.search })
-vim.api.nvim_set_hl(0, 'Search', { fg = bg, bg = VagueColors.search })
-vim.api.nvim_set_hl(0, 'CurSearch', { fg = bg, bg = VagueColors.search })
+vim.api.nvim_set_hl(0, 'IncSearch', { link = 'Visual' })
+vim.api.nvim_set_hl(0, 'Search', { link = 'Visual' })
+vim.api.nvim_set_hl(0, 'CurSearch', { link = 'Visual' })
 
 vim.api.nvim_set_hl(0, 'PmenuThumb', { bg = '#9c9898' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { bg = VagueColors.visual })

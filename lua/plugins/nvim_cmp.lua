@@ -162,13 +162,43 @@ return {
           {
             name = 'nvim_lsp',
           },
-          { name = 'luasnip' },
+          {
+            name = 'luasnip',
+            entry_filter = function()
+              local ctx = require 'cmp.config.context'
+              local in_string = ctx.in_syntax_group 'String' or ctx.in_treesitter_capture 'string'
+              local in_comment = ctx.in_syntax_group 'Comment' or ctx.in_treesitter_capture 'comment'
+
+              return not in_string and not in_comment
+            end,
+          },
           { name = 'path' },
           {
             name = 'buffer',
+            entry_filter = function()
+              if vim.bo.filetype == 'gitcommit' then
+                return true
+              end
+
+              local ctx = require 'cmp.config.context'
+              local in_string = ctx.in_syntax_group 'String' or ctx.in_treesitter_capture 'string'
+              local in_comment = ctx.in_syntax_group 'Comment' or ctx.in_treesitter_capture 'comment'
+
+              return in_string or in_comment
+            end,
             option = {
               get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
+                local bufs = {}
+                -- Buffer completions from all visible buffers (that are < 1MB).
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                  local buf = vim.api.nvim_win_get_buf(win)
+                  local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
+                  if ok and stats and stats.size < (1024 * 1024) then
+                    table.insert(bufs, buf)
+                  end
+                end
+
+                return bufs
               end
             }
           },
