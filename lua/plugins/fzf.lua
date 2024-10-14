@@ -103,5 +103,8 @@ return {
 
         -- Keep option+r as native ctrl+r to trigger fzf history in the terminal
         vim.api.nvim_set_keymap('t', '<M-r>', '<C-r>', { noremap = true, silent = true })
+
+        -- Command history
+        vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>FzfLua command_history<CR>', { noremap = true, silent = true })
     end
 }
