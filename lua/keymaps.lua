@@ -200,7 +200,7 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
 local quit = '<ESC><cmd>q!<CR>'
-local tquit = '<C-\\><C-n>:q!<CR>'
+local tquit = '<C-\\><C-n>:q<CR>'
 map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true })
 map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true })
 map('t', '<C-Q>', tquit, { noremap = true })

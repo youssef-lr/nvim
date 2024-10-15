@@ -61,7 +61,7 @@ return {
                     map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
                     -- Initialize diagnostic mode based on client (php code has lots of warnings)
-                    local diagnosticMode = client and client.name == 'intelephense' and 'error' or 'all'
+                    local diagnosticMode = 'all'
                     local severity = diagnosticMode == 'error' and vim.diagnostic.severity.ERROR or nil
 
                     -- Define diagnostic navigation with dynamic severity
@@ -84,11 +84,12 @@ return {
                     map('<D-D>', toggleAllDiagnostics, '')
 
                     local function formatRange()
-                        print 'formatting'
                         vim.lsp.buf.format()
                         vim.api.nvim_input '<Esc>'
                     end
-                    map('f', formatRange, '', 'v');
+                    if client and client.name ~= 'ts_ls' then
+                        map('f', formatRange, '', 'v');
+                    end
 
 
                     if client then

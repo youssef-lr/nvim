@@ -77,12 +77,12 @@ function M.statuscolumn()
         local left, right, fold, githl
         for _, s in ipairs(signs) do
             if s.name and (s.name:find('GitSign') or s.name:find('MiniDiffSign')) then
-                left = s
+                right = s
                 if use_githl then
                     githl = s['texthl']
                 end
             else
-                right = s
+                left = s
             end
         end
 
@@ -97,10 +97,11 @@ function M.statuscolumn()
             end
         end)
 
-        -- Left: gitsign
-        components[1] = M.icon(left) or ''
-        -- Right: fold or diagnostic sign
-        components[3] = M.icon(fold or right) or ''
+        -- Left: fold or diagnostic sign
+        components[1] = M.icon(fold or left) or ''
+
+        -- Right: gitsign
+        components[3] = M.icon(right) or ''
     end
 
     -- Numbers in Neovim are weird
@@ -123,9 +124,21 @@ function M.statuscolumn()
     if vim.v.virtnum ~= 0 then
         components[2] = '%='
     end
-    components[4] = ' '
 
     return table.concat(components, '')
+end
+
+M.get_git_root = function()
+    local handle = io.popen('git rev-parse --show-toplevel 2>/dev/null')
+    if handle == nil then
+        return ''
+    end
+    local git_root = handle:read('*a')
+    handle:close()
+
+    -- Remove trailing newline and extract only the folder name (last part of the path)
+    local git_root_name = git_root:gsub('\n', ''):match('([^/]+)$')
+    return git_root_name or '' -- Return the folder name or an empty string if not found
 end
 
 return M;

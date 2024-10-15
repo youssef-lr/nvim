@@ -175,17 +175,6 @@ return {
           { name = 'path' },
           {
             name = 'buffer',
-            entry_filter = function()
-              if vim.bo.filetype == 'gitcommit' then
-                return true
-              end
-
-              local ctx = require 'cmp.config.context'
-              local in_string = ctx.in_syntax_group 'String' or ctx.in_treesitter_capture 'string'
-              local in_comment = ctx.in_syntax_group 'Comment' or ctx.in_treesitter_capture 'comment'
-
-              return in_string or in_comment
-            end,
             option = {
               get_bufnrs = function()
                 local bufs = {}

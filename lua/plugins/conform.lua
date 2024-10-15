@@ -12,12 +12,26 @@ return {
         mode = 'n',
         desc = '[F]ormat buffer',
       },
+      {
+        'f',
+        function()
+          require('conform').format { async = true, lsp_format = 'never' }
+          vim.api.nvim_input '<Esc>'
+        end,
+        mode = 'v',
+        desc = '[F]ormat range',
+      },
     },
     opts = {
       notify_on_error = false,
       format_after_save = function(bufnr)
-        -- no auto formatting for cpp & c files
+        local git_root = require('utils').get_git_root()
         local filetype = vim.bo[bufnr].filetype
+        if git_root == 'Web-Expensify' and filetype ~= 'php' then
+          return
+        end
+
+        -- no auto formatting for cpp & c files
         if filetype == 'cpp' or filetype == 'c' then
           return
         end

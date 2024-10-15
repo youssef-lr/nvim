@@ -142,6 +142,8 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' },
                 vim.bo.filetype = 'typescriptreact'
             elseif filename:match('%.snippets$') then
                 vim.bo.filetype = 'snippets'
+            elseif filename:match('%.html$') then
+                vim.bo.filetype = 'jsx'
             end
 
             local is_file = vim.bo[args.buf].buftype == '' and vim.bo[args.buf].filetype ~= 'gitcommit'
@@ -173,27 +175,13 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
     command = 'silent! normal! g`"zv',
 })
 
--- Function to get the Git root directory's folder name
-local function get_git_root()
-    local handle = io.popen('git rev-parse --show-toplevel 2>/dev/null')
-    if handle == nil then
-        return ''
-    end
-    local git_root = handle:read('*a')
-    handle:close()
-
-    -- Remove trailing newline and extract only the folder name (last part of the path)
-    local git_root_name = git_root:gsub('\n', ''):match('([^/]+)$')
-    return git_root_name or '' -- Return the folder name or an empty string if not found
-end
-
 -- Set the window title dynamically
 vim.opt.title = true
 vim.opt.titlestring = '%{v:lua.get_git_root()} %f'
 
 -- Helper function to find the Git root and set title
 function _G.set_window_title()
-    local git_root = get_git_root()
+    local git_root = require('utils').get_git_root()
     if git_root ~= '' then
         -- Get the relative file path from Git root
         local relative_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
