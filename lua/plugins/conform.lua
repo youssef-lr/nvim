@@ -53,17 +53,12 @@ return {
         markdown = { 'prettierd' },
         typescript = { 'prettierd', 'eslint_d', stop_after_first = true },
         typescriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },
+        jsx = { 'prettierd', 'eslint_d', stop_after_first = true },
         php = { 'php' },
         cpp = { 'uncrustify' },
         ['*'] = { 'trim_whitespace' },
       },
       formatters = {
-        prettierd = {
-          condition = function()
-            return vim.loop.fs_realpath('.prettierrc.js') ~= nil or vim.loop.fs_realpath('.prettierrc.mjs') ~= nil or
-                vim.loop.fs_realpath('.prettierrc.json')
-          end,
-        },
         php = function()
           return {
             command = require('conform.util').find_executable({
