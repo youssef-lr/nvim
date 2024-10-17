@@ -19,6 +19,7 @@ require('lazy').setup({
     require 'plugins/conform',
     require 'plugins/nvim_cmp',
     require 'plugins/todo-comments',
+
     require 'plugins/treesitter',
     require 'plugins.indent_line',
     require 'plugins.autopairs',
@@ -35,6 +36,9 @@ require('lazy').setup({
     require 'plugins.grug-far',
     require 'plugins.gitlinker',
     require 'plugins.markdown',
+    require 'plugins.dressing',
+    require 'plugins.telescope',
+    require 'plugins.auto-sessions',
     --require 'plugins.code-companion',
     --require 'plugins.supermaven',
     --require 'plugins.highlight',

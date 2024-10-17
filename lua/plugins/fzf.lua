@@ -37,15 +37,6 @@ return {
             callback = function() vim.opt_local.conceallevel = 0 end
         })
 
-
-        -- Files mappings
-        local files = '<cmd>FzfLua files<CR>'
-        local tfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua files<CR>'
-        vim.api.nvim_set_keymap('n', '<D-p>', files, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<M-p>', files, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('t', '<D-p>', tfiles, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('t', '<M-p>', tfiles, { noremap = true, silent = true })
-
         -- Oldfiles mappings (recently opened files)
         local oldfiles = '<cmd>FzfLua oldfiles<CR>'
         local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
