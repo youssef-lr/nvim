@@ -77,12 +77,12 @@ function M.statuscolumn()
         local left, right, fold, githl
         for _, s in ipairs(signs) do
             if s.name and (s.name:find('GitSign') or s.name:find('MiniDiffSign')) then
-                right = s
+                left = s
                 if use_githl then
                     githl = s['texthl']
                 end
             else
-                left = s
+                right = s
             end
         end
 
@@ -97,11 +97,11 @@ function M.statuscolumn()
             end
         end)
 
-        -- Left: fold or diagnostic sign
-        components[1] = M.icon(fold or left) or ''
+        -- Left: gitsigns
+        components[3] = M.icon(fold or right) or ''
 
-        -- Right: gitsign
-        components[3] = M.icon(right) or ''
+        -- Right: fold or diagnostic sign
+        components[1] = M.icon(left) or ''
     end
 
     -- Numbers in Neovim are weird
