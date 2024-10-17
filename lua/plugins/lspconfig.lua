@@ -139,6 +139,7 @@ return {
                             border = 'rounded',
                             focusable = true,
                             scope = 'cursor',
+                            max_width = 100,
                         },
                         signs = {
                             text = {
