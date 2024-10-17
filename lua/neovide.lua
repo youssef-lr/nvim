@@ -1,5 +1,5 @@
 if vim.g.neovide then
-    vim.o.guifont = 'SauceCodePro Nerd Font Mono:h13.6:w-1.5'
+    --vim.o.guifont = 'SauceCodePro Nerd Font Mono:h13.6:w-1.5'
     vim.g.neovide_input_use_logo = 1
     vim.g.neovide_floating_shadow = false
     vim.g.neovide_window_blurred = true

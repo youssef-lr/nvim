@@ -1,3 +1,5 @@
+Utils = require('utils')
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
@@ -86,6 +88,7 @@ vim.opt.smarttab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
+vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
 
 -- History settings
 vim.opt.history = 3000
@@ -149,7 +152,7 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' },
             local is_file = vim.bo[args.buf].buftype == '' and vim.bo[args.buf].filetype ~= 'gitcommit'
             if is_file then
                 vim.opt_local.numberwidth = 4
-                vim.opt_local.statuscolumn = [[%!v:lua.require'utils'.statuscolumn()]]
+                vim.opt_local.statuscolumn = [[%!v:lua.Utils.statuscolumn()]]
             else
                 vim.opt_local.numberwidth = 1
                 vim.opt_local.statuscolumn = ''
@@ -177,25 +180,43 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
 
 -- Set the window title dynamically
 vim.opt.title = true
-vim.opt.titlestring = '%{v:lua.get_git_root()} %f'
 
--- Helper function to find the Git root and set title
-function _G.set_window_title()
-    local git_root = require('utils').get_git_root()
-    if git_root ~= '' then
-        -- Get the relative file path from Git root
-        local relative_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
-        vim.opt.titlestring = git_root .. ' - ' .. relative_path
-    else
-        -- Fall back to default file path if not in a Git repository
-        vim.opt.titlestring = vim.fn.expand('%:p')
+local previous_title
+
+-- Helper function to find the Git root and set the window title
+function _G.set_window_title(buftype, filetype)
+    local git_root = Utils.get_git_root()
+
+    -- Restore previous title if buffer is not normal or if no filetype is set
+    if buftype ~= '' or filetype == '' then
+        vim.opt.titlestring = previous_title or git_root
+        return
     end
+
+    -- Set title based on Git root or default file path
+    local relative_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
+    local last_segment = relative_path:match('([^/]+)$')
+    local title
+
+    if git_root ~= '' then
+        title = last_segment ~= git_root and git_root .. ' ⟩ ' .. relative_path or git_root
+    else
+        title = vim.fn.expand('%:p') -- Fallback to full file path if not in a Git repo
+    end
+
+    previous_title = title
+    vim.opt.titlestring = title
 end
 
 -- Call the function to set the window title whenever the file is changed
-vim.api.nvim_exec([[
-  autocmd BufEnter,BufReadPost * lua set_window_title()
-]], false)
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufReadPost' }, {
+    pattern = '*',
+    callback = function(args)
+        local buftype = vim.bo[args.buf].buftype
+        local filetype = vim.bo[args.buf].filetype
+        set_window_title(buftype, filetype)
+    end,
+})
 
 local function getPathAndLineNumber(str)
     -- Matches lib/ReportAPI.php' function 'structureTransactionsForOnyx' line '6297'
@@ -297,3 +318,14 @@ local disabled_plugins = {
 for _, plugin in ipairs(disabled_plugins) do
     vim.g['loaded_' .. plugin] = 1
 end
+
+
+local function close_gstatus()
+    for winnr = 1, vim.fn.winnr('$') do
+        if not vim.fn.empty(vim.fn.getwinvar(winnr, 'fugitive_status')) then
+            vim.cmd(winnr .. 'close')
+        end
+    end
+end
+
+vim.api.nvim_create_user_command('GstatusClose', close_gstatus, {})

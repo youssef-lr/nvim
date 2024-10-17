@@ -103,7 +103,7 @@ map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
 map('v', '<D-v>', '"*p', { silent = true, noremap = true })
 vim.cmd('map! <D-v> <C-r>+')
-map('i', '<D-v>', '<Esc>"*pA', { silent = true, noremap = true })
+map('i', '<D-v>', '<C-r>*', { silent = true, noremap = true })
 
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
@@ -199,7 +199,7 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- ========================
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
-local quit = '<ESC><cmd>q!<CR>'
+local quit = '<ESC>:q!<CR>'
 local tquit = '<C-\\><C-n>:q<CR>'
 map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true })
 map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true })

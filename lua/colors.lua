@@ -4,8 +4,8 @@ local bg = VagueColors.bg
 
 vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#4b4848' })
 
-vim.api.nvim_set_hl(0, '@function.method.call', { fg = '#bc9a9c', bg = bg })
-vim.api.nvim_set_hl(0, '@function.call', { fg = '#bc9a9c', bg = bg })
+vim.api.nvim_set_hl(0, '@function.method.call', { link = 'Function' })
+vim.api.nvim_set_hl(0, '@function.call', { link = 'Function' })
 vim.api.nvim_set_hl(0, '@variable.parameter', { link = '@variable' })
 vim.api.nvim_set_hl(0, '@keyword.import', { link = '@keyword' })
 vim.api.nvim_set_hl(0, '@variable.member', { link = '@variable' })
@@ -56,7 +56,13 @@ vim.api.nvim_set_hl(0, '@markup.heading.gitcommit', { link = 'Function' })
 vim.api.nvim_set_hl(0, '@string.special.path.gitcommit', { link = 'Constant' })
 vim.api.nvim_set_hl(0, 'fugitiveSymbolicRef', { link = 'Number' })
 
-vim.api.nvim_set_hl(0, 'NvimTreeStatusLine', { bg = '#34383d' })
+vim.api.nvim_set_hl(0, 'TelescopeMatching', { link = 'String' })
+vim.api.nvim_set_hl(0, 'TelescopeSelection', { link = 'Visual' })
+vim.api.nvim_set_hl(0, 'TelescopeSelectionCaret', { link = 'Function' })
+
+vim.api.nvim_set_hl(0, 'DevIconPhp', { link = 'Function' })
+vim.api.nvim_set_hl(0, 'DevIconH', { link = 'Keyword' })
+vim.api.nvim_set_hl(0, 'DevIconCpp', { link = 'Function' })
 
 vim.cmd('hi QuickfixLine gui=NONE')
 
