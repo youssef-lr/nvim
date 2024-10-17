@@ -67,7 +67,7 @@ local function fugitive_branch()
     return icon .. ' ' .. vim.fn.FugitiveHead()
 end
 local function get_short_cwd()
-    return vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+    return 'NvimTree'
 end
 
 local fugitive = {
