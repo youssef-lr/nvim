@@ -21,6 +21,7 @@ return {
             { 'williamboman/mason.nvim', config = true }, -- NOTE = Must be loaded before dependants
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
+            'Issafalcon/lsp-overloads.nvim',
 
             -- Useful status updates for LSP.
             -- NOTE = `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -55,6 +56,33 @@ return {
                         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP = ' .. desc })
                     end
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+                    if client and client.server_capabilities.signatureHelpProvider then
+                        require('lsp-overloads').setup(client, {
+                            -- UI options are mostly the same as those passed to vim.lsp.util.open_floating_preview
+                            ui = {
+                                border = 'rounded', -- The border to use for the signature popup window. Accepts same border values as |nvim_open_win()|.
+                                wrap_at = 100,      -- Character to wrap at for computing height when wrap enabled
+                                max_width = 110,    -- Maximum signature popup width
+                                close_events = { 'BufHidden', 'InsertLeave' },
+                                focusable = false,  -- Make the popup float focusable
+                                focus = false,      -- If focusable is also true, and this is set to true, navigating through overloads will focus into the popup window (probably not what you want)
+                                silent = true,      -- Prevents noisy notifications (make false to help debug why signature isn't working)
+                                highlight = {
+                                    italic = true,
+                                    bold = true,
+                                    fg = '#ffffff',
+                                }
+                            },
+                            keymaps = {
+                                next_signature = '<M-j>',
+                                previous_signature = '<M-k>',
+                                next_parameter = '<M-l>',
+                                previous_parameter = '<M-h>',
+                            },
+                            display_automatically = true -- Uses trigger characters to automatically display the signature overloads when typing a method signature
+                        })
+                    end
 
                     map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     --map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
@@ -182,6 +210,7 @@ return {
                         maxTsServerMemory = 8192,
                         preferences = {
                             allowIncompleteCompletions = true,
+                            completeFunctionCalls = true,
                             allowRenameOfImportPath = true,
                             allowTextChangesInNewFiles = true,
                             displayPartsForJSDoc = true,
@@ -193,6 +222,9 @@ return {
                             includeCompletionsWithInsertText = true,
                             includeCompletionsWithSnippetText = true,
                             jsxAttributeCompletionStyle = 'auto',
+                            completions = {
+                                completeFunctionCalls = true
+                            },
                         }
                     },
                 },

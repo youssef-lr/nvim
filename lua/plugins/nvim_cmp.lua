@@ -49,7 +49,10 @@ return {
       local goToNextLocation = function()
         if luasnip.expand_or_locally_jumpable() then
           luasnip.expand_or_jump()
+          return true
         end
+
+        return false
       end
 
       local goToPreviousLocation = function()
@@ -58,20 +61,16 @@ return {
         end
       end
 
-      local cmp_confirm = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      })
-
       ---@type table<integer, integer>
       local modified_priority = {
-        [types.lsp.CompletionItemKind.Snippet] = 0,    -- top
+        [types.lsp.CompletionItemKind.Snippet] = 0,       -- top
         [types.lsp.CompletionItemKind.Variable] = 1,
-        [types.lsp.CompletionItemKind.Keyword] = 2,    -- top
-        [types.lsp.CompletionItemKind.Class] = 3,      -- top
-        [types.lsp.CompletionItemKind.Enum] = 4,       -- top
-        [types.lsp.CompletionItemKind.Interface] = 20, -- bottom
-        [types.lsp.CompletionItemKind.Text] = 100,     -- bottom
+        [types.lsp.CompletionItemKind.Keyword] = 2,       -- top
+        [types.lsp.CompletionItemKind.Class] = 3,         -- top
+        [types.lsp.CompletionItemKind.Enum] = 4,          -- top
+        [types.lsp.CompletionItemKind.Interface] = 20,    -- bottom
+        [types.lsp.CompletionItemKind.Text] = 50,         -- bottom
+        [types.lsp.CompletionItemKind.Constructor] = 100, -- bottom
       }
 
       ---@param kind integer: kind of completion entry
@@ -107,6 +106,26 @@ return {
         TypeParameter = '󰅲',
       }
 
+      local function handleTab()
+        local mode = vim.api.nvim_get_mode().mode
+
+        if mode == 's' or not cmp.visible() then
+          if goToNextLocation() then
+            return
+          end
+
+          if mode == 'i' then
+            local spaces = string.rep(' ', vim.o.tabstop)
+            vim.api.nvim_put({ spaces }, 'c', true, true)
+            return
+          end
+        end
+
+        if cmp.visible() then
+          cmp.confirm({ select = true })
+        end
+      end
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -128,30 +147,21 @@ return {
         --
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
-          -- Select the [n]ext item
           ['<M-j>'] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
           ['<M-k>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
+
           ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
 
-          -- Accept ([y]es) the completion.
-          --  This will auto-import if your LSP supports it.
-          --  This will expand snippets if the LSP sent a snippet.
-          ['<Tab>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping(handleTab, { 'i', 's' }),
 
-          -- <c-l> will move you to the right of each of the expansion locations.
-          -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(goToNextLocation, { 'i', 's' }),
-          ['<C-h>'] = cmp.mapping(goToPreviousLocation, { 'i', 's' }),
           ['<M-l>'] = cmp.mapping(goToNextLocation, { 'i', 's' }),
           ['<M-h>'] = cmp.mapping(goToPreviousLocation, { 'i', 's' }),
 
-          -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-          --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+          -- https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
           {
@@ -177,21 +187,10 @@ return {
             name = 'buffer',
             option = {
               get_bufnrs = function()
-                local bufs = {}
-                -- Buffer completions from all visible buffers (that are < 1MB).
-                for _, win in ipairs(vim.api.nvim_list_wins()) do
-                  local buf = vim.api.nvim_win_get_buf(win)
-                  local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-                  if ok and stats and stats.size < (1024 * 1024) then
-                    table.insert(bufs, buf)
-                  end
-                end
-
-                return bufs
+                return vim.api.nvim_list_bufs()
               end
             }
           },
-          { name = 'nvim_lsp_signature_help' },
           { name = 'nvim_lua' },
         },
         window = {
