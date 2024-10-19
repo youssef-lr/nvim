@@ -89,21 +89,16 @@ map('n', '<BS>', '<C-o>', { noremap = true })
 -- ========================
 -- Clipboard mappings
 -- ========================
-map('n', '<leader>p', '"*p', { silent = true, noremap = true })
-map('n', '<leader>P', '"*P', { silent = true, noremap = true })
-map('v', '<leader>p', '"*P', { silent = true, noremap = true })
-map('v', '<leader>P', '"*P', { silent = true, noremap = true })
-map('n', '<leader>y', '"*y', { silent = true, noremap = true })
-map('n', '<leader>d', '"*d', { silent = true, noremap = true })
-map('v', '<leader>y', '"*y', { silent = true, noremap = true })
+map({ 'n', 'v' }, '<leader>p', '"*p', { silent = true, noremap = true, desc = 'paste forward from clipboard' })
+map({ 'n', 'v' }, '<leader>P', '"*P', { silent = true, noremap = true, desc = 'past backwards from clipboard' })
+map({ 'n', 'v' }, '<leader>y', '"*y', { silent = true, noremap = true, desc = 'yank into clipboard' })
+map({ 'n', 'v' }, '<D-c>', '"*y', { silent = true, noremap = true })
 map('v', '<leader>d', '"*d', { silent = true, noremap = true })
-map('n', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-c><D-c>', '"*yy', { silent = true, noremap = true })
-map('v', '<D-c>', '"*y', { silent = true, noremap = true })
 map('n', '<D-v>', '"*p', { silent = true, noremap = true })
-map('v', '<D-v>', '"*p', { silent = true, noremap = true })
-vim.cmd('map! <D-v> <C-r>+')
 map('i', '<D-v>', '<C-r>*', { silent = true, noremap = true })
+vim.cmd('map! <D-v> <C-r>+')
+
 
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
@@ -130,7 +125,6 @@ map('v', '*', 'y<ESC>/<C-R>"<CR>', { noremap = true })
 map('n', '<leader><CR>', ':noh<cr>', { silent = true })
 map('n', '<ESC>', ":noh<CR>:echon ''<ESC>", { silent = true, noremap = true })
 map('n', '<leader><leader>s', ':setlocal spell!<cr>', { noremap = true })
-map('n', '<leader>x', ':e ~/buffer.md<cr>', { noremap = true })
 map('n', '<M-v>', '<C-v>', { noremap = true })
 map('t', '<M-v>', '<C-v>', { noremap = true })
 map('i', '<M-à>', '@', { noremap = true })
@@ -159,7 +153,7 @@ vim.api.nvim_create_autocmd('FileType', {
 -- ========================
 -- Terminal mode mappings
 -- ========================
-map('t', 'jj', '<C-\\><C-n>', { noremap = true })
+map('t', 'jk', '<C-\\><C-n>', { noremap = true })
 
 map('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true })
 
@@ -223,10 +217,10 @@ local function get_git_root()
     if vim.v.shell_error == 0 then
         return git_root
     else
-        print('nothing found')
         return nil
     end
 end
+local a
 
 local function exec_git_push()
     -- Execute the Git status command

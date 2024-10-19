@@ -23,17 +23,22 @@ return {
                 -- the 'curved' BOrder is a custom Border type
                 -- not natively supported but implemented in this plugin.
                 border = 'curved',
-                width = 120,
+                width = 110,
                 height = 40,
                 winblend = 0,
-                highlights = {
-                    border = 'Normal',
-                    background = 'Normal',
-                },
+            },
+            highlights = {
                 Normal = {
-                    guibg = 'Normal'
+                    guibg = VagueColors.bg,
                 },
-            }
+                NormalFloat = {
+                    link = 'Normal'
+                },
+                FloatBorder = {
+                    guifg = VagueColors.floatBorder,
+                    guibg = VagueColors.bg,
+                },
+            },
         })
 
         -- Terminal autocmds and key mappings for toggleterm in Lua

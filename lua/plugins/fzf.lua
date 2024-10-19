@@ -38,11 +38,11 @@ return {
         })
 
         -- Oldfiles mappings (recently opened files)
-        local oldfiles = '<cmd>FzfLua oldfiles<CR>'
-        local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
-        vim.api.nvim_set_keymap('n', '<D-r>', oldfiles, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
+        -- local oldfiles = '<cmd>FzfLua oldfiles<CR>'
+        -- local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
+        -- vim.api.nvim_set_keymap('n', '<D-r>', oldfiles, { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
 
         -- Git status
         local gstatus = '<cmd>FzfLua git_status<CR>'
@@ -87,15 +87,13 @@ return {
         vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
 
         -- Grep visual selection
-        vim.api.nvim_set_keymap('v', '<leader>v', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
 
         -- Git commits
-        vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
+        --vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
 
-        -- Keep option+r as native ctrl+r to trigger fzf history in the terminal
-        vim.api.nvim_set_keymap('t', '<M-r>', '<C-r>', { noremap = true, silent = true })
 
         -- Command history
-        vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>FzfLua command_history<CR>', { noremap = true, silent = true })
+        --vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>FzfLua command_history<CR>', { noremap = true, silent = true })
     end
 }

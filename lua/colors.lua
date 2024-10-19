@@ -14,7 +14,7 @@ vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#a4bac1' })
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = bg, underline = false })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = VagueColors.func, bold = true })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = VagueColors.number, bold = true })
 
 vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#cdd7d3', bg = '' })
 vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = VagueColors.warning, bg = '' })
@@ -29,7 +29,10 @@ vim.api.nvim_set_hl(0, 'CurSearch', { link = 'Visual' })
 
 vim.api.nvim_set_hl(0, 'PmenuThumb', { bg = '#9c9898' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { bg = VagueColors.visual })
+
 vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { link = 'String' })
+vim.api.nvim_set_hl(0, 'CmpItemKindKeyword', { link = 'Keyword' })
+vim.api.nvim_set_hl(0, 'CmpItemKindClass', { link = 'Type' })
 
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = bg, fg = bg })
 vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg = '#cad2a5' })
