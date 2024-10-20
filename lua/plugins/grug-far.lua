@@ -22,9 +22,6 @@ return {
       -- Note that normal mode changes such as `diw`, `rF`, etc will still trigger a search
       normalModeSearch = true,
 
-      -- deprecated, was renamed to normalModeSearch
-      searchOnInsertLeave = false,
-
       -- max number of parallel replacements tasks
       maxWorkers = 8,
 

@@ -35,11 +35,8 @@ require('lazy').setup({
     require 'plugins.gitlinker',
     require 'plugins.miniai',
     require 'plugins.auto-sessions',
-    -- require 'plugins.nvim-spider',
-
-
+    require 'plugins.nvim-spider',
     -- require 'plugins.saga',
-
     -- require 'plugins.dressing',
     --require 'plugins.nvimtree',
     --require 'plugins.code-companion',

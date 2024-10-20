@@ -60,6 +60,8 @@ return {
                     if client and client.server_capabilities.signatureHelpProvider then
                         require('lsp-overloads').setup(client, {
                             -- UI options are mostly the same as those passed to vim.lsp.util.open_floating_preview
+                            silent = true,
+                            floating_window_above_cur_line = true,
                             ui = {
                                 border = 'rounded', -- The border to use for the signature popup window. Accepts same border values as |nvim_open_win()|.
                                 wrap_at = 100,      -- Character to wrap at for computing height when wrap enabled
