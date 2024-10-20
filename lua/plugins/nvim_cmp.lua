@@ -116,7 +116,7 @@ return {
 
           if mode == 'i' then
             local spaces = string.rep(' ', vim.o.tabstop)
-            vim.api.nvim_put({ spaces }, 'c', true, true)
+            vim.api.nvim_put({ spaces }, 'c', false, true)
             return
           end
         end
