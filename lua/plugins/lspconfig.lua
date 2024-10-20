@@ -64,10 +64,8 @@ return {
                             floating_window_above_cur_line = true,
                             ui = {
                                 border = 'rounded', -- The border to use for the signature popup window. Accepts same border values as |nvim_open_win()|.
-                                wrap_at = 100,      -- Character to wrap at for computing height when wrap enabled
-                                max_width = 110,    -- Maximum signature popup width
-                                close_events = { 'BufHidden', 'InsertLeave' },
-                                focusable = false,  -- Make the popup float focusable
+                                max_width = 130,    -- Maximum signature popup width
+                                focusable = true,   -- Make the popup float focusable
                                 focus = false,      -- If focusable is also true, and this is set to true, navigating through overloads will focus into the popup window (probably not what you want)
                                 silent = true,      -- Prevents noisy notifications (make false to help debug why signature isn't working)
                                 highlight = {

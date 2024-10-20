@@ -73,7 +73,6 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.wrap = false
 vim.opt.ffs = { 'unix', 'dos' }
-vim.opt.mouse = 'a'
 vim.opt.showmode = false
 vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 vim.opt.undofile = true
@@ -318,7 +317,6 @@ local disabled_plugins = {
 for _, plugin in ipairs(disabled_plugins) do
     vim.g['loaded_' .. plugin] = 1
 end
-
 
 local function close_gstatus()
     for winnr = 1, vim.fn.winnr('$') do
