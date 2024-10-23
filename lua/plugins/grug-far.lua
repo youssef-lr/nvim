@@ -20,7 +20,7 @@ return {
 
       -- disable automatic debounced search and trigger search when leaving insert mode or making normal mode changes instead
       -- Note that normal mode changes such as `diw`, `rF`, etc will still trigger a search
-      normalModeSearch = true,
+      normalModeSearch = false,
 
       -- max number of parallel replacements tasks
       maxWorkers = 8,

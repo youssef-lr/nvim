@@ -9,7 +9,7 @@ return {
         vim.keymap.set('n', '<leader>gw', ':Gwrite<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>gr', ':Gread<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>gc', ':Gcommit<CR>', { noremap = true, silent = true })
-        vim.keymap.set('n', 'gvs', ':Gvsplit<CR>', { noremap = true, silent = true })
+        vim.keymap.set('n', '<leader>gs', ':Gvsplit<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', 'gdh', ':diffget //2<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', 'gdl', ':diffget //3<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader><Right>', ':diffget //2<CR>', { noremap = true, silent = true })

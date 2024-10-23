@@ -1,7 +1,7 @@
 return {
   {
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    'wochap/telescope.nvim',
+    branch = 'feat/vimgrep--json-jul-2024',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local actions = require('telescope.actions')
@@ -11,6 +11,9 @@ return {
             prompt_position = 'top',
           },
           sorting_strategy = 'ascending', -- Makes the sorting start from the top
+          preview = {
+            hide_on_startup = true        -- hide previewer when picker starts
+          },
           mappings = {
             i = {
               ['<esc>'] = actions.close,
@@ -18,6 +21,7 @@ return {
               ['<M-v>'] = actions.file_vsplit,
               ['<M-j>'] = actions.move_selection_next,
               ['<M-k>'] = actions.move_selection_previous,
+              ['<M-p>'] = require('telescope.actions.layout').toggle_preview,
             },
           },
           extensions = {
@@ -53,15 +57,23 @@ return {
       vim.api.nvim_set_keymap('n', '<D-g>', gstatus, { noremap = true, silent = true })
       vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
 
-      -- Document symbols
+      -- LSP: Document symbols
       local symbols = '<cmd>Telescope lsp_document_symbols<CR>'
       vim.api.nvim_set_keymap('n', '<D-o>', symbols, { noremap = true })
       vim.api.nvim_set_keymap('n', '<leader>o', symbols, { noremap = true, silent = true })
 
-      -- Find references
-      local references = '<cmd>Telescope lsp_references<CR>'
+      -- LSP: Find references
+      local references = '<cmd>Telescope lsp_references previewer=true<CR>'
       vim.api.nvim_set_keymap('n', '<leader>u', references, { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', '<D-u>', references, { noremap = true, silent = true })
+
+      -- LSP: Incoming calls
+      local incoming_calls = '<cmd>Telescope lsp_incoming_calls previewer=true<CR>'
+      vim.api.nvim_set_keymap('n', '<leader>ic', references, { noremap = true, silent = true })
+
+      -- LSP: Outgoing calls
+      local incoming_calls = '<cmd>Telescope lsp_incoming_calls previewer=true<CR>'
+      vim.api.nvim_set_keymap('n', '<leader>oc', references, { noremap = true, silent = true })
 
       -- Buffers
       local buffers = '<cmd>Telescope buffers<CR>'
@@ -71,7 +83,8 @@ return {
       vim.api.nvim_set_keymap('t', '<M-b>', tbuffers, { noremap = true, silent = true })
 
       -- Live grep
-      vim.api.nvim_set_keymap('n', '<leader>lg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>lg', '<cmd>Telescope live_grep previewer=true<CR>',
+        { noremap = true, silent = true })
 
       -- Current buffer diagnostics
       vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope diagnostics<CR>',
@@ -82,6 +95,10 @@ return {
 
       -- Command history
       vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>Telescope command_history<CR>', { noremap = true, silent = true })
+
+      -- Grep word under cursor
+      vim.api.nvim_set_keymap('n', '<leader>tg', '<cmd>Tel grep_string previewer=true<CR>',
+        { noremap = true, silent = true })
     end,
   },
   {
