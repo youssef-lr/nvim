@@ -95,7 +95,7 @@ map({ 'n', 'v' }, '<leader>y', '"*y', { silent = true, noremap = true, desc = 'y
 map({ 'n', 'v' }, '<D-c>', '"*y', { silent = true, noremap = true })
 map('v', '<leader>d', '"*d', { silent = true, noremap = true })
 map('n', '<D-c><D-c>', '"*yy', { silent = true, noremap = true })
-map('n', '<D-v>', '"*p', { silent = true, noremap = true })
+map({ 'n', 'v' }, '<D-v>', '"*p', { silent = true, noremap = true })
 map('i', '<D-v>', '<C-r>*', { silent = true, noremap = true })
 vim.cmd('map! <D-v> <C-r>+')
 
@@ -193,8 +193,8 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- ========================
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
-local quit = '<ESC>:q!<CR>'
-local tquit = '<C-\\><C-n>:q<CR>'
+local quit = '<ESC>ZQ<CR>'
+local tquit = '<C-\\><C-n>ZZ<CR>'
 map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true })
 map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true })
 map('t', '<C-Q>', tquit, { noremap = true })
@@ -241,3 +241,5 @@ end
 map('n', '<leader><leader>p', exec_git_push)
 
 vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
+
+map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
