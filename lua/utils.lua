@@ -125,6 +125,8 @@ function M.statuscolumn()
         components[2] = '%='
     end
 
+    components[4] = ' '
+
     return table.concat(components, '')
 end
 

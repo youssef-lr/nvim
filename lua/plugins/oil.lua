@@ -79,7 +79,6 @@ return {
         ['<M-v>'] = { 'actions.select', opts = { vertical = true }, desc = 'Open the entry in a vertical split' },
         ['<M-t>'] = { 'actions.select', opts = { tab = true }, desc = 'Open the entry in new tab' },
         ['<M-p>'] = 'actions.preview',
-        ['<M-q>'] = 'actions.close',
         ['<M-l>'] = 'actions.refresh',
         ['ç'] = 'actions.open_cwd',
         ['à'] = 'actions.parent',
@@ -203,5 +202,7 @@ return {
         border = 'rounded',
       },
     })
+    vim.keymap.set('n', '<leader>f', ':Oil --float ' .. vim.fn.getcwd() .. '<CR>', { noremap = true, silent = true })
+    vim.keymap.set('n', 'ç', ':Oil --float <CR>', { noremap = true, silent = true })
   end
 }

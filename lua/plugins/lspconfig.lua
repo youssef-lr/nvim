@@ -227,6 +227,9 @@ return {
                             includeCompletionsWithInsertText = true,
                             includeCompletionsWithSnippetText = true,
                             jsxAttributeCompletionStyle = 'auto',
+                            completions = {
+                                completeFunctionCalls = true
+                            },
                         }
                     },
                 },

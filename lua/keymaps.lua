@@ -47,10 +47,14 @@ local save = function(isInsertMode)
         return
     end
 
+    if filetype == 'oil' then
+        vim.cmd('w')
+        return
+    end
+
     local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
 
-    -- while oil does have a buftype, it still supports `:w` to save changes, make an exception
-    if buftype ~= '' and filetype ~= 'oil' then
+    if buftype ~= '' then
         vim.notify('read only buffer')
         return
     end
@@ -193,12 +197,12 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- ========================
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
-local quit = '<ESC>ZQ<CR>'
-local tquit = '<C-\\><C-n>ZZ<CR>'
-map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true })
-map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true })
-map('t', '<C-Q>', tquit, { noremap = true })
-map('t', '<M-q>', tquit, { noremap = true })
+local quit = '<ESC>:q!<CR>'
+local tquit = '<C-\\><C-n>:q<CR>'
+map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true, silent = true })
+map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true, silent = true })
+map('t', '<C-Q>', tquit, { noremap = true, silent = true })
+map('t', '<M-q>', tquit, { noremap = true, silent = true })
 
 -- ========================
 -- Diff mappings
