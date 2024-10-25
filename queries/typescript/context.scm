@@ -1,4 +1,5 @@
 ([
+  (expression_statement)
   (method_definition)
 ] @context)
 

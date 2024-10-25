@@ -1,3 +1,3 @@
-(function_declaration
+(function_definition
   body: (_ (_) @context.end)
 ) @context
