@@ -16,15 +16,16 @@ VagueColors = {
   parameter = '#b9a3ba',
   operator = '#96a3b2',
   keyword = '#8cadc6',
-  error = '#b9887e',
-  warning = '#c2ac7b',
   floatBorder = '#878787',
-  hint = '#b7b7c2',
   type = '#a1b3b9',
   visual = '#51575d',
   search = '#d9b2aa',
   plus = '#8faf77',
   delta = '#e6be8c',
+  error = '#dc9e92',
+  warning = '#c2ac7b',
+  hint = '#a6a4a4',
+  info = '#a6a4a4',
 }
 
 return {

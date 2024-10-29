@@ -169,6 +169,16 @@ vim.cmd([[
     iabbr aciton action
     iabbr udpate update
     iabbr resposne response
+    iabbr imrpvoe improve
+    iabbr imrpvoe improve
+    iabbr ipmrove  improve
+    iabbr imrpve improve
+    iabbr imprve improve
+    iabbr Imrpvoe Improve
+    iabbr Imrpvoe Improve
+    iabbr Ipmrove Improve
+    iabbr Imrpve Improve
+    iabbr Imprve Improve
 ]])
 
 vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
@@ -293,6 +303,17 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     end
 })
 
+
+local function close_gstatus()
+    for winnr = 1, vim.fn.winnr('$') do
+        if not vim.fn.empty(vim.fn.getwinvar(winnr, 'fugitive_status')) then
+            vim.cmd(winnr .. 'close')
+        end
+    end
+end
+
+vim.api.nvim_create_user_command('GstatusClose', close_gstatus, {})
+
 -- disable builtin plugins
 local disabled_plugins = {
     '2html_plugin',
@@ -317,13 +338,3 @@ local disabled_plugins = {
 for _, plugin in ipairs(disabled_plugins) do
     vim.g['loaded_' .. plugin] = 1
 end
-
-local function close_gstatus()
-    for winnr = 1, vim.fn.winnr('$') do
-        if not vim.fn.empty(vim.fn.getwinvar(winnr, 'fugitive_status')) then
-            vim.cmd(winnr .. 'close')
-        end
-    end
-end
-
-vim.api.nvim_create_user_command('GstatusClose', close_gstatus, {})

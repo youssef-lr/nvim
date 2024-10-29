@@ -56,7 +56,7 @@ diagnostics = {
     },
     diagnostics_color = {
         hint = { fg = VagueColors.hint },
-        info = { fg = '#cdd7d3' },
+        info = { fg = VagueColors.info },
         warn = { fg = VagueColors.warning },
         error = { fg = VagueColors.error },
     },
@@ -72,7 +72,12 @@ end
 
 local fugitive = {
     sections = {
-        lualine_b = { fugitive_branch },
+        lualine_b = {
+            {
+                fugitive_branch,
+                color = { fg = VagueColors.number }
+            }
+        },
     },
     filetypes = { 'fugitive' }
 }
@@ -109,7 +114,10 @@ local M = {
         sections = {
             lualine_a = { 'mode' },
             lualine_b = {
-                'branch',
+                {
+                    'branch',
+                    color = { fg = VagueColors.number },
+                },
                 'diff',
                 diagnostics
             },

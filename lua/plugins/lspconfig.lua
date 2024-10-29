@@ -209,7 +209,7 @@ return {
                     settings = {
                         completions = {
                             completeFunctionCalls = true
-                        },
+                        }
                     },
                     init_options = {
                         maxTsServerMemory = 8192,
@@ -227,9 +227,6 @@ return {
                             includeCompletionsWithInsertText = true,
                             includeCompletionsWithSnippetText = true,
                             jsxAttributeCompletionStyle = 'auto',
-                            completions = {
-                                completeFunctionCalls = true
-                            },
                         }
                     },
                 },

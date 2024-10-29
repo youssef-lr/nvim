@@ -48,7 +48,7 @@ local save = function(isInsertMode)
     end
 
     if filetype == 'oil' then
-        vim.cmd('w')
+        vim.cmd('silent! w')
         return
     end
 
@@ -62,13 +62,14 @@ local save = function(isInsertMode)
     if isInsertMode then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
     end
-    vim.cmd('w')
+    vim.cmd('silent! w')
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
 end
-map('n', '<C-S>', save, { noremap = true })
-map('i', '<C-S>', function() save(true) end, { noremap = true })
-map('n', '<D-s>', save, { noremap = true })
-map('i', '<D-s>', function() save(true) end, { noremap = true })
+map('n', '<C-S>', save, { noremap = true, silent = true })
+map('i', '<C-S>', function() save(true) end, { noremap = true, silent = true })
+map('n', '<D-s>', save, { noremap = true, silent = true })
+map('i', '<D-s>', function() save(true) end, { noremap = true, silent = true })
+map('n', '<D-S>', ':noa w<CR>', { noremap = true, silent = true })
 
 -- ========================
 -- Navigation mappings

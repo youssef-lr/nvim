@@ -90,6 +90,10 @@ return {
       vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope diagnostics<CR>',
         { noremap = true, silent = true })
 
+      -- Current buffer fuzzy find
+      vim.api.nvim_set_keymap('n', '<D-F>', '<cmd>Telescope current_buffer_fuzzy_find<CR>',
+        { noremap = true, silent = true })
+
       -- Git commits
       vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', { noremap = true, silent = true })
 
@@ -97,7 +101,9 @@ return {
       vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>Telescope command_history<CR>', { noremap = true, silent = true })
 
       -- Grep word under cursor
-      vim.api.nvim_set_keymap('n', '<leader>tg', '<cmd>Tel grep_string previewer=true<CR>',
+      vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>Tel grep_string previewer=true<CR>',
+        { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>Tel grep_string previewer=true<CR>',
         { noremap = true, silent = true })
     end,
   },
