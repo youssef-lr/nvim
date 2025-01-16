@@ -6,7 +6,7 @@ if vim.g.neovide then
     vim.g.neovide_floating_z_height = 10
     vim.g.neovide_light_angle_degrees = 45
     vim.g.neovide_light_radius = 20
-    vim.g.neovide_padding_left = 10
+    vim.g.neovide_padding_left = 5
     vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
     vim.g.neovide_refresh_rate = 120
     vim.g.neovide_no_idle = true
@@ -27,32 +27,32 @@ if vim.g.neovide then
         vim.g.neovide_scale_factor = 1.0
     end)
 
-    vim.g.neovide_cursor_animation_length = 0
-    vim.g.neovide_cursor_animate_in_insert_mode = false
+    vim.g.neovide_cursor_animation_length = 0.02
+    vim.g.neovide_cursor_animate_in_insert_mode = true
     vim.g.neovide_cursor_animate_command_line = false
 
     vim.g.neovide_cursor_trail_size = 0
-    vim.g.neovide_position_animation_length = 0
+    vim.g.neovide_position_animation_length = 0.1
 
     local scroll_animation_far_lines = 0.1
-    local scroll_animation_length = 0.08
+    local scroll_animation_length = 0.1
 
     vim.g.neovide_scroll_animation_far_lines = scroll_animation_far_lines
     vim.g.neovide_scroll_animation_length = scroll_animation_length
 
-    vim.api.nvim_create_autocmd('BufEnter', {
-        pattern = '*',
-        callback = function()
-            local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
-
-            -- When entering terminal for first time I noticed the filetype is empty
-            if filetype == 'terminal' or filetype == 'fugitive' then
-                vim.g.neovide_scroll_animation_far_lines = 0
-                vim.g.neovide_scroll_animation_length = 0
-            else
-                vim.g.neovide_scroll_animation_far_lines = scroll_animation_far_lines
-                vim.g.neovide_scroll_animation_length = scroll_animation_length
-            end
-        end,
-    })
+    -- vim.api.nvim_create_autocmd('BufEnter', {
+    --     pattern = '*',
+    --     callback = function()
+    --         local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
+    --
+    --         -- When entering terminal for first time I noticed the filetype is empty
+    --         if filetype == 'terminal' or filetype == 'fugitive' then
+    --             vim.g.neovide_scroll_animation_far_lines = 0
+    --             vim.g.neovide_scroll_animation_length = 0
+    --         else
+    --             vim.g.neovide_scroll_animation_far_lines = scroll_animation_far_lines
+    --             vim.g.neovide_scroll_animation_length = scroll_animation_length
+    --         end
+    --     end,
+    -- })
 end

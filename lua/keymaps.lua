@@ -198,12 +198,20 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- ========================
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
-local quit = '<ESC>:q!<CR>'
-local tquit = '<C-\\><C-n>:q<CR>'
+local quit = function()
+    local buf_type = vim.bo.buftype -- Get the current buffer type
+    if buf_type == 'terminal' then
+        -- If it's a terminal buffer, close the terminal
+        vim.cmd('ToggleTerm')
+    else
+        -- Otherwise, force quit the buffer
+        vim.cmd('q!')
+    end
+end
 map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true, silent = true })
 map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true, silent = true })
-map('t', '<C-Q>', tquit, { noremap = true, silent = true })
-map('t', '<M-q>', tquit, { noremap = true, silent = true })
+map('t', '<C-Q>', quit, { noremap = true, silent = true })
+map('t', '<M-q>', quit, { noremap = true, silent = true })
 
 -- ========================
 -- Diff mappings
@@ -216,7 +224,6 @@ map('n', '<leader>es', ':edit ./scratch/', { noremap = true });
 local function get_git_root()
     -- Execute a shell command to get the Git root directory
     local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
-    print(git_root)
 
     -- Check if the git command was successful
     if vim.v.shell_error == 0 then
@@ -248,3 +255,5 @@ map('n', '<leader><leader>p', exec_git_push)
 vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 
 map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
+
+map('n', '<D-a>', 'vig', { noremap = true });

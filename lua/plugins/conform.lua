@@ -48,8 +48,8 @@ return {
       end,
       formatters_by_ft = {
         html = { 'prettierd', 'eslint_d', stop_after_first = true },
-        javascript = { 'prettierd', 'eslint_d', stop_after_first = true },
-        javascriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },
+        javascript = { 'eslint_d', stop_after_first = true },
+        javascriptreact = { 'eslint_d', stop_after_first = true },
         markdown = { 'prettierd' },
         typescript = { 'prettierd', 'eslint_d', stop_after_first = true },
         typescriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },

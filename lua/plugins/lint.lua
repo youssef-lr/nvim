@@ -45,7 +45,7 @@ return {
         javascriptreact = { 'eslint_custom' },
         typescript = { 'eslint_custom' },
         typescriptreact = { 'eslint_custom' },
-        php = { 'psalm' },
+        -- php = { 'psalm' },
       }
 
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })

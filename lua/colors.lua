@@ -10,6 +10,7 @@ vim.api.nvim_set_hl(0, '@variable.parameter', { link = '@variable' })
 vim.api.nvim_set_hl(0, '@keyword.import', { link = '@keyword' })
 vim.api.nvim_set_hl(0, '@variable.member', { link = '@variable' })
 vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#a4bac1' })
+vim.api.nvim_set_hl(0, '@tag.attribute', { fg = 'Grey70', bold = true })
 
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
@@ -62,6 +63,7 @@ vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#d5d7d8', bold = true })
 
 vim.api.nvim_set_hl(0, '@spell.gitcommit', { link = 'String' })
 vim.api.nvim_set_hl(0, '@markup.heading.gitcommit', { link = 'Function' })
+vim.api.nvim_set_hl(0, '@markup.link.gitcommit', { link = 'Number' })
 vim.api.nvim_set_hl(0, '@string.special.path.gitcommit', { link = 'Constant' })
 vim.api.nvim_set_hl(0, 'fugitiveSymbolicRef', { link = 'Number' })
 
@@ -73,6 +75,8 @@ vim.api.nvim_set_hl(0, 'TelescopeSelectionCaret', { link = 'Function' })
 vim.api.nvim_set_hl(0, 'DevIconPhp', { link = 'Function' })
 vim.api.nvim_set_hl(0, 'DevIconH', { link = 'Keyword' })
 vim.api.nvim_set_hl(0, 'DevIconCpp', { link = 'Function' })
+
+vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#ffffff', bold = true })
 
 vim.cmd('hi QuickfixLine gui=NONE')
 

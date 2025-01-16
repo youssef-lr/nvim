@@ -1,7 +1,6 @@
 return {
   {
-    'wochap/telescope.nvim',
-    branch = 'feat/vimgrep--json-jul-2024',
+    'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local actions = require('telescope.actions')
@@ -73,7 +72,7 @@ return {
 
       -- LSP: Outgoing calls
       local incoming_calls = '<cmd>Telescope lsp_incoming_calls previewer=true<CR>'
-      vim.api.nvim_set_keymap('n', '<leader>oc', references, { noremap = true, silent = true })
+      -- vim.api.nvim_set_keymap('n', '<leader>oc', references, { noremap = true, silent = true })
 
       -- Buffers
       local buffers = '<cmd>Telescope buffers<CR>'
