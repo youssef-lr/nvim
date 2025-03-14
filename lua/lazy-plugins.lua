@@ -31,7 +31,7 @@ require('lazy').setup({
     require 'plugins.gitlinker',
     require 'plugins.miniai',
     require 'plugins.dashbord',
-    -- require 'plugins.saga',
+    require 'plugins.saga',
     -- require 'plugins.beepboop',
     --require 'plugins.nvim-spider',
     --'mattn/emmet-vim',
