@@ -285,6 +285,17 @@ return {
                     end,
                 },
             }
+
+            require('lspconfig').sourcekit.setup({
+                -- capabilities = capabilities,
+                capabilities = {
+                    workspace = {
+                        didChangeWatchedFiles = {
+                            dynamicRegistration = true,
+                        },
+                    },
+                },
+            })
         end,
     },
 }
