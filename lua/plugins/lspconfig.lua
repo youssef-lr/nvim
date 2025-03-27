@@ -287,7 +287,7 @@ return {
             }
 
             require('lspconfig').sourcekit.setup({
-                -- capabilities = capabilities,
+                filetypes = { 'swift' },
                 capabilities = {
                     workspace = {
                         didChangeWatchedFiles = {
