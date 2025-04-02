@@ -237,7 +237,22 @@ return {
                 },
                 intelephense = {},
                 --phpactor = {},
-                sqlls = {},
+                sqlls = {
+                    capabilities = capabilities,
+                    filetypes = { 'sql' },
+                    root_dir = function(_) return vim.loop.cwd() end,
+                    settings = {
+                        connections = {
+                            name = 'auth',
+                            adapter = 'sqlite3',
+                            filename = '/Users/youssef/Expensidev/data/auth/main.db',
+                            projectPaths = {
+                                '/Users/youssef/Expensidev/Web-Expensify/',
+                                '/Users/youssef/Expensidev/Auth/',
+                            },
+                        },
+                    }
+                },
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -270,6 +285,7 @@ return {
                 'lua-language-server',
                 'stylua',
                 'actionlint',
+                'sqlls',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -285,17 +301,6 @@ return {
                     end,
                 },
             }
-
-            require('lspconfig').sourcekit.setup({
-                filetypes = { 'swift' },
-                capabilities = {
-                    workspace = {
-                        didChangeWatchedFiles = {
-                            dynamicRegistration = true,
-                        },
-                    },
-                },
-            })
         end,
     },
 }

@@ -57,9 +57,9 @@ return {
       vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
 
       -- LSP: Document symbols
-      local symbols = '<cmd>Telescope lsp_document_symbols<CR>'
-      vim.api.nvim_set_keymap('n', '<D-o>', symbols, { noremap = true })
-      vim.api.nvim_set_keymap('n', '<leader>o', symbols, { noremap = true, silent = true })
+      -- local symbols = '<cmd>Telescope lsp_document_symbols<CR>'
+      -- vim.api.nvim_set_keymap('n', '<D-o>', symbols, { noremap = true })
+      -- vim.api.nvim_set_keymap('n', '<leader>o', symbols, { noremap = true, silent = true })
 
       -- LSP: Find references
       local references = '<cmd>Telescope lsp_references previewer=true<CR>'

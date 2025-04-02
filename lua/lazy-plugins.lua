@@ -14,6 +14,7 @@ require('lazy').setup({
     require 'plugins.vague',
     require 'plugins.lspconfig',
     require 'plugins/nvim_cmp',
+    --require 'plugins/blink',
     require 'plugins.telescope',
     require 'plugins/treesitter',
     require 'plugins.gitsigns',

@@ -44,11 +44,11 @@ return {
         -- vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
         -- vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
 
-        -- Git status
-        local gstatus = '<cmd>FzfLua git_status<CR>'
-        local tgstatus = '<C-\\><C-n>:q<CR><cmd>FzfLua git_status<CR>'
-        vim.api.nvim_set_keymap('n', '<D-g>', gstatus, { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
+        -- -- Git status
+        -- local gstatus = '<cmd>FzfLua git_status<CR>'
+        -- local tgstatus = '<C-\\><C-n>:q<CR><cmd>FzfLua git_status<CR>'
+        -- vim.api.nvim_set_keymap('n', '<D-g>', gstatus, { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
 
         -- Document symbols
         local symbols = '<cmd>FzfLua lsp_document_symbols<CR>'
