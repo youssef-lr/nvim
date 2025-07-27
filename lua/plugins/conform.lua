@@ -27,7 +27,7 @@ return {
       format_after_save = function(bufnr)
         local git_root = require('utils').get_git_root()
         local filetype = vim.bo[bufnr].filetype
-        if git_root == 'Web-Expensify' and filetype == 'php' then
+        if git_root == 'Web-Expensify' and (filetype == 'javascriptreact' or filetype == 'jsx') then
           return
         end
 
@@ -54,10 +54,11 @@ return {
         typescript = { 'prettierd', 'eslint_d', stop_after_first = true },
         typescriptreact = { 'prettierd', 'eslint_d', stop_after_first = true },
         jsx = { 'prettierd', 'eslint_d', stop_after_first = true },
+        json = { 'prettierd' },
         php = { 'php' },
         cpp = { 'uncrustify' },
         sql = { 'sql_formatter' },
-        json = { 'biome' },
+        -- json = { 'biome' },
         ['*'] = { 'trim_whitespace' },
       },
       formatters = {

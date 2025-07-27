@@ -1,5 +1,5 @@
 if vim.g.neovide then
-    --vim.o.guifont = 'SauceCodePro Nerd Font Mono:h13.6:w-1.5'
+    -- vim.o.guifont = 'SauceCodePro Nerd Font Mono:h13.6:w-1.5'
     vim.g.neovide_input_use_logo = 1
     vim.g.neovide_floating_shadow = false
     vim.g.neovide_window_blurred = true
@@ -11,7 +11,6 @@ if vim.g.neovide then
     vim.g.neovide_refresh_rate = 120
     vim.g.neovide_no_idle = true
     vim.g.neovide_remember_window_size = true
-
 
     vim.g.neovide_scale_factor = 1.0
     local change_scale_factor = function(delta)

@@ -11,6 +11,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     'tpope/vim-sleuth',
     'tpope/vim-surround',
+    'mfussenegger/nvim-jdtls',
     require 'plugins.vague',
     require 'plugins.lspconfig',
     require 'plugins/nvim_cmp',

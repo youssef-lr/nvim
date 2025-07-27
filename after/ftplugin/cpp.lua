@@ -1,7 +1,7 @@
 vim.api.nvim_buf_set_keymap(0, 'i', '-', '->', { noremap = true })
 vim.api.nvim_buf_set_keymap(0, 'i', 'ù', '->', { noremap = true })
 
-vim.api.nvim_buf_set_keymap(0, 'n', '<M-e>', '<cmd>ClangdSwitchSourceHeader<CR>', { noremap = true })
+vim.api.nvim_buf_set_keymap(0, 'n', '<M-e>', '<cmd>LspClangdSwitchSourceHeader<CR>', { noremap = true })
 
 vim.cmd('setlocal indentkeys-=:')
 
@@ -74,3 +74,12 @@ local function toggle_command_test()
 end
 
 vim.keymap.set('n', '<M-t>', toggle_command_test, { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+  pattern = "*",
+  callback = function()
+    if vim.bo.modified then
+      vim.cmd("silent write")
+    end
+  end,
+})

@@ -230,11 +230,11 @@ return {
                         }
                     },
                 },
-                biome = {
-                    filetypes = {
-                        'json',
-                    },
-                },
+                -- biome = {
+                --     filetypes = {
+                --         'json',
+                --     },
+                -- },
                 intelephense = {},
                 --phpactor = {},
                 sqlls = {

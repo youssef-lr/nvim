@@ -53,8 +53,13 @@ return {
         })
 
         -- Normal mode key mappings for ToggleTerm
-        vim.api.nvim_set_keymap('n', '&', [[<Cmd>exe "1ToggleTerm"<CR>]], { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', 'é', [[<Cmd>exe "2ToggleTerm"<CR>]], { noremap = true, silent = true })
+        vim.keymap.set('n', '&', function()
+          vim.cmd('1ToggleTerm')
+        end, { silent = true })
+
+        vim.keymap.set('n', 'é', function()
+          vim.cmd('2ToggleTerm')
+        end, { silent = true })
 
         -- Buffer read autocmd for restoring cursor position
         vim.api.nvim_create_autocmd('BufReadPost', {
