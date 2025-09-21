@@ -235,8 +235,8 @@ return {
             -- If the function signature is longer than maxLength characters, truncate it
             -- eg: (Sqlite& db, int64_t reportID, ...)
             local maxLength = 120
-            if vim_item.menu and #vim_item.menu > maxLength then
-              vim_item.menu = string.sub(vim_item.menu, 1, maxLength) .. '...)'
+            if vim_item.abbr and #vim_item.abbr > maxLength then
+              vim_item.abbr = string.sub(vim_item.abbr, 1, maxLength) .. '...)'
             end
 
             return vim_item
