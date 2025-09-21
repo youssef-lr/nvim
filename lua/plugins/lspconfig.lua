@@ -190,93 +190,13 @@ return {
                 end,
             })
 
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-            local servers = {
-                clangd = {
-                    cmd = {
-                        'clangd',
-                        '--background-index',
-                        '--header-insertion=never',
-                        '-j=16',
-                        '--background-index-priority=normal',
-                        '--limit-references=0',
-                        '--pch-storage=memory',
-                        '--clang-tidy',
-                    },
-                },
-                ts_ls = {
-                    settings = {
-                        completions = {
-                            completeFunctionCalls = true
-                        }
-                    },
-                    init_options = {
-                        maxTsServerMemory = 8192,
-                        preferences = {
-                            allowIncompleteCompletions = true,
-                            completeFunctionCalls = true,
-                            allowRenameOfImportPath = true,
-                            allowTextChangesInNewFiles = true,
-                            displayPartsForJSDoc = true,
-                            generateReturnInDocTemplate = true,
-                            includeAutomaticOptionalChainCompletions = true,
-                            includeCompletionsForImportStatements = true,
-                            includeCompletionsForModuleExports = true,
-                            includeCompletionsWithClassMemberSnippets = true,
-                            includeCompletionsWithInsertText = true,
-                            includeCompletionsWithSnippetText = true,
-                            jsxAttributeCompletionStyle = 'auto',
-                        }
-                    },
-                },
-                -- biome = {
-                --     filetypes = {
-                --         'json',
-                --     },
-                -- },
-                intelephense = {},
-                --phpactor = {},
-                sqlls = {
-                    capabilities = capabilities,
-                    filetypes = { 'sql' },
-                    root_dir = function(_) return vim.loop.cwd() end,
-                    settings = {
-                        connections = {
-                            name = 'auth',
-                            adapter = 'sqlite3',
-                            filename = '/Users/youssef/Expensidev/data/auth/main.db',
-                            projectPaths = {
-                                '/Users/youssef/Expensidev/Web-Expensify/',
-                                '/Users/youssef/Expensidev/Auth/',
-                            },
-                        },
-                    }
-                },
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = 'Replace',
-                            },
-                            format = {
-                                enable = true,
-                                defaultConfig = {
-                                    quote_style = 'single',
-                                }
-                            }
-                        },
-                    },
-                },
-            }
             require('mason').setup({
                 ui = {
                     border = 'single',
                 },
             })
 
-            local ensure_installed = vim.tbl_keys(servers or {})
-            vim.list_extend(ensure_installed, {
+            require('mason-tool-installer').setup { ensure_installed = {
                 'clangd',
                 'intelephense',
                 'typescript-language-server',
@@ -286,21 +206,98 @@ return {
                 'stylua',
                 'actionlint',
                 'sqlls',
-            })
-            require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+            } }
 
-            require('mason-lspconfig').setup {
-                handlers = {
-                    function(server_name)
-                        local server = servers[server_name] or {}
-                        -- This handles overriding only values explicitly passed
-                        -- by the server configuration above. Useful when disabling
-                        -- certain features of an LSP (for example, turning off formatting for ts_ls)
-                        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                        require('lspconfig')[server_name].setup(server)
-                    end,
+            vim.lsp.config("clangd", {
+                cmd = {
+                    'clangd',
+                    '--background-index',
+                    '--header-insertion=never',
+                    '-j=16',
+                    '--background-index-priority=normal',
+                    '--limit-references=0',
+                    '--pch-storage=memory',
+                    '--clang-tidy',
                 },
-            }
+            })
+            vim.lsp.enable("clangd")
+
+            vim.lsp.config('ts_ls', {
+                settings = {
+                    completions = {
+                        completeFunctionCalls = true
+                    }
+                },
+                init_options = {
+                    maxTsServerMemory = 8192,
+                    preferences = {
+                        allowIncompleteCompletions = true,
+                        completeFunctionCalls = true,
+                        allowRenameOfImportPath = true,
+                        allowTextChangesInNewFiles = true,
+                        displayPartsForJSDoc = true,
+                        generateReturnInDocTemplate = true,
+                        includeAutomaticOptionalChainCompletions = true,
+                        includeCompletionsForImportStatements = true,
+                        includeCompletionsForModuleExports = true,
+                        includeCompletionsWithClassMemberSnippets = true,
+                        includeCompletionsWithInsertText = true,
+                        includeCompletionsWithSnippetText = true,
+                        jsxAttributeCompletionStyle = 'auto',
+                    }
+                },
+            })
+            vim.lsp.enable('ts_ls')
+
+            -- biome
+            vim.lsp.config('biome', {
+              filetypes = { 'json' },
+            })
+            vim.lsp.enable('biome')
+
+            -- intelephense
+            vim.lsp.config('intelephense', {})
+            vim.lsp.enable('intelephense')
+
+            -- phpactor
+            -- vim.lsp.config('phpactor', {})
+            -- vim.lsp.enable('phpactor')
+
+            -- sqlls
+            vim.lsp.config('sqlls', {
+              filetypes = { 'sql' },
+              root_dir = function(_) return vim.loop.cwd() end,
+              settings = {
+                connections = {
+                  name = 'auth',
+                  adapter = 'sqlite3',
+                  filename = '/Users/youssef/Expensidev/data/auth/main.db',
+                  projectPaths = {
+                    '/Users/youssef/Expensidev/Web-Expensify/',
+                    '/Users/youssef/Expensidev/Auth/',
+                  },
+                },
+              },
+            })
+            vim.lsp.enable('sqlls')
+
+            -- lua_ls
+            vim.lsp.config('lua_ls', {
+              settings = {
+                Lua = {
+                  completion = {
+                    callSnippet = 'Replace',
+                  },
+                  format = {
+                    enable = true,
+                    defaultConfig = {
+                      quote_style = 'single',
+                    },
+                  },
+                },
+              },
+            })
+            vim.lsp.enable('lua_ls')
         end,
     },
 }
