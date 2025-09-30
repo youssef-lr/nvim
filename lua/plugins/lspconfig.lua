@@ -181,12 +181,12 @@ return {
                         update_in_insert = true,
                     })
 
-                    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-                        vim.lsp.handlers.hover, {
-                            border = 'rounded',
-                            title = 'Documentation'
-                        }
-                    )
+                    local orig = vim.lsp.util.open_floating_preview
+                    function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+                      opts = opts or {}
+                      opts.border = "rounded"
+                      return orig(contents, syntax, opts, ...)
+                    end
                 end,
             })
 
