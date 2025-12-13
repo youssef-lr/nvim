@@ -18,7 +18,7 @@ return {
       local current_folder = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
       if current_folder == 'App' then
         table.insert(eslintArgs, 3, '--config')
-        table.insert(eslintArgs, 4, './.eslintrc.custom.js')
+        table.insert(eslintArgs, 4, './eslint.custom.changed.config.mjs')
       end
 
       lint.linters.eslint_custom = {

@@ -37,18 +37,28 @@ return {
             callback = function() vim.opt_local.conceallevel = 0 end
         })
 
+        vim.api.nvim_set_keymap('n', '<D-F>', '<cmd>FzfLua grep_curbuf<CR>',
+        { noremap = true, silent = true })
+
+        local files = '<cmd>FzfLua files<CR>'
+        local tfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua files<CR>'
+          vim.api.nvim_set_keymap('n', '<D-p>', files, { noremap = true, silent = true })
+          vim.api.nvim_set_keymap('n', '<M-p>', files, { noremap = true, silent = true })
+          vim.api.nvim_set_keymap('t', '<D-p>', tfiles, { noremap = true, silent = true })
+          vim.api.nvim_set_keymap('t', '<M-p>', tfiles, { noremap = true, silent = true })
+
         -- Oldfiles mappings (recently opened files)
-        -- local oldfiles = '<cmd>FzfLua oldfiles<CR>'
-        -- local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
-        -- vim.api.nvim_set_keymap('n', '<D-r>', oldfiles, { noremap = true, silent = true })
-        -- vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
-        -- vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
+        local oldfiles = '<cmd>FzfLua oldfiles<CR>'
+        local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
+        vim.api.nvim_set_keymap('n', '<D-r>', oldfiles, { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
 
         -- -- Git status
-        -- local gstatus = '<cmd>FzfLua git_status<CR>'
-        -- local tgstatus = '<C-\\><C-n>:q<CR><cmd>FzfLua git_status<CR>'
-        -- vim.api.nvim_set_keymap('n', '<D-g>', gstatus, { noremap = true, silent = true })
-        -- vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
+        local gstatus = '<cmd>FzfLua git_status<CR>'
+        local tgstatus = '<C-\\><C-n>:q<CR><cmd>FzfLua git_status<CR>'
+        vim.api.nvim_set_keymap('n', '<D-g>', gstatus, { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('t', '<D-g>', tgstatus, { noremap = true, silent = true })
 
         -- Document symbols
         local symbols = '<cmd>FzfLua lsp_document_symbols<CR>'
@@ -84,13 +94,13 @@ return {
             { noremap = true, silent = true })
 
         -- Grep word under cursor
-        -- vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
 
         -- Grep visual selection
-        -- vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
 
         -- Git commits
-        --vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
 
 
         -- Command history

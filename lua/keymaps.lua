@@ -165,6 +165,7 @@ map('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true })
 map('t', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true })
 
 map('t', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true })
+map('t', '<M-h>', '<C-\\><C-n><C-w>h', { noremap = true })
 
 map('t', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true })
 map('t', '<M-r>', '<C-r>', { noremap = true, silent = true })
@@ -257,3 +258,7 @@ vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
 
 map('n', '<D-a>', 'vig', { noremap = true });
+
+vim.keymap.set('n', '<leader><leader>w', function()
+      vim.wo.wrap = not vim.wo.wrap
+end, { desc = 'Toggle word wrap' })
