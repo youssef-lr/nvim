@@ -29,7 +29,7 @@ return {
         stream = 'stdout',
         ignore_exitcode = true,
         parser = function(output, bufnr)
-          local result = require('lint.linters.eslint').parser(output, bufnr)
+          local result = require('plugins.eslint').parser(output, bufnr)
           for _, d in ipairs(result) do
             d.source = 'eslint_d'
           end
