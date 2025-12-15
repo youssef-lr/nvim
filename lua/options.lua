@@ -213,6 +213,8 @@ vim.cmd([[
     iabbr transction transaction
     iabbr trasaction transaction
     iabbr trasnsaction transaction
+    iabbr transactoin transaction
+    iabbr transactoins transactions
     iabbr transations transactions
     iabbr transacitons transactions
     iabbr transactons transactions
@@ -253,6 +255,7 @@ vim.cmd([[
     iabbr transctionID transactionID
     iabbr trasactionID transactionID
     iabbr trasnsactionID transactionID
+    iabbr transactoinID transactionID
 
     " reportActionID misspellings
     iabbr repotActionID reportActionID

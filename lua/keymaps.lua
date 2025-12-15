@@ -38,6 +38,9 @@ map('n', '<leader>rc', ':source $MYVIMRC<CR>', { noremap = true })
 -- Save with sudo
 vim.api.nvim_create_user_command('W', 'w !sudo tee % > /dev/null', {})
 
+-- Open zsh aliases file
+vim.api.nvim_create_user_command('Aliases', 'edit /Users/youssef/.oh-my-zsh/custom/aliases.zsh', {})
+
 -- Custom save function
 local save = function(isInsertMode)
     -- Save find&replace changes if we're inside grug-far
