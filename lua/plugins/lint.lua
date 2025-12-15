@@ -18,7 +18,7 @@ return {
       local current_folder = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
       if current_folder == 'App' then
         table.insert(eslintArgs, 3, '--config')
-        table.insert(eslintArgs, 4, './eslint.custom.changed.config.mjs')
+        table.insert(eslintArgs, 4, './eslint.custom.config.mjs')
       end
 
       lint.linters.eslint_custom = {
@@ -49,10 +49,19 @@ return {
       }
 
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+      local debounce_timer = nil
+      local debounce_ms = 300
+
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'TextChangedI', 'TextChangedP', 'TextChanged' }, {
         group = lint_augroup,
         callback = function()
-          lint.try_lint()
+          if debounce_timer then
+            vim.fn.timer_stop(debounce_timer)
+          end
+          debounce_timer = vim.fn.timer_start(debounce_ms, function()
+            lint.try_lint()
+            debounce_timer = nil
+          end)
         end,
       })
     end,
