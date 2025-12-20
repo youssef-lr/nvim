@@ -32,11 +32,69 @@ return {
         stream = 'stdout',
         ignore_exitcode = true,
         parser = function(output, bufnr)
-          local result = require('plugins.eslint').parser(output, bufnr)
+          local result = require('plugins.linters.eslint').parser(output, bufnr)
           for _, d in ipairs(result) do
             d.source = 'eslint_d'
           end
           return result
+        end
+      }
+
+      lint.linters.react_compiler = {
+        name = 'react-compiler',
+        cmd = os.getenv('HOME') .. '/ExpensiDev/App/scripts/react-compiler.sh',
+        parser = function(output, bufnr)
+          local trimmed_output = vim.trim(output)
+          if trimmed_output == "" then
+            return {}
+          end
+
+          local decode_opts = { luanil = { object = true, array = true } }
+          local ok, data = pcall(vim.json.decode, trimmed_output, decode_opts)
+
+          if not ok then
+            return {
+              {
+                bufnr = bufnr,
+                lnum = 0,
+                col = 0,
+                message = "Could not parse react-compiler output due to: " .. data .. "\noutput: " .. output
+              }
+            }
+          end
+
+          local diagnostics = {}
+          local current_file = vim.api.nvim_buf_get_name(bufnr)
+
+          -- Process compiler errors
+          for _, error in ipairs(data.compilerErrors or {}) do
+            -- Only include errors for the current buffer
+            -- Match against the end of the current file path to handle relative vs absolute paths
+            if error.file and current_file:find(vim.pesc(error.file) .. "$") then
+              table.insert(diagnostics, {
+                lnum = error.line and (error.line - 1) or 0,
+                col = error.column and (error.column - 1) or 0,
+                message = error.reason,
+                code = "compiler-error",
+                severity = vim.diagnostic.severity.INFO,
+                source = "react-compiler"
+              })
+            end
+          end
+
+          -- -- Process manual memo errors (these don't have file field, so include all for current buffer)
+          -- for _, error in ipairs(data.manualMemoErrors or {}) do
+          --   table.insert(diagnostics, {
+          --     lnum = error.line and (error.line - 1) or 0,
+          --     col = error.column and (error.column - 1) or 0,
+          --     message = "Manual memoization detected: " .. (error.keyword or "unknown"),
+          --     code = "manual-memo",
+          --     severity = vim.diagnostic.severity.INFO,
+          --     source = "react-compiler"
+          --   })
+          -- end
+
+          return diagnostics
         end
       }
 
@@ -47,7 +105,7 @@ return {
         javascript = { 'eslint_custom' },
         javascriptreact = { 'eslint_custom' },
         typescript = { 'eslint_custom' },
-        typescriptreact = { 'eslint_custom' },
+        typescriptreact = { 'eslint_custom', 'react_compiler' },
         -- php = { 'psalm' },
       }
 
