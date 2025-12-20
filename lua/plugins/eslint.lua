@@ -41,7 +41,7 @@ return {
           bufnr = bufnr,
           lnum = 0,
           col = 0,
-          message = "Could noooot parse linter output due to: " .. data .. "\noutput: " .. output
+          message = "Could not parse linter output due to: " .. data .. "\noutput: " .. output
         }
       }
     end
