@@ -226,6 +226,20 @@ return {
                 settings = {
                     completions = {
                         completeFunctionCalls = true
+                    },
+                    typescript = {
+                        tsserver = {
+                            experimental = {
+                                enableProjectDiagnostics = true,
+                            }
+                        }
+                    },
+                    javascript = {
+                        tsserver = {
+                            experimental = {
+                                enableProjectDiagnostics = true,
+                            }
+                        }
                     }
                 },
                 init_options = {
@@ -247,7 +261,10 @@ return {
                     }
                 },
             })
-            vim.lsp.enable('ts_ls')
+
+            --vim.lsp.enable('ts_ls')
+
+            vim.lsp.enable('tsgo')
 
             -- biome
             vim.lsp.config('biome', {
