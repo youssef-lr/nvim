@@ -65,6 +65,9 @@ return {
         vim.api.nvim_set_keymap('n', '<D-o>', symbols, { noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>o', symbols, { noremap = true, silent = true })
 
+        -- Go to definition (useful if many definitons are found)
+        vim.api.nvim_set_keymap('n', '<leader>d', '<cmd>FzfLua lsp_definitions<CR>', { noremap = true })
+
         -- Find references
         local references = '<cmd>FzfLua lsp_references<CR>'
         vim.api.nvim_set_keymap('n', '<leader>u', references, { noremap = true, silent = true })

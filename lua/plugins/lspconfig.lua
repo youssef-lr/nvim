@@ -84,13 +84,13 @@ return {
                         })
                     end
 
-                    map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
+                    --map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     --map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
                     map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
                     -- Initialize diagnostic mode based on client (php code has lots of warnings)
                     local diagnosticMode = 'all'
-                    local severity = diagnosticMode == 'error' and vim.diagnostic.severity.ERROR or nil
+                    local severity = nil
 
                     -- Define diagnostic navigation with dynamic severity
                     map('<leader>j', function()
@@ -101,13 +101,17 @@ return {
                         vim.diagnostic.jump({ count = -1, float = true, severity = severity })
                     end, '')
 
-                    -- Toggle between showing only errors and showing all diagnostics
+                    -- Toggle between warnings+errors and all diagnostics
                     local function toggleAllDiagnostics()
-                        -- Toggle between 'error' and 'all' modes
-                        diagnosticMode = diagnosticMode == 'error' and 'all' or 'error'
-
-                        -- Adjust severity based on the current mode
-                        severity = diagnosticMode == 'error' and vim.diagnostic.severity.ERROR or nil
+                        -- Toggle between 'warn' (warnings+errors) and 'all' modes
+                        if diagnosticMode == 'all' then
+                            diagnosticMode = 'warn'
+                            severity = { min = vim.diagnostic.severity.WARN }
+                        else
+                            diagnosticMode = 'all'
+                            severity = nil
+                        end
+                        print('Diagnostic mode: ' .. diagnosticMode)
                     end
                     map('<D-D>', toggleAllDiagnostics, '')
 
