@@ -101,7 +101,6 @@ map({ 'n', 'v' }, '<leader>p', '"*p', { silent = true, noremap = true, desc = 'p
 map({ 'n', 'v' }, '<leader>P', '"*P', { silent = true, noremap = true, desc = 'past backwards from clipboard' })
 map({ 'n', 'v' }, '<leader>y', '"*y', { silent = true, noremap = true, desc = 'yank into clipboard' })
 map({ 'n', 'v' }, '<D-c>', '"*y', { silent = true, noremap = true })
-map('v', '<leader>d', '"*d', { silent = true, noremap = true })
 map('n', '<D-c><D-c>', '"*yy', { silent = true, noremap = true })
 map({ 'n', 'v' }, '<D-v>', '"*p', { silent = true, noremap = true })
 map('i', '<D-v>', '<C-r>*', { silent = true, noremap = true })

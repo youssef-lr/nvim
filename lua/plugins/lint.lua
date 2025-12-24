@@ -105,7 +105,7 @@ return {
         javascript = { 'eslint_custom' },
         javascriptreact = { 'eslint_custom' },
         typescript = { 'eslint_custom' },
-        typescriptreact = { 'eslint_custom', 'react_compiler' },
+        typescriptreact = { 'eslint_custom' },
         -- php = { 'psalm' },
       }
 
