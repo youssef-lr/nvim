@@ -8,3 +8,6 @@
 
 
 <img width="897" height="572" alt="Screenshot 2025-12-24 at 23 19 20" src="https://github.com/user-attachments/assets/bf4aa2ca-00f2-4b2a-a32f-c28467555439" />
+
+
+<img width="1794" height="327" alt="Screenshot 2025-12-24 at 23 20 59" src="https://github.com/user-attachments/assets/a88d2cda-fab4-4bf4-b8c3-e20fa0d7b961" />
