@@ -5,3 +5,6 @@
 
 
 <img width="1795" height="1108" alt="Screenshot 2025-12-24 at 23 18 08" src="https://github.com/user-attachments/assets/179740f0-a385-4867-8efe-b6af43f3d7b6" />
+
+
+<img width="897" height="572" alt="Screenshot 2025-12-24 at 23 19 20" src="https://github.com/user-attachments/assets/bf4aa2ca-00f2-4b2a-a32f-c28467555439" />
