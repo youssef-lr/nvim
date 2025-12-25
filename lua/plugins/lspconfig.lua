@@ -266,8 +266,53 @@ return {
                 },
             })
 
+            vim.lsp.config('sourcekit', {
+                filetypes = { 'swift', 'objc', 'objcpp' },
+            })
+            vim.lsp.enable('sourcekit')
+
             --vim.lsp.enable('ts_ls')
 
+            vim.lsp.config('tsgo', {
+                settings = {
+                    completions = {
+                        completeFunctionCalls = true
+                    },
+                    typescript = {
+                        tsserver = {
+                            experimental = {
+                                enableProjectDiagnostics = true,
+                            }
+                        }
+                    },
+                    javascript = {
+                        tsserver = {
+                            experimental = {
+                                enableProjectDiagnostics = true,
+                            }
+                        }
+                    }
+                },
+                init_options = {
+                    maxTsServerMemory = 8192,
+                    preferences = {
+                        enableProjectDiagnostics = true,
+                        allowIncompleteCompletions = true,
+                        completeFunctionCalls = true,
+                        allowRenameOfImportPath = true,
+                        allowTextChangesInNewFiles = true,
+                        displayPartsForJSDoc = true,
+                        generateReturnInDocTemplate = true,
+                        includeAutomaticOptionalChainCompletions = true,
+                        includeCompletionsForImportStatements = true,
+                        includeCompletionsForModuleExports = true,
+                        includeCompletionsWithClassMemberSnippets = true,
+                        includeCompletionsWithInsertText = true,
+                        includeCompletionsWithSnippetText = true,
+                        jsxAttributeCompletionStyle = 'auto',
+                    }
+                },
+            })
             vim.lsp.enable('tsgo')
 
             -- biome

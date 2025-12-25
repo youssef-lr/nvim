@@ -208,7 +208,7 @@ return {
           comparators = {
             compare.offset,
             compare.exact,
-            -- compare.scopes,
+            compare.scopes,
             compare.score,
             compare.recently_used,
             compare.locality,
