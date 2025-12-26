@@ -406,6 +406,29 @@ end
 
 vim.api.nvim_create_user_command('GstatusClose', close_gstatus, {})
 
+vim.api.nvim_create_user_command('DeleteAIMarkers', function()
+    -- Save cursor position
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+
+    -- Get all lines in buffer
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+    -- Process each line
+    for i, line in ipairs(lines) do
+      -- Remove Unicode escape sequences like \u2013
+      line = line:gsub('\\u[0-9a-fA-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]', '')
+      lines[i] = line
+    end
+
+    -- Set modified lines back to buffer
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+
+    -- Restore cursor position
+    vim.api.nvim_win_set_cursor(0, cursor_pos)
+
+    print('AI markers removed')
+end, {})
+
 -- disable builtin plugins
 local disabled_plugins = {
     '2html_plugin',
