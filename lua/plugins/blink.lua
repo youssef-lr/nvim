@@ -89,7 +89,7 @@ return {
       menu = {
         border = 'rounded',
         draw = {
-          columns = { { 'label', 'label_description', gap = 1 }, { 'kind' }, { 'kind_icon' } },
+          columns = { { 'label', 'label_description', gap = 10 }, { 'kind' }, { 'kind_icon' } },
         }
       }
     },
@@ -98,17 +98,29 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
-      transform_items = function(_, items)
-        print('transforming')
-        -- Clangd completion has some extra whitespace in the beginning of the word, delete it
-        for _, item in ipairs(items) do
-          if item.label then
-            item.label = item.label:gsub('^%s+', '')
-          end
-        end
-        return items
-      end,
       providers = {
+        lsp = {
+          -- Clangd completion has some extra whitespace in the beginning of the word, delete it
+          transform_items = function(_, items)
+            -- Check if this is from clangd (all items come from the same client)
+            if #items == 0 or not items[1].client_id then
+              return items
+            end
+
+            local client = vim.lsp.get_client_by_id(items[1].client_id)
+            if not client or client.name ~= 'clangd' then
+              return items
+            end
+
+            -- Only process clangd items
+            for _, item in ipairs(items) do
+              if item.label then
+                item.label = item.label:gsub('^%s+', '')
+              end
+            end
+            return items
+          end,
+        },
         buffer = {
           opts = {
             get_bufnrs = function()
