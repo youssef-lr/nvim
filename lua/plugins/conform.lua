@@ -32,9 +32,9 @@ return {
         end
 
         -- no auto formatting for cpp & c files
-        if filetype == 'cpp' or filetype == 'c' then
-          return
-        end
+        -- if filetype == 'cpp' or filetype == 'c' then
+        --   return
+        -- end
 
         -- Disable LSP format_after_save for PHP
         -- this won't use the LSP formatting fallback, but we'll use our custom php formatter as defined below
