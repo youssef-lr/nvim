@@ -50,30 +50,30 @@ return {
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono',
       kind_icons = {
-        Text = '',
-        Method = '󰆧',
-        Function = '󰊕',
-        Constructor = '',
-        Field = '󰇽',
-        Variable = '󰂡',
-        Class = '󰠱',
-        Interface = '',
-        Module = '',
-        Property = '󰜢',
-        Unit = '',
-        Value = '󰎠',
-        Enum = '',
-        Keyword = '󰌋',
-        Snippet = '~',
-        Color = '󰏘',
-        File = '󰈙',
-        Reference = '',
-        Folder = '󰉋',
-        EnumMember = '',
-        Constant = '󰏿',
-        Struct = '',
-        Event = '',
-        Operator = '󰆕',
+        Text = "󰉿",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "",
+        Field = "󰜢",
+        Variable = "󰀫",
+        Class = "󰠱",
+        Interface = "",
+        Module = "",
+        Property = "󰜢",
+        Unit = "󰑭",
+        Value = "󰎠",
+        Enum = "",
+        Keyword = "󰌋",
+        Snippet = "",
+        Color = "󰏘",
+        File = "󰈙",
+        Reference = "󰈇",
+        Folder = "󰉋",
+        EnumMember = "",
+        Constant = "󰏿",
+        Struct = "󰙅",
+        Event = "",
+        Operator = "󰆕",
         TypeParameter = '󰅲',
       }
     },
@@ -89,10 +89,12 @@ return {
       menu = {
         border = 'rounded',
         draw = {
-          columns = { { 'label', 'label_description', gap = 10 }, { 'kind' }, { 'kind_icon' } },
+          columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 0 }, { 'kind' } },
         }
       }
     },
+
+    -- signature = { enabled = true, window = { border = 'rounded'} },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
@@ -100,22 +102,30 @@ return {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
       providers = {
         lsp = {
-          -- Clangd completion has some extra whitespace in the beginning of the word, delete it
           transform_items = function(_, items)
+            if #items == 0 then
+              return items
+            end
+
             -- Check if this is from clangd (all items come from the same client)
-            if #items == 0 or not items[1].client_id then
-              return items
+            local is_clangd = false
+            if items[1].client_id then
+              local client = vim.lsp.get_client_by_id(items[1].client_id)
+              is_clangd = client ~= nil and client.name == 'clangd'
             end
 
-            local client = vim.lsp.get_client_by_id(items[1].client_id)
-            if not client or client.name ~= 'clangd' then
-              return items
-            end
-
-            -- Only process clangd items
+            -- Process items
             for _, item in ipairs(items) do
               if item.label then
-                item.label = item.label:gsub('^%s+', '')
+                -- Clangd: strip leading whitespace
+                if is_clangd then
+                  item.label = item.label:gsub('^%s+', '')
+                end
+
+                -- All LSPs: add ~ if has label_description
+                if item.labelDetails and item.labelDetails.description and item.labelDetails.description ~= '' then
+                  item.label = item.label .. '~'
+                end
               end
             end
             return items

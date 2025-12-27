@@ -1,4 +1,5 @@
-local bgnight = '#2b2f32';
+-- local bgnight = '#2b2f32';
+local bgnight = '#2b2e2f';
 local bgday = '#34383d';
 local bg = bgnight;
 
@@ -8,7 +9,7 @@ VagueColors = {
   line = '#282830',
   comment = '#acacac',
   builtin = '#a3b8b6',
-  func = '#bc9a9c',
+  func = '#c0a3a5',
   string = '#9da380',
   number = '#dacaa5',
   property = '#c7c7d4',
