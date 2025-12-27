@@ -63,10 +63,10 @@ local save = function(isInsertMode)
     end
 
     if isInsertMode then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(' <Esc>u', true, true, true), 'n', true)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
     end
     vim.cmd('silent! w')
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i <Esc>u', true, true, true), 'n', true)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
 end
 map('n', '<C-S>', save, { noremap = true, silent = true })
 map('i', '<C-S>', function() save(true) end, { noremap = true, silent = true })
