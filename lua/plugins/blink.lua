@@ -1,6 +1,15 @@
 return {
   'saghen/blink.cmp',
-  dependencies = { 'L3MON4D3/LuaSnip', version = 'v2.*' },
+  dependencies = {
+    {
+      'L3MON4D3/LuaSnip',
+      version = 'v2.*',
+      config = function()
+        require('luasnip').config.setup({})
+        require('luasnip.loaders.from_snipmate').lazy_load({ paths = '~/.config/nvim/snippets' })
+      end,
+    }
+  },
 
   -- use a release tag to download pre-built binaries
   version = '1.*',
@@ -27,40 +36,78 @@ return {
 
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
-      preset = 'default',
+      preset = 'super-tab',
 
       ['<Up>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },
 
-      -- disable a keymap from the preset
-      ['<C-e>'] = false, -- or {}
-
       -- show with a list of providers
       ['<C-space>'] = { function(cmp) cmp.show({ providers = { 'snippets' } }) end },
-
-      -- control whether the next command will be run when using a function
-      ['<C-n>'] = {
-        function(cmp)
-          if some_condition then return end -- runs the next command
-          return true -- doesn't run the next command
-        end,
-        'select_next'
-      },
     },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = 'mono'
+      nerd_font_variant = 'mono',
+      kind_icons = {
+        Text = '',
+        Method = '󰆧',
+        Function = '󰊕',
+        Constructor = '',
+        Field = '󰇽',
+        Variable = '󰂡',
+        Class = '󰠱',
+        Interface = '',
+        Module = '',
+        Property = '󰜢',
+        Unit = '',
+        Value = '󰎠',
+        Enum = '',
+        Keyword = '󰌋',
+        Snippet = '~',
+        Color = '󰏘',
+        File = '󰈙',
+        Reference = '',
+        Folder = '󰉋',
+        EnumMember = '',
+        Constant = '󰏿',
+        Struct = '',
+        Event = '',
+        Operator = '󰆕',
+        TypeParameter = '󰅲',
+      }
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = {
+      documentation = {
+        auto_show = false,
+        window = {
+          border = 'rounded',
+        }
+      },
+      menu = {
+        border = 'rounded',
+        draw = {
+          columns = { { 'label', 'label_description', gap = 1 }, { 'kind' }, { 'kind_icon' } },
+        }
+      }
+    },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      transform_items = function(_, items)
+        print('transforming')
+        -- Clangd completion has some extra whitespace in the beginning of the word, delete it
+        for _, item in ipairs(items) do
+          if item.label then
+            item.label = item.label:gsub('^%s+', '')
+          end
+        end
+        return items
+      end,
       providers = {
         buffer = {
           opts = {

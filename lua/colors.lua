@@ -39,6 +39,16 @@ vim.api.nvim_set_hl(0, 'CmpItemKindMethod', { link = 'Function' })
 vim.api.nvim_set_hl(0, 'CmpItemKindField', { link = 'Constant' })
 vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'Number' })
 
+-- Blink.cmp colors
+vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', { link = 'String' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindKeyword', { link = 'Keyword' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindClass', { link = 'Type' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindMethod', { link = 'Function' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindField', { link = 'Constant' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindProperty', { link = 'Number' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindStruct', { link = 'Number' })
+
+
 vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { fg = '#b5ba99', bold = true })
 
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = bg, fg = bg })
