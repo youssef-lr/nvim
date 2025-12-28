@@ -9,8 +9,10 @@ if vim.g.neovide then
     vim.g.neovide_padding_left = 5
     vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
     vim.g.neovide_refresh_rate = 120
+    vim.g.neovide_refresh_rate_idle = 5
     vim.g.neovide_no_idle = true
     vim.g.neovide_remember_window_size = true
+    vim.g.neovide_show_border = true
 
     vim.g.neovide_scale_factor = 1.0
     local change_scale_factor = function(delta)
