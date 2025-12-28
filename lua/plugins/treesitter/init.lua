@@ -40,7 +40,7 @@ return {
         once = true,
         desc = 'Install core treesitter parsers',
         callback = function()
-          ts.install({ 'c', 'lua', 'vim', 'vimdoc', 'query', 'javascript', 'php', 'cpp', 'java', 'typescript', 'bash' })
+          ts.install({ 'c', 'lua', 'vim', 'vimdoc', 'query', 'javascript', 'php', 'cpp', 'java', 'typescript', 'bash', 'gitcommit' })
         end,
       })
 
