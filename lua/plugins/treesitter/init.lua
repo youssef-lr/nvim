@@ -6,6 +6,10 @@ return {
     lazy = false,
     branch = 'main',
     build = ':TSUpdate',
+    dependencies = {
+      require('plugins.treesitter.context'),
+      require('plugins.treesitter.textobjects'),
+    },
     config = function()
       local ts = require('nvim-treesitter')
 
@@ -110,6 +114,4 @@ return {
       })
     end,
   },
-  require('plugins.treesitter.context'),
-  require('plugins.treesitter.textobjects'),
 }

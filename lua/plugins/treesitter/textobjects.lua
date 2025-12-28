@@ -2,7 +2,6 @@
 ---@type LazySpec
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
-  dependencies = {'nvim-treesitter/nvim-treesitter'},
   branch = 'main',
   config = function()
     require("nvim-treesitter-textobjects").setup {
@@ -35,8 +34,8 @@ return {
     }
 
     local ts_move = require('nvim-treesitter-textobjects.move')
-    local ts_select = require('nvim-treesitter-textobjects.select')
     local ts_swap = require('nvim-treesitter-textobjects.swap')
+    local ts_select = require('nvim-treesitter-textobjects.select')
 
     -- Select
     vim.keymap.set({ 'x', 'o' }, 'af', function()
