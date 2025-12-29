@@ -90,9 +90,6 @@ return {
                 vim.bo[ctx.buf].filetype:upper(),
               }
             end,
-            condition = function(self, ctx)
-              return true
-            end,
           }
         end,
       },
