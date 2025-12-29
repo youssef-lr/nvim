@@ -14,10 +14,10 @@ return {
         '[uU]nused',
         '[nN]ever [rR]ead',
         '[nN]ot [rR]ead',
-        'never be executed'
+        'never be executed',
       },
       priority = 128,
       disable = {},
     })
-  end
+  end,
 }

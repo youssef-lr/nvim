@@ -64,13 +64,13 @@ return {
 
       ---@type table<integer, integer>
       local modified_priority = {
-        [types.lsp.CompletionItemKind.Snippet] = 0,       -- top
+        [types.lsp.CompletionItemKind.Snippet] = 0, -- top
         [types.lsp.CompletionItemKind.Variable] = 1,
-        [types.lsp.CompletionItemKind.Keyword] = 2,       -- top
-        [types.lsp.CompletionItemKind.Class] = 3,         -- top
-        [types.lsp.CompletionItemKind.Enum] = 4,          -- top
-        [types.lsp.CompletionItemKind.Interface] = 20,    -- bottom
-        [types.lsp.CompletionItemKind.Text] = 50,         -- bottom
+        [types.lsp.CompletionItemKind.Keyword] = 2, -- top
+        [types.lsp.CompletionItemKind.Class] = 3, -- top
+        [types.lsp.CompletionItemKind.Enum] = 4, -- top
+        [types.lsp.CompletionItemKind.Interface] = 20, -- bottom
+        [types.lsp.CompletionItemKind.Text] = 50, -- bottom
         [types.lsp.CompletionItemKind.Constructor] = 100, -- bottom
       }
 
@@ -139,7 +139,7 @@ return {
           max_view_entries = 100,
           debounce = 10,
           throttle = 0,
-          fetching_timeout = 100
+          fetching_timeout = 100,
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
 
@@ -189,8 +189,8 @@ return {
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
-              end
-            }
+              end,
+            },
           },
           { name = 'nvim_lua' },
         },
@@ -201,7 +201,7 @@ return {
           completion = {
             border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
-          }
+          },
         },
         sorting = {
           priority_weight = 2,
@@ -240,15 +240,23 @@ return {
             end
 
             return vim_item
-          end
+          end,
         },
       }
       local ls = require('luasnip')
 
-      vim.keymap.set({ 'i' }, '<C-K>', function() ls.expand() end, { silent = true })
-      vim.keymap.set({ 'i' }, '<M-k>', function() ls.expand() end, { silent = true })
-      vim.keymap.set({ 'i', 's' }, '<C-L>', function() ls.jump(1) end, { silent = true })
-      vim.keymap.set({ 'i', 's' }, '<C-J>', function() ls.jump(-1) end, { silent = true })
+      vim.keymap.set({ 'i' }, '<C-K>', function()
+        ls.expand()
+      end, { silent = true })
+      vim.keymap.set({ 'i' }, '<M-k>', function()
+        ls.expand()
+      end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-L>', function()
+        ls.jump(1)
+      end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-J>', function()
+        ls.jump(-1)
+      end, { silent = true })
 
       vim.keymap.set({ 'i', 's' }, '<C-E>', function()
         if ls.choice_active() then

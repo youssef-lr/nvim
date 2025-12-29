@@ -8,7 +8,7 @@ return {
         require('luasnip').config.setup({})
         require('luasnip.loaders.from_snipmate').lazy_load({ paths = '~/.config/nvim/snippets' })
       end,
-    }
+    },
   },
 
   -- use a release tag to download pre-built binaries
@@ -42,7 +42,11 @@ return {
       ['<Down>'] = { 'select_next', 'fallback' },
 
       -- show with a list of providers
-      ['<C-space>'] = { function(cmp) cmp.show({ providers = { 'snippets' } }) end },
+      ['<C-space>'] = {
+        function(cmp)
+          cmp.show({ providers = { 'snippets' } })
+        end,
+      },
     },
 
     appearance = {
@@ -50,32 +54,32 @@ return {
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono',
       kind_icons = {
-        Text = "󰉿",
-        Method = "󰆧",
-        Function = "󰊕",
-        Constructor = "",
-        Field = "󰜢",
-        Variable = "󰀫",
-        Class = "󰠱",
-        Interface = "",
-        Module = "",
-        Property = "󰜢",
-        Unit = "󰑭",
-        Value = "󰎠",
-        Enum = "",
-        Keyword = "󰌋",
-        Snippet = "",
-        Color = "󰏘",
-        File = "󰈙",
-        Reference = "󰈇",
-        Folder = "󰉋",
-        EnumMember = "",
-        Constant = "󰏿",
-        Struct = "󰙅",
-        Event = "",
-        Operator = "󰆕",
+        Text = '󰉿',
+        Method = '󰆧',
+        Function = '󰊕',
+        Constructor = '',
+        Field = '󰜢',
+        Variable = '󰀫',
+        Class = '󰠱',
+        Interface = '',
+        Module = '',
+        Property = '󰜢',
+        Unit = '󰑭',
+        Value = '󰎠',
+        Enum = '',
+        Keyword = '󰌋',
+        Snippet = '',
+        Color = '󰏘',
+        File = '󰈙',
+        Reference = '󰈇',
+        Folder = '󰉋',
+        EnumMember = '',
+        Constant = '󰏿',
+        Struct = '󰙅',
+        Event = '',
+        Operator = '󰆕',
         TypeParameter = '󰅲',
-      }
+      },
     },
 
     -- (Default) Only show the documentation popup when manually triggered
@@ -84,14 +88,14 @@ return {
         auto_show = false,
         window = {
           border = 'rounded',
-        }
+        },
       },
       menu = {
         border = 'rounded',
         draw = {
           columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 0 }, { 'kind' } },
-        }
-      }
+        },
+      },
     },
 
     -- signature = { enabled = true, window = { border = 'rounded'} },
@@ -137,7 +141,7 @@ return {
               -- Return all listed buffers for completion
               return vim.api.nvim_list_bufs()
             end,
-          }
+          },
         },
       },
     },
@@ -147,7 +151,7 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" }
+    fuzzy = { implementation = 'prefer_rust_with_warning' },
   },
-  opts_extend = { "sources.default" }
+  opts_extend = { 'sources.default' },
 }

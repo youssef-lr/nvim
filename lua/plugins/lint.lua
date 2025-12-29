@@ -11,7 +11,9 @@ return {
         '--cache',
         '--stdin',
         '--stdin-filename',
-        function() return vim.api.nvim_buf_get_name(0) end,
+        function()
+          return vim.api.nvim_buf_get_name(0)
+        end,
       }
 
       -- use custom lightweight and git ignored eslintrc to speed up linting, rely on GH actions if it misses anythign
@@ -37,7 +39,7 @@ return {
             d.source = 'eslint_d'
           end
           return result
-        end
+        end,
       }
 
       lint.linters.react_compiler = {
@@ -45,7 +47,7 @@ return {
         cmd = os.getenv('HOME') .. '/ExpensiDev/App/scripts/react-compiler.sh',
         parser = function(output, bufnr)
           local trimmed_output = vim.trim(output)
-          if trimmed_output == "" then
+          if trimmed_output == '' then
             return {}
           end
 
@@ -58,8 +60,8 @@ return {
                 bufnr = bufnr,
                 lnum = 0,
                 col = 0,
-                message = "Could not parse react-compiler output due to: " .. data .. "\noutput: " .. output
-              }
+                message = 'Could not parse react-compiler output due to: ' .. data .. '\noutput: ' .. output,
+              },
             }
           end
 
@@ -70,14 +72,14 @@ return {
           for _, error in ipairs(data.compilerErrors or {}) do
             -- Only include errors for the current buffer
             -- Match against the end of the current file path to handle relative vs absolute paths
-            if error.file and current_file:find(vim.pesc(error.file) .. "$") then
+            if error.file and current_file:find(vim.pesc(error.file) .. '$') then
               table.insert(diagnostics, {
                 lnum = error.line and (error.line - 1) or 0,
                 col = error.column and (error.column - 1) or 0,
                 message = error.reason,
-                code = "compiler-error",
+                code = 'compiler-error',
                 severity = vim.diagnostic.severity.INFO,
-                source = "react-compiler"
+                source = 'react-compiler',
               })
             end
           end
@@ -95,7 +97,7 @@ return {
           -- end
 
           return diagnostics
-        end
+        end,
       }
 
       local psalm = require('lint').linters.psalm

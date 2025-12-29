@@ -1,7 +1,7 @@
 -- local bgnight = '#2b2f32';
-local bgnight = '#2b2e2f';
-local bgday = '#34383d';
-local bg = bgnight;
+local bgnight = '#2b2e2f'
+local bgday = '#34383d'
+local bg = bgnight
 
 VagueColors = {
   bg = bg,
@@ -65,5 +65,5 @@ return {
       -- Override colors
       colors = VagueColors,
     })
-  end
+  end,
 }

@@ -135,31 +135,30 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 
 -- Auto commands for multiple filetypes in a single autocmd
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' },
-    {
-        pattern = { '*' },
-        callback = function(args)
-            local filename = vim.fn.expand('%:t')
-            if filename:match('%.js$') or filename:match('%.jsx$') then
-                vim.bo.filetype = 'javascriptreact'
-            elseif filename:match('%.ts$') or filename:match('%.tsx$') then
-                vim.bo.filetype = 'typescriptreact'
-            elseif filename:match('%.snippets$') then
-                vim.bo.filetype = 'snippets'
-            elseif filename:match('%.html$') then
-                vim.bo.filetype = 'jsx'
-            end
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = { '*' },
+  callback = function(args)
+    local filename = vim.fn.expand('%:t')
+    if filename:match('%.js$') or filename:match('%.jsx$') then
+      vim.bo.filetype = 'javascriptreact'
+    elseif filename:match('%.ts$') or filename:match('%.tsx$') then
+      vim.bo.filetype = 'typescriptreact'
+    elseif filename:match('%.snippets$') then
+      vim.bo.filetype = 'snippets'
+    elseif filename:match('%.html$') then
+      vim.bo.filetype = 'jsx'
+    end
 
-            local is_file = vim.bo[args.buf].buftype == '' and vim.bo[args.buf].filetype ~= 'gitcommit'
-            if is_file then
-                vim.opt_local.numberwidth = 4
-                vim.opt_local.statuscolumn = [[%!v:lua.Utils.statuscolumn()]]
-            else
-                vim.opt_local.numberwidth = 1
-                vim.opt_local.statuscolumn = ''
-            end
-        end
-    })
+    local is_file = vim.bo[args.buf].buftype == '' and vim.bo[args.buf].filetype ~= 'gitcommit'
+    if is_file then
+      vim.opt_local.numberwidth = 4
+      vim.opt_local.statuscolumn = [[%!v:lua.Utils.statuscolumn()]]
+    else
+      vim.opt_local.numberwidth = 1
+      vim.opt_local.statuscolumn = ''
+    end
+  end,
+})
 
 -- Abbreviations
 vim.cmd([[
@@ -274,9 +273,9 @@ vim.cmd([[
 ]])
 
 vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
-    desc = 'return cursor to where it was last time closing the file',
-    pattern = '*',
-    command = 'silent! normal! g`"zv',
+  desc = 'return cursor to where it was last time closing the file',
+  pattern = '*',
+  command = 'silent! normal! g`"zv',
 })
 
 -- Set the window title dynamically
@@ -286,170 +285,168 @@ local previous_title
 
 -- Helper function to find the Git root and set the window title
 function _G.set_window_title(buftype, filetype)
-    local git_root = Utils.get_git_root()
+  local git_root = Utils.get_git_root()
 
-    -- Restore previous title if buffer is not normal or if no filetype is set
-    if buftype ~= '' or filetype == '' then
-        vim.opt.titlestring = previous_title or git_root
-        return
-    end
+  -- Restore previous title if buffer is not normal or if no filetype is set
+  if buftype ~= '' or filetype == '' then
+    vim.opt.titlestring = previous_title or git_root
+    return
+  end
 
-    -- Set title based on Git root or default file path
-    local relative_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
-    local last_segment = relative_path:match('([^/]+)$')
-    local title
+  -- Set title based on Git root or default file path
+  local relative_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
+  local last_segment = relative_path:match('([^/]+)$')
+  local title
 
-    if git_root ~= '' then
-        title = last_segment ~= git_root and git_root .. ' ⟩ ' .. relative_path or git_root
-    else
-        title = vim.fn.expand('%:p') -- Fallback to full file path if not in a Git repo
-    end
+  if git_root ~= '' then
+    title = last_segment ~= git_root and git_root .. ' ⟩ ' .. relative_path or git_root
+  else
+    title = vim.fn.expand('%:p') -- Fallback to full file path if not in a Git repo
+  end
 
-    previous_title = title
-    vim.opt.titlestring = title
+  previous_title = title
+  vim.opt.titlestring = title
 end
 
 -- Call the function to set the window title whenever the file is changed
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufReadPost' }, {
-    pattern = '*',
-    callback = function(args)
-        local buftype = vim.bo[args.buf].buftype
-        local filetype = vim.bo[args.buf].filetype
-        set_window_title(buftype, filetype)
-    end,
+  pattern = '*',
+  callback = function(args)
+    local buftype = vim.bo[args.buf].buftype
+    local filetype = vim.bo[args.buf].filetype
+    set_window_title(buftype, filetype)
+  end,
 })
 
 local function getPathAndLineNumber(str)
-    -- Matches lib/ReportAPI.php' function 'structureTransactionsForOnyx' line '6297'
-    local file, line = str:match("^(.-)' function.- line '(%d+)'")
-    if file and line and tonumber(line) then
-        return file, line
-    end
-
-    -- Matches lib/TransactionUtils.php' exceptionLine: '741'
-    file, line = str:match("^(.-)' exceptionLine: '(%d+)'")
-    if file and line and tonumber(line) then
-        return file, line
-    end
-
-    if not string.find(str, ':') and not string.find(str, '#L') then
-        return nil
-    end
-
-    -- Split the argument into the file and line number
-    local separator = string.find(str, '#L') and '#L' or ':'
-    local args = vim.split(str, separator, true)
-    file = args[1]
-
-    if not tonumber(args[2]) then
-        return nil
-    end
-
-    line = tonumber(args[2])
-
+  -- Matches lib/ReportAPI.php' function 'structureTransactionsForOnyx' line '6297'
+  local file, line = str:match("^(.-)' function.- line '(%d+)'")
+  if file and line and tonumber(line) then
     return file, line
+  end
+
+  -- Matches lib/TransactionUtils.php' exceptionLine: '741'
+  file, line = str:match("^(.-)' exceptionLine: '(%d+)'")
+  if file and line and tonumber(line) then
+    return file, line
+  end
+
+  if not string.find(str, ':') and not string.find(str, '#L') then
+    return nil
+  end
+
+  -- Split the argument into the file and line number
+  local separator = string.find(str, '#L') and '#L' or ':'
+  local args = vim.split(str, separator, true)
+  file = args[1]
+
+  if not tonumber(args[2]) then
+    return nil
+  end
+
+  line = tonumber(args[2])
+
+  return file, line
 end
 
-
 vim.api.nvim_create_user_command('GotoFile', function(opts)
-    local filepath, line = getPathAndLineNumber(opts.args)
-    local fidget = require('fidget')
-    if not filepath or not line then
-        fidget.notify('Not a valid line number `' .. opts.args .. '`')
-        return
-    end
+  local filepath, line = getPathAndLineNumber(opts.args)
+  local fidget = require('fidget')
+  if not filepath or not line then
+    fidget.notify('Not a valid line number `' .. opts.args .. '`')
+    return
+  end
 
-    if filepath and not io.open(filepath, 'r') then
-        fidget.notify("File doesn't exist: `" .. filepath .. '`')
-        return
-    end
+  if filepath and not io.open(filepath, 'r') then
+    fidget.notify("File doesn't exist: `" .. filepath .. '`')
+    return
+  end
 
-    -- Open the file
-    vim.cmd('edit ' .. filepath)
-    vim.fn.cursor(line, 1)
+  -- Open the file
+  vim.cmd('edit ' .. filepath)
+  vim.fn.cursor(line, 1)
 end, { nargs = 1 })
 
 vim.keymap.set('n', '<leader>gt', ':GotoFile <C-r>*<CR>', { noremap = true, silent = true })
 
 -- Autoread trigger when files are changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
-    callback = function()
-        if vim.bo.filetype ~= '' and vim.bo.filetype ~= 'vim' and vim.fn.mode() ~= 'c' then
-            vim.cmd('checktime')
-        end
+  callback = function()
+    if vim.bo.filetype ~= '' and vim.bo.filetype ~= 'vim' and vim.fn.mode() ~= 'c' then
+      vim.cmd('checktime')
     end
+  end,
 })
 
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-    callback = function(args)
-        local highlighter = require 'vim.treesitter.highlighter'
-        local ts_was_active = highlighter.active[args.buf]
-        local file_size = vim.fn.getfsize(args.file)
-        if (file_size > 1024 * 1024) then
-            vim.cmd('TSBufDisable highlight')
-            vim.cmd('NoMatchParen')
-            if (ts_was_active) then
-                vim.notify('File larger than 1MB, turned off syntax highlighting')
-            end
-        end
+  callback = function(args)
+    local highlighter = require 'vim.treesitter.highlighter'
+    local ts_was_active = highlighter.active[args.buf]
+    local file_size = vim.fn.getfsize(args.file)
+    if file_size > 1024 * 1024 then
+      vim.cmd('TSBufDisable highlight')
+      vim.cmd('NoMatchParen')
+      if ts_was_active then
+        vim.notify('File larger than 1MB, turned off syntax highlighting')
+      end
     end
+  end,
 })
 
-
 local function close_gstatus()
-    for winnr = 1, vim.fn.winnr('$') do
-        if not vim.fn.empty(vim.fn.getwinvar(winnr, 'fugitive_status')) then
-            vim.cmd(winnr .. 'close')
-        end
+  for winnr = 1, vim.fn.winnr('$') do
+    if not vim.fn.empty(vim.fn.getwinvar(winnr, 'fugitive_status')) then
+      vim.cmd(winnr .. 'close')
     end
+  end
 end
 
 vim.api.nvim_create_user_command('GstatusClose', close_gstatus, {})
 
 vim.api.nvim_create_user_command('DeleteAIMarkers', function()
-    -- Save cursor position
-    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+  -- Save cursor position
+  local cursor_pos = vim.api.nvim_win_get_cursor(0)
 
-    -- Get all lines in buffer
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  -- Get all lines in buffer
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 
-    -- Process each line
-    for i, line in ipairs(lines) do
-      -- Remove Unicode escape sequences like \u2013
-      line = line:gsub('\\u[0-9a-fA-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]', '')
-      lines[i] = line
-    end
+  -- Process each line
+  for i, line in ipairs(lines) do
+    -- Remove Unicode escape sequences like \u2013
+    line = line:gsub('\\u[0-9a-fA-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]', '')
+    lines[i] = line
+  end
 
-    -- Set modified lines back to buffer
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  -- Set modified lines back to buffer
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 
-    -- Restore cursor position
-    vim.api.nvim_win_set_cursor(0, cursor_pos)
+  -- Restore cursor position
+  vim.api.nvim_win_set_cursor(0, cursor_pos)
 
-    print('AI markers removed')
+  print('AI markers removed')
 end, {})
 
 -- disable builtin plugins
 local disabled_plugins = {
-    '2html_plugin',
-    'getscript',
-    'getscriptPlugin',
-    'gzip',
-    'logipat',
-    'netrw',
-    'netrwPlugin',
-    'netrwSettings',
-    'netrwFileHandlers',
-    'spec',
-    'tar',
-    'tarPlugin',
-    'rrhelper',
-    'vimball',
-    'vimballPlugin',
-    'zip',
-    'zipPlugin'
+  '2html_plugin',
+  'getscript',
+  'getscriptPlugin',
+  'gzip',
+  'logipat',
+  'netrw',
+  'netrwPlugin',
+  'netrwSettings',
+  'netrwFileHandlers',
+  'spec',
+  'tar',
+  'tarPlugin',
+  'rrhelper',
+  'vimball',
+  'vimballPlugin',
+  'zip',
+  'zipPlugin',
 }
 
 for _, plugin in ipairs(disabled_plugins) do
-    vim.g['loaded_' .. plugin] = 1
+  vim.g['loaded_' .. plugin] = 1
 end

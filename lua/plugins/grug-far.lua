@@ -158,8 +158,8 @@ return {
         -- set to '0' to disable
         foldcolumn = '1',
       },
-    });
+    })
 
     vim.keymap.set('n', '<leader><leader>g', '<cmd>GrugFar<CR>')
-  end
+  end,
 }

@@ -205,5 +205,5 @@ return {
     })
     vim.keymap.set('n', '<leader>f', ':Oil --float ' .. vim.fn.getcwd() .. '<CR>', { noremap = true, silent = true })
     vim.keymap.set('n', 'ç', ':Oil --float <CR>', { noremap = true, silent = true })
-  end
+  end,
 }

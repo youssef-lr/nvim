@@ -7,7 +7,7 @@ return {
       {
         '<leader><leader>f',
         function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
+          require('conform').format({ async = true, lsp_format = 'fallback' })
         end,
         mode = 'n',
         desc = '[F]ormat buffer',
@@ -15,8 +15,8 @@ return {
       {
         'f',
         function()
-          require('conform').format { async = true, lsp_format = 'never' }
-          vim.api.nvim_input '<Esc>'
+          require('conform').format({ async = true, lsp_format = 'never' })
+          vim.api.nvim_input('<Esc>')
         end,
         mode = 'v',
         desc = '[F]ormat range',
@@ -25,6 +25,7 @@ return {
     opts = {
       notify_on_error = false,
       format_after_save = function(bufnr)
+        print('format')
         local git_root = require('utils').get_git_root()
         local filetype = vim.bo[bufnr].filetype
         if git_root == 'Web-Expensify' and (filetype == 'javascriptreact' or filetype == 'jsx') then
@@ -58,6 +59,7 @@ return {
         php = { 'php' },
         cpp = { 'uncrustify' },
         sql = { 'sql_formatter' },
+        lua = { 'stylua' },
         -- json = { 'biome' },
         ['*'] = { 'trim_whitespace' },
       },
@@ -71,7 +73,7 @@ return {
             args = {
               'fix',
               '$FILENAME',
-              '--config=/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php'
+              '--config=/Users/youssef/Expensidev/PHP-Libs/.php-cs-fixer.php',
             },
             stdin = false,
           }
@@ -85,13 +87,14 @@ return {
                 '/Users/youssef/Expensidev/Auth/ci/uncrustify_config.txt',
                 '-q',
                 '-l',
-                vim.bo[ctx.buf].filetype:upper() }
+                vim.bo[ctx.buf].filetype:upper(),
+              }
             end,
             condition = function(self, ctx)
               return true
             end,
           }
-        end
+        end,
       },
     },
   },

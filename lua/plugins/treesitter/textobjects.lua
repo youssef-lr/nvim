@@ -4,7 +4,7 @@ return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   branch = 'main',
   config = function()
-    require("nvim-treesitter-textobjects").setup {
+    require('nvim-treesitter-textobjects').setup {
       select = {
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,

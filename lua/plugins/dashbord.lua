@@ -36,12 +36,12 @@ return {
             '~/Expensidev/Web-Expensify',
             '~/Expensidev/App',
             '~/.config/nvim',
-          }
+          },
         },
         mru = { limit = 10, cwd_only = true },
       },
     }
     local dashboard = require('dashboard')
   end,
-  dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+  dependencies = { { 'nvim-tree/nvim-web-devicons' } },
 }

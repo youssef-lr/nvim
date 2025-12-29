@@ -4,6 +4,6 @@ require 'keymaps'
 
 require 'lazy-plugins'
 
-require('neovide')
+require 'neovide'
 
-require('colors')
+require 'colors'

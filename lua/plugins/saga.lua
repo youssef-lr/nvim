@@ -5,30 +5,30 @@ return {
       finder = {
         keys = {
           shuttle = { '<Tab>', '<M-l>' },
-          quit = 'q'
+          quit = 'q',
         },
         max_height = 1,
         left_width = 0.2,
         right_width = 0.8,
       },
       lightbulb = {
-        enable = false
+        enable = false,
       },
       symbol_in_winbar = {
-        enable = false
+        enable = false,
       },
       definition = {
         width = 1,
-        height = 1
+        height = 1,
       },
       rename = {
-        auto_save = true
+        auto_save = true,
       },
       code_action = {
         keys = {
-          quit = { 'q', '<ESC>' }
-        }
-      }
+          quit = { 'q', '<ESC>' },
+        },
+      },
     })
     vim.keymap.set('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<leader>rf', '<cmd>Lspsaga finder<CR>', { silent = true, noremap = true })
@@ -39,6 +39,6 @@ return {
   end,
   dependencies = {
     'nvim-treesitter/nvim-treesitter', -- optional
-    'nvim-tree/nvim-web-devicons',     -- optional
-  }
+    'nvim-tree/nvim-web-devicons', -- optional
+  },
 }

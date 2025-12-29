@@ -11,7 +11,6 @@ map('n', '<C-y>', '5<C-y>', { noremap = true })
 -- ========================
 map('n', 'zff', 'zfi{', { noremap = true })
 
-
 -- ========================
 -- Move lines with <Option+[jk]>
 -- ========================
@@ -43,35 +42,39 @@ vim.api.nvim_create_user_command('Aliases', 'edit /Users/youssef/.oh-my-zsh/cust
 
 -- Custom save function
 local save = function(isInsertMode)
-    -- Save find&replace changes if we're inside grug-far
-    local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
-    if filetype == 'grug-far' then
-        vim.api.nvim_input('<ESC>,s')
-        return
-    end
+  -- Save find&replace changes if we're inside grug-far
+  local filetype = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
+  if filetype == 'grug-far' then
+    vim.api.nvim_input('<ESC>,s')
+    return
+  end
 
-    if filetype == 'oil' then
-        vim.cmd('silent! w')
-        return
-    end
-
-    local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
-
-    if buftype ~= '' then
-        vim.notify('read only buffer')
-        return
-    end
-
-    if isInsertMode then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
-    end
+  if filetype == 'oil' then
     vim.cmd('silent! w')
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
+    return
+  end
+
+  local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
+
+  if buftype ~= '' then
+    vim.notify('read only buffer')
+    return
+  end
+
+  if isInsertMode then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
+  end
+  vim.cmd('silent! w')
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
 end
 map('n', '<C-S>', save, { noremap = true, silent = true })
-map('i', '<C-S>', function() save(true) end, { noremap = true, silent = true })
+map('i', '<C-S>', function()
+  save(true)
+end, { noremap = true, silent = true })
 map('n', '<D-s>', save, { noremap = true, silent = true })
-map('i', '<D-s>', function() save(true) end, { noremap = true, silent = true })
+map('i', '<D-s>', function()
+  save(true)
+end, { noremap = true, silent = true })
 map('n', '<D-S>', ':noa w<CR>', { noremap = true, silent = true })
 
 -- ========================
@@ -106,11 +109,10 @@ map({ 'n', 'v' }, '<D-v>', '"*p', { silent = true, noremap = true })
 map('i', '<D-v>', '<C-r>*', { silent = true, noremap = true })
 vim.cmd('map! <D-v> <C-r>+')
 
-
 -- Paste in terminal mode from clipboard
 local function pasteFromClipboard()
-    local clipboard_content = vim.fn.getreg('+')
-    vim.api.nvim_put({ clipboard_content }, 'l', true, true)
+  local clipboard_content = vim.fn.getreg('+')
+  vim.api.nvim_put({ clipboard_content }, 'l', true, true)
 end
 map('t', '<D-v>', pasteFromClipboard, { silent = true, noremap = true })
 
@@ -141,20 +143,20 @@ map({ 'c', 't' }, '<M-à>', '@', { noremap = true })
 
 -- Custom function to go to path
 local function GoToPath()
-    local quote_pos = vim.fn.match(vim.fn.getline('.'), "[\"']")
-    if quote_pos > 0 then
-        vim.fn.cursor(vim.fn.line('.'), quote_pos + 2)
-    end
-    vim.cmd('silent! normal! gf')
+  local quote_pos = vim.fn.match(vim.fn.getline('.'), '["\']')
+  if quote_pos > 0 then
+    vim.fn.cursor(vim.fn.line('.'), quote_pos + 2)
+  end
+  vim.cmd('silent! normal! gf')
 end
 map('n', '<Enter>', GoToPath, { silent = true })
 
 -- Autocommand for specific filetype
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'qf',
-    callback = function()
-        map('n', '<Enter>', '<Enter>', { buffer = true })
-    end
+  pattern = 'qf',
+  callback = function()
+    map('n', '<Enter>', '<Enter>', { buffer = true })
+  end,
 })
 
 -- ========================
@@ -202,14 +204,14 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
 local quit = function()
-    local buf_type = vim.bo.buftype -- Get the current buffer type
-    if buf_type == 'terminal' then
-        -- If it's a terminal buffer, close the terminal
-        vim.cmd('ToggleTerm')
-    else
-        -- Otherwise, force quit the buffer
-        vim.cmd('q!')
-    end
+  local buf_type = vim.bo.buftype -- Get the current buffer type
+  if buf_type == 'terminal' then
+    -- If it's a terminal buffer, close the terminal
+    vim.cmd('ToggleTerm')
+  else
+    -- Otherwise, force quit the buffer
+    vim.cmd('q!')
+  end
 end
 map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true, silent = true })
 map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true, silent = true })
@@ -222,36 +224,38 @@ map('t', '<M-q>', quit, { noremap = true, silent = true })
 map('n', '<leader><leader>dt', ':windo diffthis<CR>', { noremap = true })
 map('n', '<leader><leader>do', ':windo diffoff<CR>', { noremap = true })
 
-map('n', '<leader>es', ':edit ./scratch/', { noremap = true });
+map('n', '<leader>es', ':edit ./scratch/', { noremap = true })
 
 local function get_git_root()
-    -- Execute a shell command to get the Git root directory
-    local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+  -- Execute a shell command to get the Git root directory
+  local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
 
-    -- Check if the git command was successful
-    if vim.v.shell_error == 0 then
-        return git_root
-    else
-        return nil
-    end
+  -- Check if the git command was successful
+  if vim.v.shell_error == 0 then
+    return git_root
+  else
+    return nil
+  end
 end
 local a
 
 local function exec_git_push()
-    -- Execute the Git status command
-    local handle = io.popen('git status --porcelain')
-    local result = handle and handle:read('*a') -- Read the output
-    if handle then handle:close() end
+  -- Execute the Git status command
+  local handle = io.popen('git status --porcelain')
+  local result = handle and handle:read('*a') -- Read the output
+  if handle then
+    handle:close()
+  end
 
-    if result ~= '' then
-        vim.notify('changes found, aborting git push')
-        return
-    end
+  if result ~= '' then
+    vim.notify('changes found, aborting git push')
+    return
+  end
 
-    local git_root = get_git_root()
-    local cmd = 'cd ' .. git_root .. ' && git push'
-    local wrapped = '"' .. cmd .. '"'
-    vim.cmd('1TermExec cmd=' .. wrapped)
+  local git_root = get_git_root()
+  local cmd = 'cd ' .. git_root .. ' && git push'
+  local wrapped = '"' .. cmd .. '"'
+  vim.cmd('1TermExec cmd=' .. wrapped)
 end
 map('n', '<leader><leader>p', exec_git_push)
 
@@ -259,8 +263,8 @@ vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 
 map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
 
-map('n', '<D-a>', 'vig', { noremap = true });
+map('n', '<D-a>', 'vig', { noremap = true })
 
 vim.keymap.set('n', '<leader><leader>w', function()
-      vim.wo.wrap = not vim.wo.wrap
+  vim.wo.wrap = not vim.wo.wrap
 end, { desc = 'Toggle word wrap' })

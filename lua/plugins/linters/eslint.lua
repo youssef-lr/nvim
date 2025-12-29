@@ -1,4 +1,4 @@
-local binary_name = "eslint"
+local binary_name = 'eslint'
 local severities = {
   vim.diagnostic.severity.WARN,
   vim.diagnostic.severity.ERROR,
@@ -14,24 +14,26 @@ return {
     'json',
     '--stdin',
     '--stdin-filename',
-    function() return vim.api.nvim_buf_get_name(0) end,
+    function()
+      return vim.api.nvim_buf_get_name(0)
+    end,
   },
   stdin = true,
   stream = 'stdout',
   ignore_exitcode = true,
   parser = function(output, bufnr)
     local trimmed_output = vim.trim(output)
-    if trimmed_output == "" then
+    if trimmed_output == '' then
       return {}
     end
     -- Trim any text before the first [{ to handle non-JSON output (e.g., [BABEL] warnings)
-    local json_start = trimmed_output:find("%[%{")
+    local json_start = trimmed_output:find('%[%{')
     if json_start then
       trimmed_output = trimmed_output:sub(json_start)
     end
     local decode_opts = { luanil = { object = true, array = true } }
     local ok, data = pcall(vim.json.decode, trimmed_output, decode_opts)
-    if string.find(trimmed_output, "No ESLint configuration found") then
+    if string.find(trimmed_output, 'No ESLint configuration found') then
       vim.notify_once(trimmed_output, vim.log.levels.WARN)
       return {}
     end
@@ -41,8 +43,8 @@ return {
           bufnr = bufnr,
           lnum = 0,
           col = 0,
-          message = "Could not parse linter output due to: " .. data .. "\noutput: " .. output
-        }
+          message = 'Could not parse linter output due to: ' .. data .. '\noutput: ' .. output,
+        },
       }
     end
     -- See https://eslint.org/docs/latest/use/formatters/#json
@@ -57,10 +59,10 @@ return {
           message = msg.message,
           code = msg.ruleId,
           severity = severities[msg.severity],
-          source = binary_name
+          source = binary_name,
         })
       end
     end
     return diagnostics
-  end
+  end,
 }

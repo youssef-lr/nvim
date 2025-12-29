@@ -11,7 +11,7 @@ return {
           },
           sorting_strategy = 'ascending', -- Makes the sorting start from the top
           preview = {
-            hide_on_startup = true        -- hide previewer when picker starts
+            hide_on_startup = true, -- hide previewer when picker starts
           },
           mappings = {
             i = {
@@ -25,14 +25,14 @@ return {
           },
           extensions = {
             fzf = {
-              fuzzy = true,                   -- false will only do exact matching
+              fuzzy = true, -- false will only do exact matching
               override_generic_sorter = true, -- override the generic sorter
-              override_file_sorter = true,    -- override the file sorter
-              case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+              override_file_sorter = true, -- override the file sorter
+              case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
               -- the default case_mode is "smart_case"
-            }
-          }
-        }
+            },
+          },
+        },
       }
 
       -- Files mappings
@@ -82,16 +82,23 @@ return {
       vim.api.nvim_set_keymap('t', '<M-b>', tbuffers, { noremap = true, silent = true })
 
       -- Live grep
-      vim.api.nvim_set_keymap('n', '<leader>lg', '<cmd>Telescope live_grep previewer=true<CR>',
-        { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        'n',
+        '<leader>lg',
+        '<cmd>Telescope live_grep previewer=true<CR>',
+        { noremap = true, silent = true }
+      )
 
       -- Current buffer diagnostics
-      vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope diagnostics<CR>',
-        { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope diagnostics<CR>', { noremap = true, silent = true })
 
       -- Current buffer fuzzy find
-      vim.api.nvim_set_keymap('n', '<D-F>', '<cmd>Telescope current_buffer_fuzzy_find<CR>',
-        { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        'n',
+        '<D-F>',
+        '<cmd>Telescope current_buffer_fuzzy_find<CR>',
+        { noremap = true, silent = true }
+      )
 
       -- Git commits
       vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', { noremap = true, silent = true })
@@ -100,10 +107,18 @@ return {
       vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>Telescope command_history<CR>', { noremap = true, silent = true })
 
       -- Grep word under cursor
-      vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>Tel grep_string previewer=true<CR>',
-        { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>Tel grep_string previewer=true<CR>',
-        { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        'n',
+        '<leader>rg',
+        '<cmd>Tel grep_string previewer=true<CR>',
+        { noremap = true, silent = true }
+      )
+      vim.api.nvim_set_keymap(
+        'v',
+        '<leader>rg',
+        '<cmd>Tel grep_string previewer=true<CR>',
+        { noremap = true, silent = true }
+      )
     end,
   },
   {
@@ -116,5 +131,5 @@ return {
       'kkharji/sqlite.lua',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
-  }
+  },
 }

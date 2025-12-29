@@ -3,5 +3,5 @@ return {
   lazy = false,
   opts = {
     suppressed_dirs = { '~/', '~/Downloads', '/' },
-  }
+  },
 }
