@@ -1,5 +1,5 @@
 ---@module "lazy"
----@type LazySpec
+---@type LazyPluginSpec
 return {
   'nvim-treesitter/nvim-treesitter-context',
   config = function()
