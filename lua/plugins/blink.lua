@@ -104,6 +104,7 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      priority = { 'lsp', 'buffer' },
       providers = {
         lsp = {
           transform_items = function(_, items)
@@ -134,6 +135,7 @@ return {
             end
             return items
           end,
+          async = true,
         },
         buffer = {
           opts = {
@@ -151,7 +153,34 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = 'prefer_rust_with_warning' },
+    fuzzy = {
+      implementation = 'prefer_rust_with_warning',
+      sorts = {
+        'exact',
+        -- defaults
+        'score',
+        'sort_text',
+      },
+    },
   },
   opts_extend = { 'sources.default' },
+  config = function(_, opts)
+    local original = require('blink.cmp.completion.list').show
+    ---@diagnostic disable-next-line: duplicate-set-field
+    require('blink.cmp.completion.list').show = function(ctx, items_by_source)
+      local seen = {}
+      local function filter(item)
+        if seen[item.label] then
+          return false
+        end
+        seen[item.label] = true
+        return true
+      end
+      for id in vim.iter(opts.sources.priority) do
+        items_by_source[id] = items_by_source[id] and vim.iter(items_by_source[id]):filter(filter):totable()
+      end
+      return original(ctx, items_by_source)
+    end
+    require('blink.cmp').setup(opts)
+  end,
 }
