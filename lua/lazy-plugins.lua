@@ -16,7 +16,7 @@ require('lazy').setup({
   require 'plugins.lspconfig',
   require 'plugins/blink',
   require 'plugins.lint',
-  require 'plugins/conform',
+  -- require 'plugins/conform',
   require 'plugins.terminal',
   require 'plugins.fzf',
   require 'plugins.fugitive',
@@ -32,6 +32,7 @@ require('lazy').setup({
   require 'plugins.gitlinker',
   require 'plugins.grug-far',
   require 'plugins.saga',
+  require 'plugins.iedit'
   -- require 'plugins.blink-pairs',
 
   -- require 'plugins.dashbord',

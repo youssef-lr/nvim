@@ -259,7 +259,7 @@ local function exec_git_push()
 end
 map('n', '<leader><leader>p', exec_git_push)
 
-vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
+-- vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 
 map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
 
