@@ -56,13 +56,29 @@ return {
       end,
     })
 
+    local function toggle_term(idx)
+      local mode = vim.api.nvim_get_mode().mode
+
+      -- leave terminal/insert safely
+      if mode == 't' then
+        vim.cmd('stopinsert')
+      elseif mode:sub(1, 1) == 'i' then
+        vim.cmd('stopinsert')
+      end
+
+      vim.cmd(idx .. 'ToggleTerm')
+    end
     -- Normal mode key mappings for ToggleTerm
-    vim.keymap.set('n', '&', function()
-      vim.cmd('1ToggleTerm')
+    vim.keymap.set({ 'n', 'i', 't' }, '<D-&>', function()
+      toggle_term(1)
     end, { silent = true })
 
-    vim.keymap.set('n', 'é', function()
-      vim.cmd('2ToggleTerm')
+    vim.keymap.set({ 'n', 'i', 't' }, '<D-é>', function()
+      toggle_term(2)
+    end, { silent = true })
+
+    vim.keymap.set({ 'n', 'i', 't' }, '<D-">', function()
+      toggle_term(3)
     end, { silent = true })
 
     -- Buffer read autocmd for restoring cursor position
@@ -85,7 +101,7 @@ return {
     })
 
     -- Terminal autocmd for entering insert mode automatically
-    vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
+    vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'BufEnter' }, {
       pattern = 'term://*',
       callback = function()
         vim.cmd('startinsert')

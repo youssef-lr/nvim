@@ -204,19 +204,17 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
 local quit = function()
-  local buf_type = vim.bo.buftype -- Get the current buffer type
-  if buf_type == 'terminal' then
-    -- If it's a terminal buffer, close the terminal
-    vim.cmd('ToggleTerm')
+  local mode = vim.fn.mode()
+  if mode == 't' then
+    -- Close without '!' to not kill the buffer
+    vim.cmd('q')
   else
     -- Otherwise, force quit the buffer
     vim.cmd('q!')
   end
 end
-map({ 'i', 'n', 'v' }, '<C-Q>', quit, { noremap = true, silent = true })
-map({ 'i', 'n', 'v' }, '<M-q>', quit, { noremap = true, silent = true })
-map('t', '<C-Q>', quit, { noremap = true, silent = true })
-map('t', '<M-q>', quit, { noremap = true, silent = true })
+map({ 'i', 'n', 'v', 't' }, '<C-Q>', quit, { noremap = true, silent = true })
+map({ 'i', 'n', 'v', 't' }, '<M-q>', quit, { noremap = true, silent = true })
 
 -- ========================
 -- Diff mappings
