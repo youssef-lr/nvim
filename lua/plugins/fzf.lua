@@ -69,10 +69,15 @@ return {
     -- Go to definition (useful if many definitons are found)
     vim.api.nvim_set_keymap('n', '<leader>d', '<cmd>FzfLua lsp_definitions<CR>', { noremap = true })
 
-    -- Find references
+    -- Find references / usages
     local references = '<cmd>FzfLua lsp_references<CR>'
     vim.api.nvim_set_keymap('n', '<leader>u', references, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '<D-u>', references, { noremap = true, silent = true })
+
+    -- Find incoming calls (where a function is being used - will not show lines where it's being imported/exported)
+    local incoming_calls = '<cmd>FzfLua lsp_incoming_calls<CR>'
+    vim.api.nvim_set_keymap('n', '<leader>i', incoming_calls, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', '<D-i>', incoming_calls, { noremap = true, silent = true })
 
     -- Buffers
     local buffers = '<cmd>FzfLua buffers<CR>'
