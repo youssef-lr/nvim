@@ -33,13 +33,12 @@ require('lazy').setup({
   require 'plugins.grug-far',
   require 'plugins.saga',
   require 'plugins.iedit',
-  -- require 'plugins.blink-pairs',
 
+  -- require 'plugins.blink-pairs',
   -- require 'plugins.dashbord',
   -- require 'plugins/nvim_cmp',
-
   -- require 'plugins.autopairs',
-  -- -- require 'plugins.telescope',
+  -- require 'plugins.telescope',
   -- require 'plugins.beepboop',
   --require 'plugins.nvim-spider',
   --'mattn/emmet-vim',
