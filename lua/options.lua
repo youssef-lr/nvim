@@ -426,6 +426,17 @@ vim.api.nvim_create_user_command('DeleteAIMarkers', function()
   print('AI markers removed')
 end, {})
 
+require 'tabline'
+
+require('vim._extui').enable({
+  target = {
+    pos = 'box',
+  },
+})
+
+vim.cmd('map && <Nop>')
+vim.cmd('map & <Nop>')
+
 -- disable builtin plugins
 local disabled_plugins = {
   '2html_plugin',
