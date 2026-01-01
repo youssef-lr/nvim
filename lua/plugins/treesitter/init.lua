@@ -53,6 +53,7 @@ return {
             'typescript',
             'bash',
             'gitcommit',
+            'toml',
           })
         end,
       })
@@ -62,6 +63,7 @@ return {
         lazy = true,
         mason = true,
         toggleterm = true,
+        csv = true,
       }
 
       -- Auto-install parsers and enable highlighting on FileType
