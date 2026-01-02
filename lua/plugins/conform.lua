@@ -25,7 +25,6 @@ return {
     opts = {
       notify_on_error = false,
       format_after_save = function(bufnr)
-        print('format')
         local git_root = require('utils').get_git_root()
         local filetype = vim.bo[bufnr].filetype
         if git_root == 'Web-Expensify' and (filetype == 'javascriptreact' or filetype == 'jsx') then
