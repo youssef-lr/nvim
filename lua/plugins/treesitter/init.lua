@@ -13,6 +13,29 @@ return {
     config = function()
       local ts = require('nvim-treesitter')
 
+      -- Supported languages for treesitter
+      local supported_languages = {
+        'c',
+        'lua',
+        'vim',
+        'vimdoc',
+        'query',
+        'javascript',
+        'php',
+        'cpp',
+        'java',
+        'typescript',
+        'bash',
+        'gitcommit',
+        'toml',
+      }
+
+      -- Create a lookup table for faster checks
+      local supported_langs_map = {}
+      for _, lang in ipairs(supported_languages) do
+        supported_langs_map[lang] = true
+      end
+
       -- Track buffers waiting for parser installation: { lang = { [buf] = true, ... } }
       local waiting_buffers = {}
       -- Track languages currently being installed to avoid duplicate install tasks
@@ -40,45 +63,24 @@ return {
         once = true,
         desc = 'Install core treesitter parsers',
         callback = function()
-          ts.install({
-            'c',
-            'lua',
-            'vim',
-            'vimdoc',
-            'query',
-            'javascript',
-            'php',
-            'cpp',
-            'java',
-            'typescript',
-            'bash',
-            'gitcommit',
-            'toml',
-          })
+          ts.install(supported_languages)
         end,
       })
-
-      local ignore_filetypes = {
-        checkhealth = true,
-        lazy = true,
-        mason = true,
-        toggleterm = true,
-        csv = true,
-      }
 
       -- Auto-install parsers and enable highlighting on FileType
       vim.api.nvim_create_autocmd('FileType', {
         group = group,
         desc = 'Enable treesitter highlighting and indentation',
         callback = function(event)
-          if ignore_filetypes[event.match] then
-            return
-          end
-
           local lang = vim.treesitter.language.get_lang(event.match) or event.match
           local buf = event.buf
 
           if not enable_treesitter(buf, lang) then
+            -- Only auto-install if language is in supported list
+            if not supported_langs_map[lang] then
+              return
+            end
+
             -- Parser not available, queue buffer (set handles duplicates)
             waiting_buffers[lang] = waiting_buffers[lang] or {}
             waiting_buffers[lang][buf] = true
