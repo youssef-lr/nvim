@@ -154,12 +154,9 @@ return {
             -- The following code creates a keymap to toggle inlay hints in your
             -- code, if the language server you are using supports them
             --
-            -- This may be unwanted, since they displace some of your code
-            if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-              map('<leader>th', function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-              end, '[T]oggle Inlay [H]ints')
-            end
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, '[T]oggle Inlay [H]ints')
           end
 
           vim.diagnostic.config({
@@ -185,6 +182,8 @@ return {
           })
 
           local orig = vim.lsp.util.open_floating_preview
+
+          ---@diagnostic disable-next-line: duplicate-set-field
           function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
             opts = opts or {}
             opts.border = 'rounded'
