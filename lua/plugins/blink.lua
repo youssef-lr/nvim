@@ -1,3 +1,5 @@
+local sources_priority = { 'lsp', 'buffer' }
+
 return {
   'saghen/blink.cmp',
   dependencies = {
@@ -85,7 +87,8 @@ return {
     -- (Default) Only show the documentation popup when manually triggered
     completion = {
       documentation = {
-        auto_show = false,
+        auto_show = true,
+        auto_show_delay_ms = 100,
         window = {
           border = 'rounded',
         },
@@ -105,12 +108,15 @@ return {
     sources = {
       default = function()
         local success, node = pcall(vim.treesitter.get_node)
-        if success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment', 'string', 'string_fragment' }, node:type()) then
+        if
+          success
+          and node
+          and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment', 'string', 'string_fragment' }, node:type())
+        then
           return { 'buffer' }
         end
         return { 'lsp', 'path', 'snippets', 'buffer' }
       end,
-      priority = { 'lsp', 'buffer' },
       providers = {
         lsp = {
           transform_items = function(_, items)
@@ -182,7 +188,7 @@ return {
         seen[item.label] = true
         return true
       end
-      for id in vim.iter(opts.sources.priority) do
+      for id in vim.iter(sources_priority) do
         items_by_source[id] = items_by_source[id] and vim.iter(items_by_source[id]):filter(filter):totable()
       end
       return original(ctx, items_by_source)
