@@ -11,6 +11,9 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-surround',
+  require 'plugins.dashbord',
+  require 'plugins.auto-sessions',
+
   require 'plugins.vague',
   require 'plugins/treesitter',
   require 'plugins.lspconfig',
@@ -27,7 +30,6 @@ require('lazy').setup({
   require 'plugins.claude',
   require 'plugins.miniai',
   require 'plugins.mini-autopairs',
-  require 'plugins.auto-sessions',
   require 'plugins.template_string',
   require 'plugins.gitlinker',
   require 'plugins.grug-far',
@@ -35,7 +37,6 @@ require('lazy').setup({
   require 'plugins.iedit',
 
   -- require 'plugins.blink-pairs',
-  -- require 'plugins.dashbord',
   -- require 'plugins/nvim_cmp',
   -- require 'plugins.autopairs',
   -- require 'plugins.telescope',

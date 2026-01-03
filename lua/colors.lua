@@ -68,6 +68,7 @@ vim.api.nvim_set_hl(0, 'BlinkCmpKindConstructor', { link = 'Variable' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindTypeParameter', { link = 'Variable' })
 
 vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { fg = '#b5ba99', bold = true })
+vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Visual' })
 
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = bg, fg = bg })
 vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg = '#cad2a5' })

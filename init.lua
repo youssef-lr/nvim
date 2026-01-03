@@ -1,3 +1,5 @@
+vim.deprecate = function() end
+
 require 'options'
 
 require 'keymaps'

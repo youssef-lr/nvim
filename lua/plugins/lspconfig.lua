@@ -1,4 +1,5 @@
 -- LSP Plugins
+require('plugins.lsp.overrides.hover')
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
