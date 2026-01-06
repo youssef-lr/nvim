@@ -1,11 +1,11 @@
 return {
-  'nvimdev/lspsaga.nvim',
+  'youssef-lr/lspsaga.nvim',
   config = function()
     require('lspsaga').setup({
       finder = {
         keys = {
           shuttle = { '<Tab>', '<M-l>' },
-          quit = 'q',
+          quit = { 'q', '<M-q> ' },
         },
         max_height = 1,
         left_width = 0.2,
@@ -15,11 +15,12 @@ return {
         enable = false,
       },
       symbol_in_winbar = {
-        enable = false,
+        enable = true,
       },
       definition = {
         width = 1,
         height = 1,
+        quit = { '<M-q> ' },
       },
       rename = {
         auto_save = true,
@@ -35,7 +36,8 @@ return {
     vim.keymap.set('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<D-e>', '<cmd>Lspsaga peek_definition<CR>', { silent = true, noremap = true })
 
-    vim.keymap.set('n', '<leader>lb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
+    vim.keymap.set('n', '<leader>wb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
+    vim.keymap.set('n', '<D-K>', '<cmd>Lspsaga go_to_parent<CR>', { silent = true, noremap = true })
   end,
   dependencies = {
     'nvim-treesitter/nvim-treesitter', -- optional
