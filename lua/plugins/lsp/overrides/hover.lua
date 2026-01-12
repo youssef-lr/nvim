@@ -70,7 +70,6 @@ vim.lsp.buf_request = function(bufnr, method, params, callback)
   if method == 'textDocument/signatureHelp' then
     local original_callback = callback
     callback = function(err, result, ctx, config)
-      print('ogiginal contex')
       if result and result.signatures then
         for _, sig in ipairs(result.signatures) do
           if sig.label then
