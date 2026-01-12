@@ -104,7 +104,7 @@ return {
 
         -- This function defines what will never be shown, even when `show_hidden` is set
         is_always_hidden = function(name, bufnr)
-          return false
+          return name == '.DS_Store'
         end,
 
         -- Sort file names in a more intuitive order for humans. Is less performant,
