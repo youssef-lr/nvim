@@ -28,6 +28,9 @@ return {
         'bash',
         'gitcommit',
         'toml',
+        'markdown',
+        'markdown_inline',
+        'swift',
       }
 
       -- Create a lookup table for faster checks
