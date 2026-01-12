@@ -4,10 +4,13 @@ local bgday = '#34383d'
 local bg = bgnight
 
 VagueColors = {
+  -- Base colors
   bg = bg,
   fg = '#c7c6c6',
   line = '#282830',
   comment = '#acacac',
+
+  -- Syntax colors
   builtin = '#a3b8b6',
   func = '#c0a3a5',
   string = '#9da380',
@@ -17,16 +20,44 @@ VagueColors = {
   parameter = '#b9a3ba',
   operator = '#96a3b2',
   keyword = '#8cadc6',
-  floatBorder = '#878787',
   type = '#a1b3b9',
+
+  -- UI elements
+  floatBorder = '#878787',
   visual = '#51575d',
   search = '#d9b2aa',
+  winSeparator = '#4b4848',
+  lineNr = '#9f9f9f',
+  pmenuThumb = '#9c9898',
+  matchParen = '#d5d7d8',
+
+  -- Diagnostic colors
   plus = '#8faf77',
   delta = '#e6be8c',
   error = '#dc9e92',
   warning = '#c2ac7b',
   hint = '#a6a4a4',
   info = '#a6a4a4',
+
+  -- Special highlights
+  bracket = '#a4bac1',
+  tag = '#cdc09e',
+  tagAttribute = 'Grey70',
+  treesitterContext = '#41423b',
+  lspSignatureParam = '#b5ba99',
+  flashLabel = '#ffffff',
+
+  -- Git colors
+  gitAdd = '#cad2a5',
+  diffAddFg = '#939a74',
+  diffTextFg = '#000000',
+
+  -- Terminal colors
+  termRed = '#be8c8c',
+  termGreen = '#9da380',
+  termYellow = '#c2ac7b',
+  termBlue = '#90a0a5',
+  termMagenta = '#905858',
 }
 
 return {

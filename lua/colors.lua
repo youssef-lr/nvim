@@ -67,6 +67,11 @@ vim.api.nvim_set_hl(0, 'BlinkCmpKindReference', { link = 'Variable' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindConstructor', { link = 'Variable' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindTypeParameter', { link = 'Variable' })
 
+local treesitterContextBG = '#3c4144'
+vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = treesitterContextBG })
+vim.api.nvim_set_hl(0, 'TreesitterContextLineNumber', { bg = treesitterContextBG })
+vim.api.nvim_set_hl(0, 'WinBar', { bg = '#2e3232' })
+
 vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { fg = '#b5ba99', bold = true })
 vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Visual' })
 
