@@ -23,9 +23,13 @@ return {
         -- the 'curved' BOrder is a custom Border type
         -- not natively supported but implemented in this plugin.
         border = 'curved',
-        width = 110,
-        height = 40,
         winblend = 0,
+        width = function()
+          return math.floor(vim.o.columns * 0.9)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.9)
+        end,
       },
       highlights = {
         Normal = {

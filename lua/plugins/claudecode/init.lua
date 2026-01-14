@@ -1,9 +1,11 @@
 local M = {
   'coder/claudecode.nvim',
-  dependencies = { 'folke/snacks.nvim' },
   config = true,
   opts = {
     terminal_cmd = '~/.local/bin/claude', -- Point to local installation
+    terminal = {
+      provider = require('plugins.claudecode.toggleterm-provider'),
+    },
   },
   keys = {
     --{ "<leader>a", nil, desc = "AI/Claude Code" },
