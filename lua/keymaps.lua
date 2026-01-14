@@ -235,7 +235,6 @@ local function get_git_root()
     return nil
   end
 end
-local a
 
 local function exec_git_push()
   -- Execute the Git status command
@@ -255,7 +254,17 @@ local function exec_git_push()
   local wrapped = '"' .. cmd .. '"'
   vim.cmd('1TermExec cmd=' .. wrapped)
 end
+
+local function build_chronos()
+  local git_root = get_git_root()
+  local cmd = 'cd ' .. git_root .. ' && ./scripts/buildAndRun.sh'
+  local wrapped = '"' .. cmd .. '"'
+  vim.cmd('1TermExec cmd=' .. wrapped)
+end
+
 map('n', '<leader><leader>p', exec_git_push)
+map('n', '<D-R>', build_chronos)
+map('t', '<C-CR>', '<S-CR>')
 
 -- vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 

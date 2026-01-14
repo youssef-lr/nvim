@@ -59,6 +59,7 @@ return {
         cpp = { 'uncrustify' },
         sql = { 'sql_formatter' },
         lua = { 'stylua' },
+        swift = {'swift'},
         -- json = { 'biome' },
         ['*'] = { 'trim_whitespace' },
       },
