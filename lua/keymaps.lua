@@ -263,8 +263,7 @@ local function build_chronos()
 end
 
 map('n', '<leader><leader>p', exec_git_push)
-map('n', '<D-R>', build_chronos)
-map('t', '<C-CR>', '<S-CR>')
+map({ 'n', 'i', 't' }, '<D-R>', build_chronos)
 
 -- vim.keymap.set({ 'n', 'v' }, '<D-d>', '*N', { noremap = true })
 

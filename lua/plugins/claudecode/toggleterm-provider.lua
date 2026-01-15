@@ -3,6 +3,15 @@
 
 local M = {}
 
+local terminal_float_opts = {
+  width = function()
+    return math.floor(vim.o.columns * 0.9)
+  end,
+  height = function()
+    return math.floor(vim.o.lines * 0.9)
+  end,
+}
+
 -- Store the terminal instance and state
 local state = {
   terminal = nil,
@@ -62,26 +71,12 @@ function M.open(cmd_string, env_table, effective_config, focus)
   -- Build the full command with environment variables
   local full_cmd = build_command(cmd_string, env_table)
 
-  print(full_cmd)
   -- Create or update terminal
   if not state.terminal then
     state.terminal = Terminal:new({
       cmd = full_cmd,
       direction = 'float',
-      border = 'curved',
-      width = 110,
-      height = 40,
-      close_on_exit = effective_config.auto_close or false,
-      auto_scroll = false,
-      start_in_insert = true,
-      on_open = function(term)
-        if focus then
-          vim.cmd('startinsert!')
-        end
-      end,
-      on_close = function(term)
-        -- Optional: handle cleanup
-      end,
+      float_opts = terminal_float_opts,
     })
   end
 
@@ -114,13 +109,10 @@ function M.simple_toggle(cmd_string, env_table, effective_config)
     state.last_env = env_table
     local full_cmd = build_command(cmd_string, env_table)
 
-    print(full_cmd)
     state.terminal = Terminal:new({
       cmd = full_cmd,
-      direction = get_direction(effective_config),
-      size = get_size(),
-      close_on_exit = effective_config.auto_close or false,
-      auto_scroll = true,
+      direction = 'float',
+      float_opts = terminal_float_opts,
     })
   end
 
@@ -143,17 +135,10 @@ function M.focus_toggle(cmd_string, env_table, effective_config)
     local full_cmd = build_command(cmd_string, env_table)
 
     state.terminal = Terminal:new({
+      id = 9,
       cmd = full_cmd,
       direction = 'float',
-      border = 'curved',
-      width = 110,
-      height = 40,
-      close_on_exit = effective_config.auto_close or false,
-      auto_scroll = false,
-      start_in_insert = true,
-      on_close = function(term)
-        -- Optional: handle cleanup
-      end,
+      float_opts = terminal_float_opts,
     })
   end
 

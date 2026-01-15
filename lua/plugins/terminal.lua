@@ -14,6 +14,7 @@ return {
       persist_size = true,
       persist_mode = false,
       direction = 'float',
+      auto_scroll = false,
       close_on_exit = true, -- close the terminal window when the process exits
       shell = vim.o.shell, -- change the default shell
       -- This field is only relevant if direction is set to 'float'
@@ -23,13 +24,9 @@ return {
         -- the 'curved' BOrder is a custom Border type
         -- not natively supported but implemented in this plugin.
         border = 'curved',
+        width = 110,
+        height = 40,
         winblend = 0,
-        width = function()
-          return math.floor(vim.o.columns * 0.9)
-        end,
-        height = function()
-          return math.floor(vim.o.lines * 0.9)
-        end,
       },
       highlights = {
         Normal = {
@@ -84,6 +81,9 @@ return {
     vim.keymap.set({ 'n', 'i', 't' }, '<D-">', function()
       toggle_term(3)
     end, { silent = true })
+
+    vim.keymap.set({ 't' }, '<S-CR>', '<S-CR>', { silent = true })
+    vim.keymap.set('t', '<C-CR>', '<S-CR>')
 
     -- Buffer read autocmd for restoring cursor position
     vim.api.nvim_create_autocmd('BufReadPost', {
