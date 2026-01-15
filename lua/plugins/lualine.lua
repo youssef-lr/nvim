@@ -45,7 +45,7 @@ local custom = {
   },
 }
 
-diagnostics = {
+local diagnostics = {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
   symbols = {
@@ -69,6 +69,45 @@ end
 local function get_short_cwd()
   return 'NvimTree'
 end
+
+local claude_cache = { count = 0 }
+
+local function update_claude_count()
+  local handle = io.popen("pgrep -f '^/Users/youssef/.local/bin/claude$' | wc -l | tr -d ' '")
+  if handle then
+    local result = handle:read('*a')
+    handle:close()
+    claude_cache.count = tonumber(result) or 0
+  end
+end
+
+local function claude_processes()
+  if claude_cache.count > 0 then
+    return '󰧑 ' .. claude_cache.count
+  end
+  return ''
+end
+
+-- Initialize count on startup
+update_claude_count()
+
+-- Update count on BufEnter for terminal buffers
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function()
+    if vim.bo.buftype == 'terminal' then
+      update_claude_count()
+    end
+  end,
+})
+
+-- Update count when terminal buffers are closed
+vim.api.nvim_create_autocmd({ 'BufDelete', 'BufWipeout' }, {
+  callback = function()
+    if vim.bo.buftype == 'terminal' then
+      update_claude_count()
+    end
+  end,
+})
 
 local fugitive = {
   sections = {
@@ -122,7 +161,18 @@ local M = {
         diagnostics,
       },
       lualine_c = { 'filename' },
-      lualine_x = { 'filetype' },
+      lualine_x = {
+        {
+          claude_processes,
+          color = function()
+            if claude_cache.count >= 5 then
+              return { fg = VagueColors.error }
+            end
+            return nil
+          end,
+        },
+        'filetype',
+      },
       lualine_y = { 'progress' },
       lualine_z = { 'location' },
     },
