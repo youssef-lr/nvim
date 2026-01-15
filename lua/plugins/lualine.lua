@@ -88,6 +88,48 @@ local function claude_processes()
   return ''
 end
 
+local function macro_recording()
+  local reg = vim.fn.reg_recording()
+  if reg == '' then
+    return ''
+  end
+  return '󰑋 @' .. reg
+end
+
+local function search_count()
+  if vim.v.hlsearch == 0 then
+    return ''
+  end
+  local ok, result = pcall(vim.fn.searchcount, { recompute = 1, maxcount = -1 })
+  if not ok or result.current == 0 then
+    return ''
+  end
+  return string.format('[%d/%d]', result.current, result.total)
+end
+
+local function lsp_clients()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if #clients == 0 then
+    return ''
+  end
+  local names = {}
+  for _, client in ipairs(clients) do
+    table.insert(names, client.name)
+  end
+  return '  ' .. table.concat(names, ', ')
+end
+
+local function selection_info()
+  local mode = vim.fn.mode()
+  if not (mode == 'v' or mode == 'V' or mode == '\22') then
+    return ''
+  end
+  local start_line = vim.fn.line('v')
+  local end_line = vim.fn.line('.')
+  local lines = math.abs(end_line - start_line) + 1
+  return string.format('%dL', lines)
+end
+
 -- Initialize count on startup
 update_claude_count()
 
@@ -151,7 +193,7 @@ local M = {
       },
     },
     sections = {
-      lualine_a = { 'mode' },
+      lualine_a = { 'mode', macro_recording },
       lualine_b = {
         {
           'branch',
@@ -159,9 +201,13 @@ local M = {
         },
         'diff',
         diagnostics,
+        'filename',
+        search_count,
+        selection_info,
       },
-      lualine_c = { 'filename' },
+      lualine_c = {},
       lualine_x = {
+        lsp_clients,
         {
           claude_processes,
           color = function()
