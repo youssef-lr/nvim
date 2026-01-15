@@ -1,1 +1,17 @@
-/Users/youssef/.config/neovide/config.toml
+title-hidden = false
+# neovim-bin = "/Users/youssef/nvim-macos-arm64/bin/nvim -V1"
+neovim-bin = "/usr/local/bin/nvim"
+
+[font]
+size = 13.3
+width = 1
+style = "W600"
+
+[font.normal]
+#family = "SauceCodePro Nerd Font Mono"
+#family = "FiraCode Nerd Font Mono"
+
+family = "Caskaydia Cove"
+#family = "0xProto Nerd Font Mono"
+#family = "CaskaydiaCove Nerd Font Mono"
+#family = "CommitMono"
