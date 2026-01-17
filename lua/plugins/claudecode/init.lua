@@ -2,7 +2,7 @@ local M = {
   'coder/claudecode.nvim',
   config = true,
   opts = {
-    terminal_cmd = '~/.local/bin/claude', -- Point to local installation
+    terminal_cmd = 'claude',
     terminal = {
       provider = require('plugins.claudecode.toggleterm-provider'),
     },
@@ -31,5 +31,27 @@ local M = {
 vim.keymap.set('n', '<D-l>', '<cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
 vim.keymap.set('i', '<D-l>', '<esc><cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
 vim.keymap.set('t', '<D-l>', '<C-\\><C-n><cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
+
+local function clear_terminal()
+  -- Get the channel ID of the current terminal buffer
+  local chan_id = vim.bo.channel
+
+  -- Check if we're in a terminal buffer
+  if chan_id == nil then
+    print('Not in a terminal buffer')
+    return
+  end
+
+  -- Check if we're in normal mode and switch to insert mode if needed
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == 'n' or mode == 'nt' then
+    vim.cmd('startinsert')
+  end
+
+  -- Send /clear followed by Enter
+  vim.api.nvim_chan_send(chan_id, '/clear')
+end
+
+vim.keymap.set('t', '<D-K>', clear_terminal, { noremap = true })
 
 return M
