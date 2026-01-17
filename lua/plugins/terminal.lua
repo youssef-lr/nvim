@@ -82,7 +82,13 @@ return {
       toggle_term(3)
     end, { silent = true })
 
-    vim.keymap.set({ 't' }, '<S-CR>', '<S-CR>', { silent = true })
+    local terminal_new_line = function()
+      vim.api.nvim_feedkeys('\\', 't', true)
+      vim.defer_fn(function()
+        vim.api.nvim_feedkeys('\r', 't', true)
+      end, 10)
+    end
+    vim.keymap.set({ 't' }, '<S-CR>', terminal_new_line, { silent = true })
     vim.keymap.set('t', '<C-CR>', '<S-CR>')
 
     -- Buffer read autocmd for restoring cursor position
