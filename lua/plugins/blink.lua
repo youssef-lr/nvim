@@ -111,7 +111,15 @@ return {
         if
           success
           and node
-          and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment', 'string', 'string_fragment' }, node:type())
+          and vim.tbl_contains({
+            'comment',
+            'line_comment',
+            'block_comment',
+            'string',
+            'string_fragment',
+            'line_str_text',
+            'line_string_literal',
+          }, node:type())
         then
           return { 'buffer' }
         end
