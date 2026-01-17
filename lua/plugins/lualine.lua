@@ -9,7 +9,7 @@ local colors = {
   darkgray = '#acacac',
   lightgray = '#504945',
   inactivegray = '#7c6f64',
-  bg = '#34383d',
+  bg = '#3d4547',
 }
 
 local custom = {
@@ -70,14 +70,21 @@ local function get_short_cwd()
   return 'NvimTree'
 end
 
-local claude_cache = { count = 0 }
+local claude_cache = { count = 0, last_update = 0 }
 
 local function update_claude_count()
-  local handle = io.popen("pgrep -f '^/Users/youssef/.local/bin/claude$' | wc -l | tr -d ' '")
+  -- Throttle updates: only update if 2 seconds have passed since last update
+  local current_time = vim.loop.now()
+  if current_time - claude_cache.last_update < 2000 then
+    return
+  end
+
+  local handle = io.popen("pgrep -f '^claude$' | wc -l | tr -d ' '")
   if handle then
     local result = handle:read('*a')
     handle:close()
     claude_cache.count = tonumber(result) or 0
+    claude_cache.last_update = current_time
   end
 end
 
@@ -136,14 +143,12 @@ update_claude_count()
 -- Update count on BufEnter for terminal buffers
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
-    if vim.bo.buftype == 'terminal' then
-      update_claude_count()
-    end
+    update_claude_count()
   end,
 })
 
 -- Update count when terminal buffers are closed
-vim.api.nvim_create_autocmd({ 'BufDelete', 'BufWipeout' }, {
+vim.api.nvim_create_autocmd({ 'BufDelete', 'BufWipeout', 'BufEnter' }, {
   callback = function()
     if vim.bo.buftype == 'terminal' then
       update_claude_count()
@@ -226,6 +231,25 @@ local M = {
       lualine_a = {
         'diff',
         diagnostics,
+      },
+      lualine_b = {
+        {
+          'branch',
+          color = { fg = VagueColors.number },
+        },
+      },
+      lualine_x = {
+        lsp_clients,
+        {
+          claude_processes,
+          color = function()
+            if claude_cache.count >= 5 then
+              return { fg = VagueColors.error }
+            end
+            return nil
+          end,
+        },
+        'filetype',
       },
     },
     tabline = {},
