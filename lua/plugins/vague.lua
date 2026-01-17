@@ -1,6 +1,6 @@
 -- local bgnight = '#2b2f32';
 local bgnight = '#2b2e2f'
-local bgday = '#34383d'
+local bgday = '#383f41'
 local bg = bgnight
 
 VagueColors = {
@@ -12,15 +12,14 @@ VagueColors = {
 
   -- Syntax colors
   builtin = '#a3b8b6',
-  func = '#c0a3a5',
+  func = '#cdb2b1',
   string = '#9da380',
   number = '#dacaa5',
   property = '#c7c7d4',
-  constant = '#C4AAA9',
-  parameter = '#b9a3ba',
+  constant = '#cdc09e',
   operator = '#96a3b2',
-  keyword = '#8cadc6',
-  type = '#a1b3b9',
+  keyword = '#a4b7c3',
+  type = '#a3b8b6',
 
   -- UI elements
   floatBorder = '#878787',
@@ -67,31 +66,31 @@ return {
     require('vague').setup({
       transparent = false, -- don't set background
       style = {
-        -- "none" is the same thing as default. But "none" and "bold" are also valid options
-        boolean = 'none',
-        number = 'none',
-        float = 'none',
-        error = 'none',
-        comments = 'none',
-        conditionals = 'none',
-        functions = 'none',
+        -- "bold" is the same thing as default. But "bold" and "bold" are also valid options
+        boolean = 'bold',
+        number = 'bold',
+        float = 'bold',
+        error = 'bold',
+        comments = 'bold',
+        conditionals = 'bold',
+        functions = 'bold',
         headings = 'bold',
-        operators = 'none',
-        strings = 'none',
-        variables = 'none',
+        operators = 'bold',
+        strings = 'bold',
+        variables = 'bold',
 
         -- keywords
-        keywords = 'none',
-        keyword_return = 'none',
-        keywords_loop = 'none',
-        keywords_label = 'none',
-        keywords_exception = 'none',
+        keywords = 'bold',
+        keyword_return = 'bold',
+        keywords_loop = 'bold',
+        keywords_label = 'bold',
+        keywords_exception = 'bold',
 
         -- builtin
-        builtin_constants = 'none',
-        builtin_functions = 'none',
-        builtin_types = 'none',
-        builtin_variables = 'none',
+        builtin_constants = 'bold',
+        builtin_functions = 'bold',
+        builtin_types = 'bold',
+        builtin_variables = 'bold',
       },
       -- Override colors
       colors = VagueColors,
