@@ -108,6 +108,7 @@ return {
         javascriptreact = { 'eslint_custom' },
         typescript = { 'eslint_custom' },
         typescriptreact = { 'eslint_custom' },
+        swift = { 'swiftlint' },
         -- php = { 'psalm' },
       }
 

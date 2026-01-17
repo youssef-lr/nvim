@@ -1,3 +1,9 @@
+local root_file = function(files)
+  return function(self, ctx)
+    return vim.fs.root(ctx.dirname, files)
+  end
+end
+
 return {
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -25,6 +31,7 @@ return {
     opts = {
       notify_on_error = false,
       format_after_save = function(bufnr)
+        print('formatting after save')
         local git_root = require('utils').get_git_root()
         local filetype = vim.bo[bufnr].filetype
         if git_root == 'Web-Expensify' and (filetype == 'javascriptreact' or filetype == 'jsx') then
@@ -59,11 +66,19 @@ return {
         cpp = { 'uncrustify' },
         sql = { 'sql_formatter' },
         lua = { 'stylua' },
-        swift = {'swift'},
+        swift = { 'swift_custom' },
         -- json = { 'biome' },
         ['*'] = { 'trim_whitespace' },
       },
       formatters = {
+        swift_custom = {
+          command = './scripts/lint.sh',
+          args = function(_, ctx)
+            return { ctx.filename }
+          end,
+          stdin = false,
+          cwd = root_file({ '.swiftlint.yml', 'Package.swift' }),
+        },
         php = function()
           return {
             command = require('conform.util').find_executable({
