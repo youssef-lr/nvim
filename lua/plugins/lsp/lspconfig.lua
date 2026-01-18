@@ -1,5 +1,6 @@
 -- LSP Plugins
 require('plugins.lsp.overrides.hover')
+require('plugins.lsp.overrides.diagnostics')
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -160,28 +161,6 @@ return {
             end, '[T]oggle Inlay [H]ints')
           end
 
-          vim.diagnostic.config({
-            virtual_text = false,
-            float = {
-              show_header = true,
-              source = true,
-              border = 'rounded',
-              focusable = true,
-              scope = 'cursor',
-              max_width = 100,
-            },
-            signs = {
-              text = {
-                [vim.diagnostic.severity.ERROR] = '●', -- or other icon of your choice here, this is just what my config has:
-                [vim.diagnostic.severity.WARN] = '●',
-                [vim.diagnostic.severity.INFO] = '●',
-                [vim.diagnostic.severity.HINT] = '●',
-              },
-            },
-            underline = false,
-            update_in_insert = true,
-          })
-
           local orig = vim.lsp.util.open_floating_preview
 
           ---@diagnostic disable-next-line: duplicate-set-field
@@ -212,6 +191,28 @@ return {
           'sqlls',
         },
       }
+
+      vim.diagnostic.config({
+        virtual_text = false,
+        float = {
+          show_header = true,
+          source = true,
+          border = 'rounded',
+          focusable = true,
+          scope = 'cursor',
+          max_width = 100,
+        },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = '●', -- or other icon of your choice here, this is just what my config has:
+            [vim.diagnostic.severity.WARN] = '●',
+            [vim.diagnostic.severity.INFO] = '●',
+            [vim.diagnostic.severity.HINT] = '●',
+          },
+        },
+        underline = false,
+        update_in_insert = true,
+      })
 
       vim.lsp.config('clangd', {
         cmd = {

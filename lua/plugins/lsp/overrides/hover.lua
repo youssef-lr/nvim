@@ -67,6 +67,7 @@ end
 local original_buf_request = vim.lsp.buf_request
 
 vim.lsp.buf_request = function(bufnr, method, params, callback)
+  print('buf_request ' .. method)
   if method == 'textDocument/signatureHelp' then
     local original_callback = callback
     callback = function(err, result, ctx, config)
