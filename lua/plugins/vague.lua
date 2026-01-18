@@ -1,12 +1,12 @@
 -- local bgnight = '#2b2f32';
 local bgnight = '#2b2e2f'
-local bgday = '#383f41'
+local bgday = '#3e4648'
 local bg = bgnight
 
 VagueColors = {
   -- Base colors
   bg = bg,
-  fg = '#c7c6c6',
+  fg = '#d0cece',
   line = '#282830',
   comment = '#acacac',
 
@@ -67,30 +67,31 @@ return {
       transparent = false, -- don't set background
       style = {
         -- "bold" is the same thing as default. But "bold" and "bold" are also valid options
-        boolean = 'bold',
-        number = 'bold',
-        float = 'bold',
-        error = 'bold',
-        comments = 'bold',
-        conditionals = 'bold',
-        functions = 'bold',
-        headings = 'bold',
-        operators = 'bold',
-        strings = 'bold',
-        variables = 'bold',
+        boolean = 'none',
+        number = 'none',
+        float = 'none',
+        error = 'none',
+        comments = 'none',
+        conditionals = 'none',
+        functions = 'none',
+        headings = 'none',
+        operators = 'none',
+        strings = 'none',
+        variables = 'none',
+        type = 'bold',
 
         -- keywords
-        keywords = 'bold',
-        keyword_return = 'bold',
-        keywords_loop = 'bold',
-        keywords_label = 'bold',
+        keywords = 'none',
+        keyword_return = 'none',
+        keywords_loop = 'none',
+        keywords_label = 'none',
         keywords_exception = 'bold',
 
         -- builtin
         builtin_constants = 'bold',
-        builtin_functions = 'bold',
+        builtin_functions = 'none',
         builtin_types = 'bold',
-        builtin_variables = 'bold',
+        builtin_variables = 'none',
       },
       -- Override colors
       colors = VagueColors,

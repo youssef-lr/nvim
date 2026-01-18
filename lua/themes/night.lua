@@ -49,25 +49,26 @@ vim.cmd('hi QuickfixLine gui=NONE')
 
 -- Terminal Colors
 vim.g.terminal_color_1 = '#be8c8c' -- Red
-vim.g.terminal_color_2 = '#be8c8c' -- Green
-vim.g.terminal_color_3 = '#be8c8c' -- Yellow
-vim.g.terminal_color_4 = '#be8c8c' -- Blue
-vim.g.terminal_color_5 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_6 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_7 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_8 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_9 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_10 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_11 = '#be8c8c' -- Magenta (I hate it, make it red)
-vim.g.terminal_color_12 = '#be8c8c' -- Bright Blue
-vim.g.terminal_color_13 = '#be8c8c' -- Bright Blue
-vim.g.terminal_color_14 = '#be8c8c' -- Bright Blue
-vim.g.terminal_color_14 = '#be8c8c' -- Bright Blue
+vim.g.terminal_color_2 = '#9da380' -- Green
+vim.g.terminal_color_3 = '#cdc09e' -- Yellow
+vim.g.terminal_color_4 = '#90a0a5' -- Blue
+vim.g.terminal_color_5 = '#cdb2b1' -- Magenta
+vim.g.terminal_color_8 = '#905858' -- Bright Black (Gray)
+vim.g.terminal_color_9 = '#d9b2aa' -- Bright Red
+vim.g.terminal_color_12 = '#90a0a5' -- Bright Blue
+vim.g.terminal_color_13 = '#9da380' -- Bright Magenta
+
+-- vim.g.terminal_color_6 = '#be8c8c' -- Cyan
+-- vim.g.terminal_color_7 = '#be8c8c' -- White
+vim.g.terminal_color_10 = '#90a0a5' -- Bright Green
+-- vim.g.terminal_color_11 = '#be8c8c' -- Bright Yellow
+-- vim.g.terminal_color_14 = '#be8c8c' -- Bright Cyan
+-- vim.g.terminal_color_15 = '#333333' -- Bright White
 
 -- ============================================================================
 -- Syntax/Treesitter
 -- ============================================================================
-vim.api.nvim_set_hl(0, 'Type', { fg = VagueColors.type })
+vim.api.nvim_set_hl(0, 'Type', { fg = VagueColors.type, bold = true })
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
 vim.api.nvim_set_hl(0, '@type', { link = 'Type' })
