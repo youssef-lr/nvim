@@ -111,9 +111,6 @@ vim.opt.hidden = true
 -- Incremental search
 vim.opt.incsearch = true
 
--- Do not redraw while executing macros
-vim.opt.lazyredraw = true
-
 -- Enable magic in regex
 vim.opt.magic = true
 
