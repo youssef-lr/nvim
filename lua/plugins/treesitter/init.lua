@@ -31,6 +31,7 @@ return {
         'markdown',
         'markdown_inline',
         'swift',
+        'yaml',
       }
 
       -- Create a lookup table for faster checks
