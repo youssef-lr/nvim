@@ -8,4 +8,6 @@ require 'lazy-plugins'
 
 require 'neovide'
 
-require 'colors'
+require 'themes.night'
+
+require('restore-buffer').setup()

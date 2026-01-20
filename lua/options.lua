@@ -80,6 +80,7 @@ vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 vim.opt.undofile = true
 vim.opt.updatetime = 500
 vim.opt.shortmess:append('c')
+vim.opt.shortmess:append('I') -- Disable intro message
 vim.opt.signcolumn = 'yes'
 vim.opt.completeopt:remove('preview')
 vim.opt.foldmethod = 'manual'
