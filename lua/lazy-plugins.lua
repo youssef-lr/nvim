@@ -38,6 +38,7 @@ require('lazy').setup({
   require 'plugins.saga',
   require 'plugins.iedit',
   require 'plugins.codediff',
+  require 'plugins.harpoon',
   -- require 'plugins.noice',
 
   -- require 'plugins.blink-pairs',
