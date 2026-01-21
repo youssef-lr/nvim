@@ -1,8 +1,5 @@
 return {
   'stevearc/oil.nvim',
-  keys = {
-    { '<leader>f', '<cmd>Oil --float<CR>', desc = 'Oil float' },
-  },
   config = function()
     require('oil').setup({
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
