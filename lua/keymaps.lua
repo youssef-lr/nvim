@@ -49,7 +49,7 @@ local save = function(isInsertMode)
     return
   end
 
-  if filetype == 'oil' then
+  if filetype == 'oil' or filetype == 'harpoo' then
     vim.cmd('silent! w')
     return
   end
