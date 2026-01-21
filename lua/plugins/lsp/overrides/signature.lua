@@ -1,3 +1,11 @@
+-- Intercept buf_request_all (for hover)
+local original_buf_request_all = vim.lsp.buf_request_all
+
+-- Intercept buf_request (for signature help)
+local original_buf_request = vim.lsp.buf_request
+
+-- Turns TS signature help from something like report: Report<{ name: string, id: number, ... } to Report<{ ... }>
+-- which greatly reduces the length of the signature
 local function simplify_hover_text(text)
   if type(text) ~= 'string' then
     return text
@@ -32,20 +40,24 @@ local function simplify_hover_text(text)
   return result
 end
 
--- Intercept buf_request_all (for hover)
-local original_buf_request_all = vim.lsp.buf_request_all
-
-vim.lsp.buf_request_all = function(bufnr, method, params, callback)
+local function override_hover_tsgo(bufnr, method, params, callback)
   if method == 'textDocument/hover' then
     local original_callback = callback
     callback = function(results, ctx)
-      for client_id, resp in pairs(results) do
+      local client = vim.lsp.get_client_by_id(ctx.client_id)
+      if not (client and client.name == 'tsgo') then
+        return original_callback(results, ctx)
+      end
+
+      for _, resp in pairs(results) do
         if resp.result and resp.result.contents then
           if type(resp.result.contents) == 'table' and resp.result.contents.value then
+            ---@diagnostic disable-next-line: inject-field
             resp.result.contents.value = simplify_hover_text(resp.result.contents.value)
           elseif type(resp.result.contents) == 'string' then
             resp.result.contents = simplify_hover_text(resp.result.contents)
           elseif type(resp.result.contents) == 'table' and #resp.result.contents > 0 then
+            ---@diagnostic disable-next-line: param-type-mismatch
             for i, content in ipairs(resp.result.contents) do
               if type(content) == 'table' and content.value then
                 content.value = simplify_hover_text(content.value)
@@ -63,14 +75,15 @@ vim.lsp.buf_request_all = function(bufnr, method, params, callback)
   return original_buf_request_all(bufnr, method, params, callback)
 end
 
--- Intercept buf_request (for signature help)
-local original_buf_request = vim.lsp.buf_request
-
-vim.lsp.buf_request = function(bufnr, method, params, callback)
-  print('buf_request ' .. method)
+local function override_signature_tsgo(bufnr, method, params, callback)
   if method == 'textDocument/signatureHelp' then
     local original_callback = callback
     callback = function(err, result, ctx, config)
+      local client = vim.lsp.get_client_by_id(ctx.client_id)
+      if not (client and client.name == 'tsgo') then
+        return original_callback(err, result, ctx, config)
+      end
+
       if result and result.signatures then
         for _, sig in ipairs(result.signatures) do
           if sig.label then
@@ -80,6 +93,7 @@ vim.lsp.buf_request = function(bufnr, method, params, callback)
           if type(sig.documentation) == 'string' then
             sig.documentation = simplify_hover_text(sig.documentation)
           elseif type(sig.documentation) == 'table' and sig.documentation.value then
+            ---@diagnostic disable-next-line: inject-field
             sig.documentation.value = simplify_hover_text(sig.documentation.value)
           end
 
@@ -88,6 +102,7 @@ vim.lsp.buf_request = function(bufnr, method, params, callback)
               if type(param.documentation) == 'string' then
                 param.documentation = simplify_hover_text(param.documentation)
               elseif type(param.documentation) == 'table' and param.documentation.value then
+                ---@diagnostic disable-next-line: inject-field
                 param.documentation.value = simplify_hover_text(param.documentation.value)
               end
             end
@@ -99,4 +114,14 @@ vim.lsp.buf_request = function(bufnr, method, params, callback)
   end
 
   return original_buf_request(bufnr, method, params, callback)
+end
+
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf_request_all = function(bufnr, method, params, callback)
+  override_hover_tsgo(bufnr, method, params, callback)
+end
+
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf_request = function(bufnr, method, params, callback)
+  override_signature_tsgo(bufnr, method, params, callback)
 end

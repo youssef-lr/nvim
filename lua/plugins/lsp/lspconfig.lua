@@ -1,5 +1,5 @@
 -- LSP Plugins
-require('plugins.lsp.overrides.hover')
+require('plugins.lsp.overrides.signature')
 require('plugins.lsp.overrides.diagnostics')
 return {
   {
