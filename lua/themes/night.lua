@@ -8,6 +8,8 @@ local bg = VagueColors.bg
 
 -- UI Elements
 vim.api.nvim_set_hl(0, 'WinBar', { bg = '#2e3232' })
+vim.api.nvim_set_hl(0, 'TabLine', { bg = '#2e3232' })
+vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#2e3232' })
 
 vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#4b4848' })
 vim.api.nvim_set_hl(0, 'WinBar', { bg = '#2e3232' })
@@ -20,13 +22,13 @@ vim.api.nvim_set_hl(0, 'LineNr', { fg = '#9f9f9f', bg = '' })
 
 -- Search and Visual Selection
 vim.api.nvim_set_hl(0, 'Visual', { bg = VagueColors.visual }) -- Don't set fg so syntax highlighting is kept
-vim.api.nvim_set_hl(0, 'IncSearch', { link = 'Visual' })
-vim.api.nvim_set_hl(0, 'Search', { link = 'Visual' })
-vim.api.nvim_set_hl(0, 'CurSearch', { link = 'Visual' })
+vim.api.nvim_set_hl(0, 'Search', { bg = VagueColors.number, fg = '#000000' })
+vim.api.nvim_set_hl(0, 'IncSearch', { link = 'Search' })
+vim.api.nvim_set_hl(0, 'CurSearch', { link = 'Search' })
 
 -- Popup Menu
 vim.api.nvim_set_hl(0, 'PmenuThumb', { bg = '#9c9898' })
-vim.api.nvim_set_hl(0, 'PmenuSel', { bg = VagueColors.visual })
+vim.api.nvim_set_hl(0, 'PmenuSel', { bg = VagueColors.pmenuThumb })
 
 -- Diagnostics
 vim.api.nvim_set_hl(0, 'DiagnosticHint', { fg = VagueColors.hint, bg = '' })
@@ -48,27 +50,36 @@ vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#d5d7d8', bold = true })
 vim.cmd('hi QuickfixLine gui=NONE')
 
 -- Terminal Colors
-vim.g.terminal_color_1 = '#be8c8c' -- Red
-vim.g.terminal_color_2 = '#9da380' -- Green
-vim.g.terminal_color_3 = '#cdc09e' -- Yellow
-vim.g.terminal_color_4 = '#90a0a5' -- Blue
-vim.g.terminal_color_5 = '#cdb2b1' -- Magenta
-vim.g.terminal_color_8 = '#905858' -- Bright Black (Gray)
-vim.g.terminal_color_9 = '#d9b2aa' -- Bright Red
-vim.g.terminal_color_12 = '#90a0a5' -- Bright Blue
-vim.g.terminal_color_13 = '#9da380' -- Bright Magenta
 
--- vim.g.terminal_color_6 = '#be8c8c' -- Cyan
--- vim.g.terminal_color_7 = '#be8c8c' -- White
-vim.g.terminal_color_10 = '#90a0a5' -- Bright Green
--- vim.g.terminal_color_11 = '#be8c8c' -- Bright Yellow
--- vim.g.terminal_color_14 = '#be8c8c' -- Bright Cyan
--- vim.g.terminal_color_15 = '#333333' -- Bright White
+-- Set terminal colors from VagueColors
+for i = 0, 15 do
+  local color_key = 'terminal_color_' .. i
+  if VagueColors[color_key] then
+    vim.g[color_key] = VagueColors[color_key]
+  end
+end
+
+-- vim.g.terminal_color_1 = '#be8c8c' -- Red
+-- vim.g.terminal_color_2 = '#9da380' -- Green
+-- vim.g.terminal_color_3 = '#cdc09e' -- Yellow
+-- vim.g.terminal_color_4 = '#90a0a5' -- Blue
+-- vim.g.terminal_color_5 = '#cdb2b1' -- Magenta
+-- vim.g.terminal_color_8 = '#905858' -- Bright Black (Gray)
+-- vim.g.terminal_color_9 = '#d9b2aa' -- Bright Red
+-- vim.g.terminal_color_12 = '#90a0a5' -- Bright Blue
+-- vim.g.terminal_color_13 = '#9da380' -- Bright Magenta
+--
+-- -- vim.g.terminal_color_6 = '#be8c8c' -- Cyan
+-- -- vim.g.terminal_color_7 = '#be8c8c' -- White
+-- vim.g.terminal_color_10 = '#90a0a5' -- Bright Green
+-- -- vim.g.terminal_color_11 = '#be8c8c' -- Bright Yellow
+-- -- vim.g.terminal_color_14 = '#be8c8c' -- Bright Cyan
+-- -- vim.g.terminal_color_15 = '#333333' -- Bright White
 
 -- ============================================================================
 -- Syntax/Treesitter
 -- ============================================================================
-vim.api.nvim_set_hl(0, 'Type', { fg = VagueColors.type, bold = true })
+vim.api.nvim_set_hl(0, 'Type', { fg = VagueColors.type, bold = false })
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
 vim.api.nvim_set_hl(0, '@type', { link = 'Type' })
@@ -108,7 +119,7 @@ vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', { link = 'String' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindClass', { link = 'Type' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindEnum', { link = 'Type' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindInterface', { link = 'Type' })
-vim.api.nvim_set_hl(0, 'BlinkCmpKindStruct', { link = 'type' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKindStruct', { link = 'Type' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindField', { link = 'Variable' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindKeyword', { link = 'Keyword' })
 vim.api.nvim_set_hl(0, 'BlinkCmpKindMethod', { link = 'Function' })
@@ -159,6 +170,3 @@ vim.api.nvim_set_hl(0, 'TelescopeSelectionCaret', { link = 'Function' })
 vim.api.nvim_set_hl(0, 'DevIconPhp', { link = 'Function' })
 vim.api.nvim_set_hl(0, 'DevIconH', { link = 'Keyword' })
 vim.api.nvim_set_hl(0, 'DevIconCpp', { link = 'Function' })
-
--- flash.nvim
-vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#ffffff', bold = true })

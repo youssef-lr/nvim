@@ -27,7 +27,7 @@ VagueColors = {
   search = '#d9b2aa',
   winSeparator = '#4b4848',
   lineNr = '#9f9f9f',
-  pmenuThumb = '#9c9898',
+  pmenuThumb = '#51575d',
   matchParen = '#d5d7d8',
 
   -- Diagnostic colors
@@ -52,11 +52,25 @@ VagueColors = {
   diffTextFg = '#000000',
 
   -- Terminal colors
-  termRed = '#be8c8c',
-  termGreen = '#9da380',
-  termYellow = '#c2ac7b',
-  termBlue = '#90a0a5',
-  termMagenta = '#905858',
+  -- ANSI colors (0-7)
+  terminal_color_0 = '#3b5455', -- black (dark teal)
+  terminal_color_1 = '#dc9e92', -- red (dusty rose)
+  terminal_color_2 = '#98bc99', -- green (sage)
+  terminal_color_3 = '#cdc09e', -- yellow (pale cream)
+  terminal_color_4 = '#90a0a5', -- blue (soft blue)
+  terminal_color_5 = '#cdb2b1', -- magenta (coral pink)
+  terminal_color_6 = '#889e9e', -- cyan (dark teal)
+  terminal_color_7 = '#a3a0a0', -- white (pale green)
+
+  -- Bright ANSI colors (8-15)
+  terminal_color_8 = '#905858', -- Bright Black (Gray)
+  terminal_color_9 = '#ef766d', -- bright red (coral)
+  terminal_color_10 = '#8bb899', -- bright green (mint)
+  terminal_color_11 = '#e9d6a2', -- bright yellow (pale cream)
+  terminal_color_12 = '#98bede', -- bright blue (sky blue)
+  terminal_color_13 = '#eab09b', -- bright magenta (peach)
+  terminal_color_14 = '#d4bd85', -- bright cyan (tan gold)
+  terminal_color_15 = '#d9d8d4', -- bright white (light gray)
 }
 
 return {
@@ -78,19 +92,19 @@ return {
         operators = 'none',
         strings = 'none',
         variables = 'none',
-        type = 'bold',
+        type = 'none',
 
         -- keywords
         keywords = 'none',
         keyword_return = 'none',
         keywords_loop = 'none',
         keywords_label = 'none',
-        keywords_exception = 'bold',
+        keywords_exception = 'none',
 
         -- builtin
-        builtin_constants = 'bold',
+        builtin_constants = 'none',
         builtin_functions = 'none',
-        builtin_types = 'bold',
+        builtin_types = 'none',
         builtin_variables = 'none',
       },
       -- Override colors
