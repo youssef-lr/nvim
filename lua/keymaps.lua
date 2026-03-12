@@ -66,8 +66,19 @@ local save = function(isInsertMode)
   end
   vim.cmd('silent! w')
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('i<Esc>l', true, true, true), 'n', true)
+
+  local filepath = vim.api.nvim_buf_get_name(0)
+  if filepath:match('ghostty/config$') then
+    local output = vim.fn.system([[~/.config/ghostty/reload_conf.sh]])
+    local return_code = vim.v.shell_error
+    if return_code ~= 0 then
+      print('Return code: ' .. return_code)
+      print('Output: ' .. output)
+    end
+  end
 end
 map('n', '<C-S>', save, { noremap = true, silent = true })
+map('n', '<C-s>', save, { noremap = true, silent = true })
 map('i', '<C-S>', function()
   save(true)
 end, { noremap = true, silent = true })
@@ -90,7 +101,7 @@ map('n', '<D-à>', ':cnext<CR>', { noremap = true })
 map('n', '<D-ç>', ':cprev<CR>', { noremap = true })
 
 -- Buffer switching
-map('n', '<S-Tab>', '<cmd>b#<CR>', { noremap = true })
+map('n', '<M-w>', '<cmd>b#<CR>', { noremap = true })
 
 -- Alternative navigation using Alt (Meta) key
 
@@ -204,8 +215,8 @@ map('n', '<Left>', ':vertical res -5<CR>', { noremap = true })
 -- Quit mappings - Ctrl+Q or Alt+Q
 -- ========================
 local quit = function()
-  local mode = vim.fn.mode()
-  if mode == 't' then
+  local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local' })
+  if buftype == 'terminal' then
     -- Close without '!' to not kill the buffer
     vim.cmd('q')
   else
@@ -274,3 +285,64 @@ map('n', '<D-a>', 'vig', { noremap = true })
 vim.keymap.set('n', '<leader><leader>w', function()
   vim.wo.wrap = not vim.wo.wrap
 end, { desc = 'Toggle word wrap' })
+
+map('n', '<D-§>', ':restart<CR>')
+
+-- ========================
+-- Terminal filepath navigation
+-- ========================
+local function navigate_to_filepath_under_cursor()
+  -- Get the WORD under cursor (like viW)
+  local word = vim.fn.expand('<cWORD>')
+
+  -- Match pattern: path/to/file.ext or path/to/file.ext:123 or path/to/file.ext:123-456
+  -- Stop before any trailing punctuation like ), ], ,, etc.
+  local match = word:match('([%w%./%-_]+%.%w+:?%d*%-?%d*)')
+
+  if not match then
+    return
+  end
+
+  -- Parse filepath and optional line numbers
+  local filepath, line_start, line_end = match:match('^(.+):(%d+)%-?(%d*)$')
+
+  if not filepath then
+    -- No line numbers, just filepath
+    filepath = match
+  end
+
+  -- Get git root
+  local git_root = get_git_root()
+  if not git_root then
+    vim.notify('Not in a git repository', vim.log.levels.ERROR)
+    return
+  end
+
+  -- Construct absolute path
+  local absolute_path = git_root .. '/' .. filepath
+
+  -- Check if file exists
+  if vim.fn.filereadable(absolute_path) == 0 then
+    vim.notify('File not found: ' .. absolute_path, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Exit terminal mode, close buffer, and navigate to file
+  vim.cmd('normal! \\<C-\\>\\<C-n>')
+  vim.cmd('q')
+  vim.cmd('edit ' .. vim.fn.fnameescape(absolute_path))
+
+  -- Navigate to line if specified
+  if line_start and line_start ~= '' then
+    vim.cmd('normal! ' .. line_start .. 'G')
+    vim.cmd('normal! zz') -- Center screen on the line
+  end
+end
+
+-- Map Enter in terminal buffers (normal mode only)
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    map('n', '<CR>', navigate_to_filepath_under_cursor, { buffer = true, silent = true })
+  end,
+})
