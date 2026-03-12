@@ -134,7 +134,11 @@ local function selection_info()
   local start_line = vim.fn.line('v')
   local end_line = vim.fn.line('.')
   local lines = math.abs(end_line - start_line) + 1
-  return string.format('%dL', lines)
+  if mode == 'V' then
+    return string.format('%dL', lines)
+  end
+  local chars = vim.fn.wordcount().visual_chars
+  return string.format('%dC', chars)
 end
 
 -- Initialize count on startup
@@ -208,7 +212,7 @@ local M = {
         diagnostics,
         'filename',
         search_count,
-        selection_info,
+        { selection_info, color = { fg = VagueColors.number } },
       },
       lualine_c = {},
       lualine_x = {
