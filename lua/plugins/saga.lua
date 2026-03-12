@@ -20,7 +20,7 @@ return {
       definition = {
         width = 1,
         height = 1,
-        quit = { '<M-q> ' },
+        quit = { '<M-q>', '<D-e>' },
       },
       rename = {
         auto_save = true,
