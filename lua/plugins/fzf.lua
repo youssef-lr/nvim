@@ -3,6 +3,8 @@ return {
   -- optional for icon support
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
+    local actions = require('fzf-lua').actions
+
     -- calling `setup` is optional for customization
     require('fzf-lua').setup({
       oldfiles = {
@@ -28,6 +30,23 @@ return {
         ['marker'] = { 'fg', 'Keyword' },
         ['spinner'] = { 'fg', 'Label' },
         ['header'] = { 'fg', 'Comment' },
+      },
+      buffers = {
+        prompt = 'Buffers❯ ',
+        file_icons = true, -- show file icons (true|"devicons"|"mini")?
+        color_icons = true, -- colorize file|git icons
+        sort_lastused = true, -- sort buffers() by last used
+        show_unloaded = true, -- show unloaded buffers
+        cwd_only = false, -- buffers for the cwd only
+        cwd = nil, -- buffers list for a given dir
+        actions = {
+          -- actions inherit from 'actions.files' and merge
+          -- by supplying a table of functions we're telling
+          -- fzf-lua to not close the fzf window, this way we
+          -- can resume the buffers picker on the same window
+          -- eliminating an otherwise unaesthetic win "flash"
+          ['alt-w'] = { fn = actions.buf_del, reload = true },
+        },
       },
     })
 
@@ -101,11 +120,13 @@ return {
     -- Current buffer diagnostics
     vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>FzfLua diagnostics_document<CR>', { noremap = true, silent = true })
 
-    -- Grep word under cursor
-    vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>FzfLua grep_cword<CR>', { noremap = true, silent = true })
+    -- Grep word under cursor (by selecting it visually first, to preserve highlight in fzf's preview)
+    vim.api.nvim_set_keymap('n', '<leader>rg', 'viw:FzfLua grep_visual<CR>', { noremap = true, silent = true })
 
     -- Grep visual selection
     vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
+
+    vim.api.nvim_set_keymap('n', '<leader>gl', '<cmd>FzfLua grep_last<CR>', { noremap = true, silent = true })
 
     -- Git commits
     vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
