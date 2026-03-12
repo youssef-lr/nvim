@@ -59,6 +59,14 @@ return {
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
+      preview_config = {
+        -- Options passed to nvim_open_win
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1,
+        border = 'rounded',
+      },
     },
   },
 }
