@@ -1,6 +1,7 @@
 local M = {
   'coder/claudecode.nvim',
   config = true,
+  lazy = false,
   opts = {
     terminal_cmd = 'claude',
     terminal = {
@@ -29,8 +30,10 @@ local M = {
 }
 
 vim.keymap.set('n', '<D-l>', '<cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
-vim.keymap.set('i', '<D-l>', '<esc><cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
 vim.keymap.set('t', '<D-l>', '<C-\\><C-n><cmd>ClaudeCodeFocus<cr><esc>', { noremap = true })
+
+vim.keymap.set('v', '<D-l>', '<cmd>ClaudeCodeSend<cr><esc>', { noremap = true })
+vim.keymap.set('i', '<D-l>', '<esc><cmd>ClaudeCodeSend<cr><esc>', { noremap = true })
 
 local function clear_terminal()
   -- Get the channel ID of the current terminal buffer
