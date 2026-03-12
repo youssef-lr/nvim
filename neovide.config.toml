@@ -5,7 +5,8 @@ neovim-bin = "/usr/local/bin/nvim"
 [font]
 size = 13.3
 width = 1
-style = "W700"
+edging = "antialias"
+
 
 [font.normal]
 family = "SauceCodePro Nerd Font Mono"
@@ -15,3 +16,7 @@ family = "SauceCodePro Nerd Font Mono"
 #family = "0xProto Nerd Font Mono"
 #family = "CaskaydiaCove Nerd Font Mono"
 #family = "CommitMono"
+
+[box-drawing]
+# "font-glyph", "native" or "selected-native"
+mode = "font-glyph"
