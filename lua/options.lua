@@ -376,20 +376,20 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-  callback = function(args)
-    local highlighter = require 'vim.treesitter.highlighter'
-    local ts_was_active = highlighter.active[args.buf]
-    local file_size = vim.fn.getfsize(args.file)
-    if file_size > 1024 * 1024 then
-      vim.cmd('TSBufDisable highlight')
-      vim.cmd('NoMatchParen')
-      if ts_was_active then
-        vim.notify('File larger than 1MB, turned off syntax highlighting')
-      end
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+--   callback = function(args)
+--     local highlighter = require 'vim.treesitter.highlighter'
+--     local ts_was_active = highlighter.active[args.buf]
+--     local file_size = vim.fn.getfsize(args.file)
+--     if file_size > 1024 * 1024 then
+--       vim.cmd('TSBufDisable highlight')
+--       vim.cmd('NoMatchParen')
+--       if ts_was_active then
+--         vim.notify('File larger than 1MB, turned off syntax highlighting')
+--       end
+--     end
+--   end,
+-- })
 
 local function close_gstatus()
   for winnr = 1, vim.fn.winnr('$') do
