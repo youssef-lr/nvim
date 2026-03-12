@@ -8,12 +8,17 @@ vim.cmd('setlocal indentkeys-=:')
 vim.cmd('iabbr cint const int64_t')
 vim.cmd('iabbr cont const')
 
-vim.api.nvim_buf_set_keymap(0, 'n', '<leader><leader>ts', 'ciwto_string(<ESC>pa)',
-    { noremap = true, desc = 'wrap variable in to_string' })
+vim.api.nvim_buf_set_keymap(
+  0,
+  'n',
+  '<leader><leader>ts',
+  'ciwto_string(<ESC>pa)',
+  { noremap = true, desc = 'wrap variable in to_string' }
+)
 
 -- Helper function to check for string ending
 function string.endswith(str, ending)
-    return ending == '' or str:sub(- #ending) == ending
+  return ending == '' or str:sub(-#ending) == ending
 end
 
 -- function GoToTestFile()
@@ -39,47 +44,46 @@ end
 --     end
 -- end
 
-
 local function toggle_command_test()
-    local current_file = vim.api.nvim_buf_get_name(0)
-    local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+  local current_file = vim.api.nvim_buf_get_name(0)
+  local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
 
-    -- Normalize slashes just in case
-    current_file = current_file:gsub('\\', '/')
+  -- Normalize slashes just in case
+  current_file = current_file:gsub('\\', '/')
 
-    local command_dir = '/auth/command/'
-    local test_dir = '/test/test/command/'
+  local command_dir = '/auth/command/'
+  local test_dir = '/test/test/command/'
 
-    if current_file:find(command_dir) then
-        -- You're in a command file, go to the test
-        local name = current_file:match('.*/auth/command/(.+)%.cpp$')
-        if not name then
-            print("Couldn't extract command name.")
-            return
-        end
-        local target = git_root .. test_dir .. name .. 'Test.cpp'
-        vim.cmd('edit ' .. target)
-    elseif current_file:find(test_dir) then
-        -- You're in a test file, go to the command
-        local name = current_file:match('.*/test/test/command/(.+)Test%.cpp$')
-        if not name then
-            print("Couldn't extract test name.")
-            return
-        end
-        local target = git_root .. command_dir .. name .. '.cpp'
-        vim.cmd('edit ' .. target)
-    else
-        print('Not in a command or test file.')
+  if current_file:find(command_dir) then
+    -- You're in a command file, go to the test
+    local name = current_file:match('.*/auth/command/(.+)%.cpp$')
+    if not name then
+      print("Couldn't extract command name.")
+      return
     end
+    local target = git_root .. test_dir .. name .. 'Test.cpp'
+    vim.cmd('edit ' .. target)
+  elseif current_file:find(test_dir) then
+    -- You're in a test file, go to the command
+    local name = current_file:match('.*/test/test/command/(.+)Test%.cpp$')
+    if not name then
+      print("Couldn't extract test name.")
+      return
+    end
+    local target = git_root .. command_dir .. name .. '.cpp'
+    vim.cmd('edit ' .. target)
+  else
+    print('Not in a command or test file.')
+  end
 end
 
 vim.keymap.set('n', '<M-t>', toggle_command_test, { noremap = true, silent = true })
 
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-  pattern = "*",
-  callback = function()
-    if vim.bo.modified then
-      vim.cmd("silent write")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+--   pattern = "*",
+--   callback = function()
+--     if vim.bo.modified then
+--       vim.cmd("silent write")
+--     end
+--   end,
+-- })
