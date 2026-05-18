@@ -7,7 +7,7 @@ return {
     branch = 'main',
     build = ':TSUpdate',
     dependencies = {
-      require('plugins.treesitter.context'),
+      -- require('plugins.treesitter.context'),
       require('plugins.treesitter.textobjects'),
     },
     config = function()
