@@ -7,6 +7,11 @@ return {
 
     -- calling `setup` is optional for customization
     require('fzf-lua').setup({
+      previewers = {
+        builtin = {
+          treesitter = { enable = true },
+        },
+      },
       oldfiles = {
         prompt = 'History❯ ',
         cwd_only = true,
@@ -60,10 +65,18 @@ return {
 
     vim.api.nvim_set_keymap('n', '<D-F>', '<cmd>FzfLua grep_curbuf<CR>', { noremap = true, silent = true })
 
-    local files = '<cmd>FzfLua files<CR>'
+    local expensidev_cmd =
+      [[sh -c '{ rg --files --hidden --glob "!.git"; for d in Auth/ Web-Expensify/ App/; do [ -d "${d}.git" ] && (cd "$d" && rg --files --hidden --glob "!.git" | sed "s|^|${d}|"); done; } 2>/dev/null']]
+    local open_files = function()
+      local opts = {}
+      if vim.fn.getcwd() == vim.fn.expand('~/Expensidev') then
+        opts.cmd = expensidev_cmd
+      end
+      require('fzf-lua').files(opts)
+    end
     local tfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua files<CR>'
-    vim.api.nvim_set_keymap('n', '<D-p>', files, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', '<M-p>', files, { noremap = true, silent = true })
+    vim.keymap.set('n', '<D-p>', open_files, { noremap = true, silent = true })
+    vim.keymap.set('n', '<M-p>', open_files, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<D-p>', tfiles, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<M-p>', tfiles, { noremap = true, silent = true })
 
@@ -106,10 +119,17 @@ return {
     vim.api.nvim_set_keymap('t', '<M-b>', tbuffers, { noremap = true, silent = true })
 
     -- Grep
-    local grep = '<cmd>FzfLua grep<CR>'
+    local expensidev_search_paths = { '.', 'Auth/', 'Web-Expensify/', 'App/' }
+    local open_grep = function()
+      local opts = {}
+      if vim.fn.getcwd() == vim.fn.expand('~/Expensidev') then
+        opts.search_paths = expensidev_search_paths
+      end
+      require('fzf-lua').grep(opts)
+    end
     local tgrep = '<C-\\><C-n>:q<CR><cmd>FzfLua grep<CR>'
-    vim.api.nvim_set_keymap('n', '<M-f>', grep, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', '<D-f>', grep, { noremap = true, silent = true })
+    vim.keymap.set('n', '<M-f>', open_grep, { noremap = true, silent = true })
+    vim.keymap.set('n', '<D-f>', open_grep, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<M-f>', tgrep, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<D-f>', tgrep, { noremap = true, silent = true })
 
@@ -121,10 +141,20 @@ return {
     vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>FzfLua diagnostics_document<CR>', { noremap = true, silent = true })
 
     -- Grep word under cursor (by selecting it visually first, to preserve highlight in fzf's preview)
-    vim.api.nvim_set_keymap('n', '<leader>rg', 'viw:FzfLua grep_visual<CR>', { noremap = true, silent = true })
+    local open_grep_visual = function()
+      local opts = {}
+      if vim.fn.getcwd() == vim.fn.expand('~/Expensidev') then
+        opts.search_paths = expensidev_search_paths
+      end
+      require('fzf-lua').grep_visual(opts)
+    end
+    vim.keymap.set('n', '<leader>rg', function()
+      vim.cmd('normal! viw')
+      open_grep_visual()
+    end, { noremap = true, silent = true })
 
     -- Grep visual selection
-    vim.api.nvim_set_keymap('v', '<leader>rg', '<cmd>FzfLua grep_visual<CR>', { noremap = true, silent = true })
+    vim.keymap.set('v', '<leader>rg', open_grep_visual, { noremap = true, silent = true })
 
     vim.api.nvim_set_keymap('n', '<leader>gl', '<cmd>FzfLua grep_last<CR>', { noremap = true, silent = true })
 
