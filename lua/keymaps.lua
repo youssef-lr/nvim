@@ -346,3 +346,9 @@ vim.api.nvim_create_autocmd('TermOpen', {
     map('n', '<CR>', navigate_to_filepath_under_cursor, { buffer = true, silent = true })
   end,
 })
+
+map('n', '<leader><leader>l', ':edit /Users/youssef/Expensidev/Auth/scratch/syslog<CR>', { noremap = true })
+
+vim.api.nvim_create_user_command('Cleanlogs', function()
+  vim.cmd([[silent! %s/^.\{-}\ze\[\a\{4}\]//]])
+end, { desc = 'Strip syslog prefix before [tag]' })
