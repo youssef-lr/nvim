@@ -10,6 +10,8 @@ local bg = VagueColors.bg
 vim.api.nvim_set_hl(0, 'WinBar', { bg = '#2e3232' })
 vim.api.nvim_set_hl(0, 'TabLine', { bg = '#2e3232' })
 vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#2e3232' })
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = bg, fg = VagueColors.comment })
+vim.api.nvim_set_hl(0, 'FloatBorder', { bg = bg, fg = VagueColors.comment })
 
 vim.api.nvim_set_hl(0, 'WinSeparator', { bg = bg, fg = '#4b4848' })
 vim.api.nvim_set_hl(0, 'WinBar', { bg = '#2e3232' })
