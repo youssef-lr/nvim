@@ -1,6 +1,7 @@
 title-hidden = false
 # neovim-bin = "/Users/youssef/nvim-macos-arm64/bin/nvim -V1"
 neovim-bin = "/usr/local/bin/nvim"
+system-native-tabs = true
 
 [font]
 size = 13.3
