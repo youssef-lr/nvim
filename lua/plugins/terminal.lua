@@ -82,6 +82,10 @@ return {
       toggle_term(3)
     end, { silent = true })
 
+    vim.keymap.set({ 'n', 'i', 't' }, '<D-_>', function()
+      toggle_term(8)
+    end, { silent = true })
+
     local terminal_new_line = function()
       vim.api.nvim_feedkeys('\\', 't', true)
       vim.defer_fn(function()

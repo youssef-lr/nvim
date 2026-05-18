@@ -263,7 +263,7 @@ local function exec_git_push()
   local git_root = get_git_root()
   local cmd = 'cd ' .. git_root .. ' && git push'
   local wrapped = '"' .. cmd .. '"'
-  vim.cmd('1TermExec cmd=' .. wrapped)
+  vim.cmd('8TermExec cmd=' .. wrapped)
 end
 
 local function build_chronos()
