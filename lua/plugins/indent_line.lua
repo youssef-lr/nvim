@@ -7,7 +7,7 @@ return {
       },
       scope = { enabled = true, show_start = false, show_end = false, show_exact_scope = true, highlight = 'Character' },
       exclude = { filetypes = { 'dashboard' } },
-      indent = { highlight = 'FloatBorder', char = '│' },
+      indent = { highlight = 'FoldColumn', char = '│' },
     })
   end,
 }
