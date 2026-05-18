@@ -84,6 +84,9 @@ end
 vim.api.nvim_set_hl(0, 'Type', { fg = VagueColors.type, bold = false })
 vim.api.nvim_set_hl(0, 'Tag', { fg = '#cdc09e' })
 
+vim.api.nvim_set_hl(0, '@string', { fg = VagueColors.string, italic = false })
+vim.api.nvim_set_hl(0, '@keyword.return', { fg = VagueColors.keyword, italic = false })
+vim.api.nvim_set_hl(0, '@comment', { fg = VagueColors.comment, italic = false })
 vim.api.nvim_set_hl(0, '@type', { link = 'Type' })
 vim.api.nvim_set_hl(0, '@function.method.call', { link = 'Function' })
 vim.api.nvim_set_hl(0, '@function.call', { link = 'Function' })
