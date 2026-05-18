@@ -10,6 +10,30 @@ local function override_swiftlint(diagnostics)
   return diagnostics
 end
 
+local function override_cpp(diagnostics)
+  local filtered = {}
+  for _, diagnostic in ipairs(diagnostics) do
+    local message = diagnostic.message or ''
+    local should_keep = true
+
+    if
+      message:match("Use of undeclared identifier 'cout'")
+      or message:match("Format specifies type 'long' but the argument has type 'int64_t'")
+      or message:match("No matching function for call to 'clamp'")
+      or message:match("No matching function for call to 'max'")
+      or message:match("Call to 'SQ' is ambiguous")
+      or message:match('Reference to overloaded function could not be resolved')
+    then
+      should_keep = false
+    end
+
+    if should_keep then
+      table.insert(filtered, diagnostic)
+    end
+  end
+  return filtered
+end
+
 local function override_eslint(diagnostics)
   -- Filter out specific ESLint diagnostics
   local filtered = {}
@@ -17,11 +41,18 @@ local function override_eslint(diagnostics)
     local message = diagnostic.message or ''
     local should_keep = true
 
-    -- Check if message starts with specific strings (plain text match)
-    local deprecationError = 'Onyx.connect() is deprecated'
-    local unusedTS = "Unused '@ts-expect-error' directive"
-    if message:sub(1, #deprecationError) == deprecationError or message:sub(1, #unusedTS) == unusedTS then
-      should_keep = false
+    local filtered_messages = {
+      'Onyx.connect() is deprecated',
+      "Unused '@ts-expect-error' directive",
+      "The signature '(phrase",
+      "'translateLocal' is deprecated",
+      'deprecated',
+    }
+    for _, pattern in ipairs(filtered_messages) do
+      if message:find(pattern, 1, true) then
+        should_keep = false
+        break
+      end
     end
 
     if should_keep then
@@ -38,6 +69,8 @@ vim.diagnostic.set = function(namespace, bufnr, diagnostics, opts)
     diagnostics = override_swiftlint(diagnostics)
   elseif filetype == 'typescriptreact' then
     diagnostics = override_eslint(diagnostics)
+  elseif filetype == 'cpp' then
+    diagnostics = override_cpp(diagnostics)
   end
 
   return original_set(namespace, bufnr, diagnostics, opts)
