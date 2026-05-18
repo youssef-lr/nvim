@@ -80,7 +80,7 @@ return {
         ['<M-l>'] = 'actions.refresh',
         ['ç'] = 'actions.open_cwd',
         ['<BS>'] = 'actions.parent',
-        ['`'] = 'actions.cd',
+        ['<leader>cd'] = 'actions.cd',
         ['~'] = { 'actions.cd', opts = { scope = 'tab' }, desc = ':tcd to the current oil directory' },
         ['gs'] = 'actions.change_sort',
         ['gx'] = 'actions.open_external',
@@ -89,7 +89,7 @@ return {
       },
 
       -- Set to false to disable all of the above keymaps
-      use_default_keymaps = true,
+      use_default_keymaps = false,
       view_options = {
         -- Show files and directories that start with "."
         show_hidden = true,
@@ -200,7 +200,11 @@ return {
         border = 'rounded',
       },
     })
-    vim.keymap.set('n', '<leader>f', ':Oil --float ' .. vim.fn.getcwd() .. '<CR>', { noremap = true, silent = true })
-    vim.keymap.set('n', 'ç', ':Oil --float <CR>', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>f', function()
+      require('oil').open_float(vim.fn.getcwd())
+    end, { noremap = true, silent = true })
+    vim.keymap.set('n', 'ç', function()
+      require('oil').open_float()
+    end, { noremap = true, silent = true })
   end,
 }
