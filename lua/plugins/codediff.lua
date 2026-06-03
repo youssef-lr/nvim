@@ -1,4 +1,4 @@
-return {
+local M = {
   'esmuellert/codediff.nvim',
   dependencies = { 'MunifTanjim/nui.nvim' },
   cmd = 'CodeDiff',
@@ -56,12 +56,12 @@ return {
       -- Keymaps in diff view
       keymaps = {
         view = {
-          quit = 'q', -- Close diff tab
+          quit = '<M-q>', -- Close diff tab
           toggle_explorer = '<leader>b', -- Toggle explorer visibility (explorer mode only)
-          next_hunk = ']c', -- Jump to next change
-          prev_hunk = '[c', -- Jump to previous change
-          next_file = '<D-$>', -- Next file in explorer mode
-          prev_file = '<D-^>', -- Previous file in explorer mode
+          next_hunk = '<Down>', -- Jump to next change
+          prev_hunk = '<Up>', -- Jump to previous change
+          next_file = '<D-à>', -- Next file in explorer mode
+          prev_file = '<D-ç>', -- Previous file in explorer mode
           diff_get = 'do', -- Get change from other buffer (like vimdiff)
           diff_put = 'dp', -- Put change to other buffer (like vimdiff)
         },
@@ -89,3 +89,7 @@ return {
     })
   end,
 }
+
+vim.keymap.set('n', '<leader>cd', ':CodeDiff<CR>', { noremap = true })
+
+return M
