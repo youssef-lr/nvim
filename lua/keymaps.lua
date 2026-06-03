@@ -349,6 +349,9 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 map('n', '<leader><leader>l', ':edit /Users/youssef/Expensidev/Auth/scratch/syslog<CR>', { noremap = true })
 
+-- Reload LSP
+map('n', '<leader>lr', '<cmd>silent! lsp restart<CR>', { noremap = true, silent = true, desc = 'Reload LSP' })
+
 vim.api.nvim_create_user_command('Cleanlogs', function()
   vim.cmd([[silent! %s/^.\{-}\ze\[\a\{4}\]//]])
 end, { desc = 'Strip syslog prefix before [tag]' })
