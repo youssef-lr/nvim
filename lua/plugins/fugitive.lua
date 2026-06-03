@@ -23,5 +23,14 @@ return {
     -- Set the highlight color for DiffAdd
     vim.cmd('hi DiffAdd ctermbg=65')
     vim.cmd('set diffopt=internal,filler,closeoff,vertical')
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'fugitive',
+      callback = function()
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+        vim.opt_local.foldcolumn = '1'
+      end,
+    })
   end,
 }
