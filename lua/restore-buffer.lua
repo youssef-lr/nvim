@@ -7,12 +7,30 @@ local session_dir = vim.fn.stdpath('data') .. '/sessions'
 -- Create session directory if it doesn't exist
 vim.fn.mkdir(session_dir, 'p')
 
--- Get session file path for current directory
-local function get_session_file()
-  local cwd = vim.fn.getcwd()
+-- Get session file path for a directory (defaults to the current cwd)
+local function get_session_file(cwd)
+  cwd = cwd or vim.fn.getcwd()
   -- Create a safe filename from the cwd path
   local session_name = cwd:gsub('/', '%%')
   return session_dir .. '/' .. session_name .. '.vim'
+end
+
+-- File tracking the last directory/worktree we were in, so we can reopen it.
+local last_dir_file = session_dir .. '/last_dir'
+
+local function record_last_dir(dir)
+  vim.fn.writefile({ dir or vim.fn.getcwd() }, last_dir_file)
+end
+
+local function read_last_dir()
+  if vim.fn.filereadable(last_dir_file) ~= 1 then
+    return nil
+  end
+  local lines = vim.fn.readfile(last_dir_file)
+  local dir = lines[1]
+  if dir and dir ~= '' and vim.fn.isdirectory(dir) == 1 then
+    return dir
+  end
 end
 
 -- Check if a buffer is valid for tracking
@@ -63,6 +81,9 @@ local function save_session()
     return
   end
 
+  -- Remember where we are, even if the current buffer isn't worth saving.
+  record_last_dir(vim.fn.getcwd())
+
   local bufnr = vim.api.nvim_get_current_buf()
 
   if is_valid_buffer(bufnr) then
@@ -80,6 +101,23 @@ local function save_session()
   end
 end
 
+-- Switch to another directory (e.g. a worktree), restoring its last session.
+-- Saves the current dir's session first so its open file is preserved.
+function M.switch_dir(dir)
+  save_session()
+
+  local session_file = get_session_file(dir)
+  if vim.fn.filereadable(session_file) == 1 then
+    -- The session restores both the open buffer and curdir.
+    vim.cmd('silent! source ' .. vim.fn.fnameescape(session_file))
+  else
+    -- No prior session for this dir: just cd in.
+    vim.cmd('cd ' .. vim.fn.fnameescape(dir))
+  end
+
+  record_last_dir(dir)
+end
+
 -- Restore session for current directory
 local function restore_session()
   -- Only restore if vim was opened without arguments
@@ -87,7 +125,10 @@ local function restore_session()
     return
   end
 
-  local session_file = get_session_file()
+  -- Always reopen the last worktree we were in, regardless of launch dir.
+  local target = read_last_dir() or vim.fn.getcwd()
+
+  local session_file = get_session_file(target)
 
   if vim.fn.filereadable(session_file) == 1 then
     -- Delete the initial empty buffer if it exists

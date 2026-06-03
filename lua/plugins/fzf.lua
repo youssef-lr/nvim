@@ -161,6 +161,48 @@ return {
     -- Git commits
     vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
 
+    -- Git worktrees: pick one and :cd into it
+    local function worktree_select()
+      local lines = vim.fn.systemlist({ 'git', 'worktree', 'list' })
+      if vim.v.shell_error ~= 0 then
+        vim.notify('Not a git repository', vim.log.levels.ERROR)
+        return
+      end
+      local home = vim.fn.expand('~')
+      local entries, by_label = {}, {}
+      for _, line in ipairs(lines) do
+        local path, _, branch = line:match('^(%S+)%s+(%x+)%s+%[(.-)%]')
+        path = path or line:match('^(%S+)')
+        if path then
+          local label = path:gsub('^' .. vim.pesc(home), '~')
+          if branch then
+            label = label .. '  [' .. branch .. ']'
+          end
+          table.insert(entries, label)
+          by_label[label] = path
+        end
+      end
+      require('fzf-lua').fzf_exec(entries, {
+        prompt = 'Worktrees❯ ',
+        previewer = false,
+        winopts = { preview = { hidden = 'hidden' } },
+        actions = {
+          ['default'] = function(selected)
+            local path = selected and selected[1] and by_label[selected[1]]
+            if path then
+              -- Restores this worktree's last-open buffer (and cd's in).
+              require('restore-buffer').switch_dir(path)
+              -- Reattach LSP against the new worktree root.
+              vim.cmd('silent! lsp restart')
+              vim.notify('cwd → ' .. path, vim.log.levels.INFO)
+            end
+          end,
+        },
+      })
+    end
+    vim.api.nvim_create_user_command('Worktrees', worktree_select, { desc = 'Select a git worktree and cd into it' })
+    vim.keymap.set('n', '<leader>w', worktree_select, { noremap = true, silent = true, desc = 'Worktree selector' })
+
     -- Command history
     --vim.api.nvim_set_keymap('n', '<D-C>', '<cmd>FzfLua command_history<CR>', { noremap = true, silent = true })
   end,
