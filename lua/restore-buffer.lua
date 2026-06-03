@@ -118,6 +118,15 @@ function M.switch_dir(dir)
   record_last_dir(dir)
 end
 
+-- Path of the main worktree for the repo containing `dir`, or nil if not a repo.
+local function main_worktree(dir)
+  local out = vim.fn.systemlist({ 'git', '-C', dir, 'worktree', 'list' })
+  if vim.v.shell_error ~= 0 or not out[1] then
+    return nil
+  end
+  return out[1]:match('^(%S+)')
+end
+
 -- Restore session for current directory
 local function restore_session()
   -- Only restore if vim was opened without arguments
@@ -125,8 +134,15 @@ local function restore_session()
     return
   end
 
-  -- Always reopen the last worktree we were in, regardless of launch dir.
-  local target = read_last_dir() or vim.fn.getcwd()
+  local cwd = vim.fn.getcwd()
+  local target = cwd
+
+  -- Launched from the main worktree root: reopen the last worktree we were in.
+  -- From any other dir, just restore that dir's own session.
+  local root = main_worktree(cwd)
+  if root and vim.fn.resolve(root) == vim.fn.resolve(cwd) then
+    target = read_last_dir() or cwd
+  end
 
   local session_file = get_session_file(target)
 
