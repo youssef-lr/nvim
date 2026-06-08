@@ -36,7 +36,7 @@ return {
     vim.keymap.set('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<D-e>', '<cmd>Lspsaga peek_definition<CR>', { silent = true, noremap = true })
 
-    vim.keymap.set('n', '<leader>wb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
+    -- vim.keymap.set('n', '<leader>wb', '<cmd>Lspsaga winbar_toggle<CR>', { silent = true, noremap = true })
     vim.keymap.set('n', '<D-K>', '<cmd>Lspsaga go_to_parent<CR>', { silent = true, noremap = true })
   end,
   dependencies = {
