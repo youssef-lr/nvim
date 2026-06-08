@@ -277,11 +277,11 @@ return {
       })
       vim.lsp.enable('tsgo')
 
-      -- biome
-      vim.lsp.config('biome', {
-        filetypes = { 'json' },
-      })
-      vim.lsp.enable('biome')
+      -- -- biome
+      -- vim.lsp.config('biome', {
+      --   filetypes = { 'json' },
+      -- })
+      -- vim.lsp.enable('biome')
 
       -- intelephense
       vim.lsp.config('intelephense', {})
