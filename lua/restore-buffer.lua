@@ -15,18 +15,36 @@ local function get_session_file(cwd)
   return session_dir .. '/' .. session_name .. '.vim'
 end
 
--- File tracking the last directory/worktree we were in, so we can reopen it.
-local last_dir_file = session_dir .. '/last_dir'
-
-local function record_last_dir(dir)
-  vim.fn.writefile({ dir or vim.fn.getcwd() }, last_dir_file)
-end
-
-local function read_last_dir()
-  if vim.fn.filereadable(last_dir_file) ~= 1 then
+-- Path of the main worktree for the repo containing `dir`, or nil if not a repo.
+local function main_worktree(dir)
+  local out = vim.fn.systemlist({ 'git', '-C', dir, 'worktree', 'list' })
+  if vim.v.shell_error ~= 0 or not out[1] then
     return nil
   end
-  local lines = vim.fn.readfile(last_dir_file)
+  return out[1]:match('^(%S+)')
+end
+
+-- Per-repo file tracking the last worktree we were in, keyed by the repo's main
+-- worktree root, so each repo reopens its own last worktree independently.
+local function last_dir_file_for(root)
+  return session_dir .. '/last_dir.' .. root:gsub('/', '%%')
+end
+
+local function record_last_dir(dir)
+  dir = dir or vim.fn.getcwd()
+  local root = main_worktree(dir)
+  if not root then
+    return
+  end
+  vim.fn.writefile({ dir }, last_dir_file_for(root))
+end
+
+local function read_last_dir(root)
+  local file = last_dir_file_for(root)
+  if vim.fn.filereadable(file) ~= 1 then
+    return nil
+  end
+  local lines = vim.fn.readfile(file)
   local dir = lines[1]
   if dir and dir ~= '' and vim.fn.isdirectory(dir) == 1 then
     return dir
@@ -118,15 +136,6 @@ function M.switch_dir(dir)
   record_last_dir(dir)
 end
 
--- Path of the main worktree for the repo containing `dir`, or nil if not a repo.
-local function main_worktree(dir)
-  local out = vim.fn.systemlist({ 'git', '-C', dir, 'worktree', 'list' })
-  if vim.v.shell_error ~= 0 or not out[1] then
-    return nil
-  end
-  return out[1]:match('^(%S+)')
-end
-
 -- Restore session for current directory
 local function restore_session()
   -- Only restore if vim was opened without arguments
@@ -141,7 +150,7 @@ local function restore_session()
   -- From any other dir, just restore that dir's own session.
   local root = main_worktree(cwd)
   if root and vim.fn.resolve(root) == vim.fn.resolve(cwd) then
-    target = read_last_dir() or cwd
+    target = read_last_dir(root) or cwd
   end
 
   local session_file = get_session_file(target)
