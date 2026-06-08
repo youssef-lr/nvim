@@ -82,6 +82,14 @@ return {
       toggle_term(3)
     end, { silent = true })
 
+    vim.keymap.set({ 'n', 'i', 't' }, "<D-'>", function()
+      toggle_term(4)
+    end, { silent = true })
+
+    vim.keymap.set({ 'n', 'i', 't' }, '<D-(>', function()
+      toggle_term(5)
+    end, { silent = true })
+
     vim.keymap.set({ 'n', 'i', 't' }, '<D-_>', function()
       toggle_term(8)
     end, { silent = true })
