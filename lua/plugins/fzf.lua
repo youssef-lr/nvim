@@ -190,11 +190,14 @@ return {
           ['default'] = function(selected)
             local path = selected and selected[1] and by_label[selected[1]]
             if path then
-              -- Restores this worktree's last-open buffer (and cd's in).
-              require('restore-buffer').switch_dir(path)
+              vim.cmd('cd ' .. vim.fn.fnameescape(path))
               -- Reattach LSP against the new worktree root.
               vim.cmd('silent! lsp restart')
               vim.notify('cwd → ' .. path, vim.log.levels.INFO)
+              -- Open the file picker in the new worktree once this picker closes.
+              vim.schedule(function()
+                require('fzf-lua').files()
+              end)
             end
           end,
         },
