@@ -268,6 +268,16 @@ end
 -- Exposed for debugging: :lua vim.print(require('smart-open-fzf')._ranked(vim.fn.getcwd(), true))
 M._ranked = ranked_history
 
+-- Reused per session so we don't litter temp files; cleaned up at VimLeavePre
+M._histfile = nil
+
+local function histfile()
+  if not M._histfile then
+    M._histfile = vim.fn.tempname()
+  end
+  return M._histfile
+end
+
 --- Open the smart-open picker.
 ---@param opts table|nil
 ---  * cmd string: file listing command (default: rg --files)
@@ -277,7 +287,6 @@ function M.open(opts)
   opts = opts or {}
   local core = require('fzf-lua.core')
   local fzf_config = require('fzf-lua.config')
-  local make_entry = require('fzf-lua.make_entry')
   local fzf_path = require('fzf-lua.path')
 
   local cmd = opts.cmd or 'rg --files --hidden --glob "!.git"'
@@ -285,11 +294,11 @@ function M.open(opts)
   opts.cmd = nil
   opts.prompt = opts.prompt or 'SmartOpen❯ '
   opts.cwd_prompt = false
-  -- Function contents must run in-process (also needed for in-process devicons)
-  opts.multiprocess = false
   -- fzf match score first; our smart ordering breaks ties (and owns the empty prompt)
   opts.fzf_opts = vim.tbl_extend('keep', opts.fzf_opts or {}, { ['--tiebreak'] = 'index' })
 
+  -- Apply the 'files' profile so file_icons/color_icons/previewer are set; the
+  -- multiprocess child reads these to render devicons
   opts = fzf_config.normalize_opts(opts, 'files')
   if not opts then
     return
@@ -298,70 +307,37 @@ function M.open(opts)
   local cwd = fzf_path.normalize(opts.cwd or uv.cwd())
   local history = ranked_history(cwd, cwd_only)
 
-  local function display_path(p)
-    if fzf_path.is_relative_to(p, cwd) then
-      return fzf_path.relative_to(p, cwd)
+  -- Display history relative to cwd when possible, matching rg's relative output
+  -- so dedup lines up
+  local hist_lines = {}
+  for _, e in ipairs(history) do
+    if fzf_path.is_relative_to(e.path, cwd) then
+      hist_lines[#hist_lines + 1] = fzf_path.relative_to(e.path, cwd)
+    else
+      hist_lines[#hist_lines + 1] = e.path
     end
-    return p
   end
 
-  local contents = function(fzf_cb)
-    local seen = {}
-    local closed = false
-    local proc = nil
-
-    local function emit(line)
-      local entry = make_entry.file(line, opts)
-      if entry and not closed then
-        local ok = pcall(fzf_cb, entry)
-        if not ok then
-          closed = true
-          if proc then
-            pcall(proc.kill, proc, 9)
-          end
-        end
-      end
-    end
-
-    for _, e in ipairs(history) do
-      local display = display_path(e.path)
-      seen[display] = true
-      emit(display)
-    end
-
-    local remainder = ''
-    proc = vim.system({ 'sh', '-c', cmd }, {
-      cwd = cwd,
-      stdout = function(err, data)
-        if err or not data then
-          return
-        end
-        vim.schedule(function()
-          if closed then
-            return
-          end
-          remainder = remainder .. data
-          local lines = vim.split(remainder, '\n', { plain = true })
-          remainder = table.remove(lines)
-          for _, line in ipairs(lines) do
-            if line ~= '' and not seen[line] and not is_hidden(line) then
-              seen[line] = true
-              emit(line)
-            end
-          end
-        end)
-      end,
-    }, function()
-      vim.schedule(function()
-        if remainder ~= '' and not seen[remainder] and not is_hidden(remainder) then
-          emit(remainder)
-        end
-        pcall(fzf_cb) -- EOF
-      end)
-    end)
+  -- Build a shell command that emits ranked history first, then the file
+  -- listing with those history paths removed. Passing a command string (rather
+  -- than an in-process function) lets fzf-lua format icons/paths in a child
+  -- process, which is dramatically faster on large repos.
+  local full_cmd
+  if #hist_lines > 0 then
+    local hf = histfile()
+    local f = io.open(hf, 'w')
+    f:write(table.concat(hist_lines, '\n'))
+    f:write('\n')
+    f:close()
+    local hf_q = vim.fn.shellescape(hf)
+    -- grep -vxF: drop lines that exactly equal a history path (already shown)
+    full_cmd = string.format('cat %s; { %s; } | grep -vxFf %s', hf_q, cmd, hf_q)
+  else
+    full_cmd = cmd
   end
 
-  return core.fzf_exec(contents, opts)
+  opts.cwd = cwd
+  return core.fzf_exec(full_cmd, opts)
 end
 
 function M.setup(opts)
@@ -378,6 +354,9 @@ function M.setup(opts)
     group = group,
     callback = function()
       save_db(true)
+      if M._histfile then
+        os.remove(M._histfile)
+      end
     end,
   })
 end
