@@ -65,6 +65,9 @@ return {
 
     vim.api.nvim_set_keymap('n', '<D-F>', '<cmd>FzfLua grep_curbuf<CR>', { noremap = true, silent = true })
 
+    -- Smart open: files ranked by frecency/recency/proximity (port of smart-open.nvim)
+    require('smart-open-fzf').setup()
+
     local expensidev_cmd =
       [[sh -c '{ rg --files --hidden --glob "!.git"; for d in Auth/ Web-Expensify/ App/; do [ -d "${d}.git" ] && (cd "$d" && rg --files --hidden --glob "!.git" | sed "s|^|${d}|"); done; } 2>/dev/null']]
     local open_files = function()
@@ -72,20 +75,19 @@ return {
       if vim.fn.getcwd() == vim.fn.expand('~/Expensidev') then
         opts.cmd = expensidev_cmd
       end
-      require('fzf-lua').files(opts)
+      require('smart-open-fzf').open(opts)
     end
-    local tfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua files<CR>'
+    vim.api.nvim_create_user_command('SmartOpen', open_files, { desc = 'Smart open files (frecency ranked)' })
+    local tfiles = '<C-\\><C-n>:q<CR><cmd>SmartOpen<CR>'
     vim.keymap.set('n', '<D-p>', open_files, { noremap = true, silent = true })
     vim.keymap.set('n', '<M-p>', open_files, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<D-p>', tfiles, { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<M-p>', tfiles, { noremap = true, silent = true })
 
-    -- Oldfiles mappings (recently opened files)
-    local oldfiles = '<cmd>FzfLua oldfiles<CR>'
-    local toldfiles = '<C-\\><C-n>:q<CR><cmd>FzfLua oldfiles<CR>'
-    vim.api.nvim_set_keymap('n', '<D-r>', oldfiles, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', '<M-r>', oldfiles, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('t', '<D-r>', toldfiles, { noremap = true, silent = true })
+    -- Oldfiles mappings (recently opened files) -> smart open, like <D-p>
+    vim.keymap.set('n', '<D-r>', open_files, { noremap = true, silent = true })
+    vim.keymap.set('n', '<M-r>', open_files, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('t', '<D-r>', tfiles, { noremap = true, silent = true })
 
     -- -- Git status
     local gstatus = '<cmd>FzfLua git_status<CR>'
@@ -196,7 +198,7 @@ return {
               vim.notify('cwd → ' .. path, vim.log.levels.INFO)
               -- Open the file picker in the new worktree once this picker closes.
               vim.schedule(function()
-                require('fzf-lua').files()
+                require('smart-open-fzf').open()
               end)
             end
           end,
