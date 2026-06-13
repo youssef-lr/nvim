@@ -24,8 +24,12 @@ return {
         -- the 'curved' BOrder is a custom Border type
         -- not natively supported but implemented in this plugin.
         border = 'curved',
-        width = 110,
-        height = 40,
+        width = function()
+          return math.floor(vim.o.columns * 0.7)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.8)
+        end,
         winblend = 0,
       },
       highlights = {
@@ -88,10 +92,6 @@ return {
 
     vim.keymap.set({ 'n', 'i', 't' }, '<D-(>', function()
       toggle_term(5)
-    end, { silent = true })
-
-    vim.keymap.set({ 'n', 'i', 't' }, '<D-_>', function()
-      toggle_term(8)
     end, { silent = true })
 
     local terminal_new_line = function()
