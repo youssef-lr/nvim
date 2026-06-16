@@ -18,7 +18,19 @@ local state = {
   config = nil,
   last_cmd = nil,
   last_env = nil,
+  cwd = nil,
 }
+
+-- Recreate the terminal if we've cd'd to a different dir (e.g. a worktree)
+-- since it was last created, so claude launches rooted in the new cwd.
+local function reset_if_cwd_changed()
+  local cwd = vim.fn.getcwd()
+  if state.terminal and state.cwd ~= cwd then
+    state.terminal:shutdown()
+    state.terminal = nil
+  end
+  state.cwd = cwd
+end
 
 -- Helper to check if toggleterm is available
 local function has_toggleterm()
@@ -64,6 +76,8 @@ function M.open(cmd_string, env_table, effective_config, focus)
 
   local Terminal = require('toggleterm.terminal').Terminal
 
+  reset_if_cwd_changed()
+
   -- Store command and env for later use
   state.last_cmd = cmd_string
   state.last_env = env_table
@@ -75,6 +89,7 @@ function M.open(cmd_string, env_table, effective_config, focus)
   if not state.terminal then
     state.terminal = Terminal:new({
       cmd = full_cmd,
+      dir = vim.fn.getcwd(),
       direction = 'float',
       float_opts = terminal_float_opts,
     })
@@ -103,6 +118,8 @@ function M.simple_toggle(cmd_string, env_table, effective_config)
 
   local Terminal = require('toggleterm.terminal').Terminal
 
+  reset_if_cwd_changed()
+
   -- Create terminal if it doesn't exist
   if not state.terminal then
     state.last_cmd = cmd_string
@@ -111,6 +128,7 @@ function M.simple_toggle(cmd_string, env_table, effective_config)
 
     state.terminal = Terminal:new({
       cmd = full_cmd,
+      dir = vim.fn.getcwd(),
       direction = 'float',
       float_opts = terminal_float_opts,
     })
@@ -128,6 +146,8 @@ function M.focus_toggle(cmd_string, env_table, effective_config)
 
   local Terminal = require('toggleterm.terminal').Terminal
 
+  reset_if_cwd_changed()
+
   -- Create terminal if it doesn't exist
   if not state.terminal then
     state.last_cmd = cmd_string
@@ -137,6 +157,7 @@ function M.focus_toggle(cmd_string, env_table, effective_config)
     state.terminal = Terminal:new({
       id = 9,
       cmd = full_cmd,
+      dir = vim.fn.getcwd(),
       direction = 'float',
       float_opts = terminal_float_opts,
     })
