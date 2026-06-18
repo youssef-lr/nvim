@@ -89,6 +89,9 @@ return {
           --map('<leader>d', vim.lsp.buf.definition, '[G]oto [D]efinition')
           --map('<D-d>', vim.lsp.buf.definition, '[G]oto [D]efinition')
           map('<leader>D', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('K', function()
+            vim.lsp.buf.hover({ border = 'rounded', max_width = 100 })
+          end, 'Hover Documentation')
 
           -- Initialize diagnostic mode based on client (php code has lots of warnings)
           local diagnosticMode = 'all'
@@ -161,7 +164,6 @@ return {
             end, '[T]oggle Inlay [H]ints')
           end
 
-          local orig = vim.lsp.util.open_floating_preview
         end,
       })
 
