@@ -90,6 +90,7 @@ local M = {
   end,
 }
 
-vim.keymap.set('n', '<leader>cd', ':CodeDiff<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>cd', ':CodeDiff origin/main...<CR>', { noremap = true })
+vim.keymap.set('n', '<leader><leader>cd', ':CodeDiff<CR>', { noremap = true })
 
 return M
