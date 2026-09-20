@@ -196,13 +196,33 @@ return {
             local path = selected and selected[1] and by_label[selected[1]]
             if path then
               vim.cmd('cd ' .. vim.fn.fnameescape(path))
+              -- Kill terminal 1 so it doesn't keep running rooted in the old
+              -- worktree's cwd. Close the window/buffer directly rather than
+              -- via term:shutdown(), which calls the toggleterm close() path
+              -- and forces `stopinsert!` globally — that would steal focus
+              -- back to normal mode wherever the cursor ends up, including
+              -- inside the smart-open picker opened below.
+              vim.schedule(function()
+                local ok, terminal = pcall(require, 'toggleterm.terminal')
+                if ok then
+                  local term = terminal.get(1, true)
+                  if term then
+                    if term.window and vim.api.nvim_win_is_valid(term.window) then
+                      vim.api.nvim_win_close(term.window, true)
+                    end
+                    if term.bufnr and vim.api.nvim_buf_is_valid(term.bufnr) then
+                      vim.api.nvim_buf_delete(term.bufnr, { force = true })
+                    end
+                  end
+                end
+              end)
               -- Reattach LSP against the new worktree root.
               vim.cmd('silent! lsp restart')
               vim.notify('cwd → ' .. path, vim.log.levels.INFO)
-              -- Open the file picker in the new worktree once this picker closes.
-              vim.schedule(function()
+              local open_smart = function()
                 require('smart-open-fzf').open()
-              end)
+              end
+              vim.schedule(open_smart)
             end
           end,
         },

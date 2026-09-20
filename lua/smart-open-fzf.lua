@@ -337,7 +337,29 @@ function M.open(opts)
   end
 
   opts.cwd = cwd
-  return core.fzf_exec(full_cmd, opts)
+  local result = core.fzf_exec(full_cmd, opts)
+
+  -- Force insert mode into the picker, overriding any stopinsert that races
+  -- in from elsewhere (e.g. fzf-lua's own deferred close-mode handling when
+  -- this picker is opened chained from another action). Retries briefly
+  -- since the interfering stopinsert can land on a later tick than this one.
+  local picker_buf = vim.api.nvim_get_current_buf()
+  local tries = 0
+  local function force_insert()
+    if not vim.api.nvim_buf_is_valid(picker_buf) or vim.api.nvim_get_current_buf() ~= picker_buf then
+      return
+    end
+    if vim.fn.mode() ~= 't' then
+      vim.cmd('startinsert')
+    end
+    tries = tries + 1
+    if tries < 15 then
+      vim.defer_fn(force_insert, 20)
+    end
+  end
+  vim.schedule(force_insert)
+
+  return result
 end
 
 function M.setup(opts)
