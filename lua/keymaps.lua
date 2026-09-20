@@ -97,11 +97,12 @@ map('n', '<M-k>', '<C-w>k', { noremap = true })
 map('n', '<M-h>', '<C-w>h', { noremap = true })
 map('n', '<M-l>', '<C-w>l', { noremap = true })
 map('n', '<M-=>', '<C-w>=', { noremap = true })
+
+-- Tab navigation
+map('n', '<M-H>', ':tabprevious<CR>', { noremap = true, silent = true, desc = 'Previous tab' })
+map('n', '<M-L>', ':tabnext<CR>',     { noremap = true, silent = true, desc = 'Next tab' })
 map('n', '<D-à>', ':cnext<CR>', { noremap = true })
 map('n', '<D-ç>', ':cprev<CR>', { noremap = true })
-
--- Buffer switching
-map('n', '<M-w>', '<cmd>b#<CR>', { noremap = true })
 
 -- Alternative navigation using Alt (Meta) key
 
@@ -282,9 +283,54 @@ map('n', '<leader><leader>s', ':source %<CR>', { noremap = true })
 
 map('n', '<D-a>', 'vig', { noremap = true })
 
-vim.keymap.set('n', '<leader><leader>w', function()
-  vim.wo.wrap = not vim.wo.wrap
-end, { desc = 'Toggle word wrap' })
+-- Session-wide word wrap toggle: one key flips it for every window, now and later.
+-- State lives on vim.g so re-sourcing this file can't strand a stale copy.
+if vim.g.wrap_enabled == nil then
+  vim.g.wrap_enabled = vim.go.wrap
+end
+
+-- Only write when the value differs, so a redundant pass costs no redraw.
+local function set_if_changed(scope, name, value)
+  if scope[name] ~= value then
+    scope[name] = value
+  end
+end
+
+local function apply_wrap()
+  local on = vim.g.wrap_enabled
+  -- Global value so windows created later inherit it.
+  set_if_changed(vim.go, 'wrap', on)
+  set_if_changed(vim.go, 'linebreak', on)
+  set_if_changed(vim.go, 'breakindent', on)
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_is_valid(win) then
+      set_if_changed(vim.wo[win], 'wrap', on)
+      set_if_changed(vim.wo[win], 'linebreak', on)
+      set_if_changed(vim.wo[win], 'breakindent', on)
+    end
+  end
+end
+
+-- Named augroup with clear so re-sourcing replaces the autocmd instead of stacking one.
+vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinNew', 'WinEnter', 'TermOpen', 'FileType' }, {
+  group = vim.api.nvim_create_augroup('PersistentWrap', { clear = true }),
+  callback = function()
+    -- Synchronous pass so the window never paints unwrapped (no flicker).
+    apply_wrap()
+    -- Deferred backstop for ftplugins, mkview restores and plugin window setup
+    -- that run after us; a no-op when nothing overrode the sync pass.
+    vim.schedule(apply_wrap)
+  end,
+})
+
+local function toggle_wrap()
+  vim.g.wrap_enabled = not vim.g.wrap_enabled
+  apply_wrap()
+  vim.notify('wrap ' .. (vim.g.wrap_enabled and 'on' or 'off'))
+end
+
+vim.keymap.set('n', '<leader><leader>w', toggle_wrap, { desc = 'Toggle word wrap (all windows)' })
+vim.keymap.set({ 'n', 'i', 'v' }, '<M-w>', toggle_wrap, { noremap = true, desc = 'Toggle word wrap (all windows)' })
 
 map('n', '<D-§>', ':restart<CR>')
 
