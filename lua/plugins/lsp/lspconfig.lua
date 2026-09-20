@@ -163,7 +163,6 @@ return {
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
-
         end,
       })
 
@@ -286,7 +285,15 @@ return {
       -- vim.lsp.enable('biome')
 
       -- intelephense
-      vim.lsp.config('intelephense', {})
+      vim.lsp.config('intelephense', {
+        settings = {
+          intelephense = {
+            files = {
+              exclude = { '**/.claude/worktrees/**' },
+            },
+          },
+        },
+      })
       vim.lsp.enable('intelephense')
 
       -- phpactor
