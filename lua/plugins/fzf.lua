@@ -21,6 +21,9 @@ return {
         -- stat_file = function() return true end,
         include_current_session = true, -- include bufs from current session
       },
+      grep = {
+        rg_opts = "--hidden --no-ignore-vcs --glob '!.git/objects/**' --glob '!.git/logs/**' --glob '!.git/refs/**' --glob '!.git/hooks/**' --glob '!.git/worktrees/**' --glob '!.git/modules/**' --glob '!.git/index' --glob '!.git/packed-refs' --column --line-number --no-heading --color=always --smart-case",
+      },
       fzf_colors = {
         ['gutter'] = { 'bg', 'Normal' },
         ['fg'] = { 'fg', 'CursorLine' },
