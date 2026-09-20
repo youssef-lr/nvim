@@ -11,6 +11,7 @@ edging = "antialias"
 
 [font.normal]
 family = "SauceCodePro Nerd Font Mono"
+style = "Bold"
 #family = "FiraCode Nerd Font Mono"
 
 #family = "Caskaydia Cove"
