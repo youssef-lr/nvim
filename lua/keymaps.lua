@@ -303,7 +303,8 @@ local function apply_wrap()
   set_if_changed(vim.go, 'linebreak', on)
   set_if_changed(vim.go, 'breakindent', on)
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_is_valid(win) then
+    -- Skip floats: they own their wrap settings (e.g. PR comment previews).
+    if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_config(win).relative == '' then
       set_if_changed(vim.wo[win], 'wrap', on)
       set_if_changed(vim.wo[win], 'linebreak', on)
       set_if_changed(vim.wo[win], 'breakindent', on)

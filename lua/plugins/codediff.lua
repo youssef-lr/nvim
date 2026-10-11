@@ -3,6 +3,7 @@ local M = {
   dependencies = { 'MunifTanjim/nui.nvim' },
   cmd = 'CodeDiff',
   config = function()
+    require('pr_comments').setup()
     require('codediff').setup({
       -- Highlight configuration
       highlights = {
@@ -39,6 +40,7 @@ local M = {
 
       -- Explorer panel configuration
       explorer = {
+        formatters = require('pr_comments').formatters(),
         position = 'left', -- "left" or "bottom"
         width = 40, -- Width when position is "left" (columns)
         height = 15, -- Height when position is "bottom" (lines)
