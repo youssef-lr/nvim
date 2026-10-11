@@ -91,6 +91,44 @@ local function is_valid_buffer(bufnr)
 
   return true
 end
+-- Set of git-tracked paths (relative to cwd) among `rels`, or nil if cwd isn't a repo.
+local function tracked_files(cwd, rels)
+  if #rels == 0 then
+    return {}
+  end
+  local cmd = { 'git', '-C', cwd, 'ls-files', '-z', '--' }
+  vim.list_extend(cmd, rels)
+  local res = vim.system(cmd, { text = true }):wait()
+  if res.code ~= 0 then
+    return nil
+  end
+  local set = {}
+  for _, p in ipairs(vim.split(res.stdout or '', '\0', { trimempty = true })) do
+    set[p] = true
+  end
+  return set
+end
+
+-- Listed buffers that are regular files under cwd and tracked by git.
+local function session_buffers(cwd)
+  local prefix = cwd:gsub('/$', '') .. '/'
+  local candidates, rels = {}, {}
+  for _, info in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+    if is_valid_buffer(info.bufnr) and info.name:sub(1, #prefix) == prefix then
+      table.insert(candidates, info)
+      table.insert(rels, info.name:sub(#prefix + 1))
+    end
+  end
+  local tracked = tracked_files(cwd, rels)
+  local keep = {}
+  for i, info in ipairs(candidates) do
+    if tracked == nil or tracked[rels[i]] then
+      table.insert(keep, info)
+    end
+  end
+  return keep
+end
+
 local is_session_deleted = false
 
 -- Save session for current directory
@@ -102,21 +140,35 @@ local function save_session()
   -- Remember where we are, even if the current buffer isn't worth saving.
   record_last_dir(vim.fn.getcwd())
 
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  if is_valid_buffer(bufnr) then
-    local session_file = get_session_file()
-
-    -- Temporarily set sessionoptions to only save the buffer
-    local saved_sessionoptions = vim.o.sessionoptions
-    vim.o.sessionoptions = 'buffers,curdir'
-
-    -- Save the session
-    vim.cmd('mksession! ' .. vim.fn.fnameescape(session_file))
-
-    -- Restore original sessionoptions
-    vim.o.sessionoptions = saved_sessionoptions
+  local cwd = vim.fn.getcwd()
+  local bufs = session_buffers(cwd)
+  if #bufs == 0 then
+    return
   end
+
+  local cur = vim.api.nvim_get_current_buf()
+  local current
+  for _, b in ipairs(bufs) do
+    if b.bufnr == cur then
+      current = b
+      current.lnum = vim.api.nvim_win_get_cursor(0)[1]
+    end
+  end
+  if not current then
+    table.sort(bufs, function(a, b)
+      return a.lastused > b.lastused
+    end)
+    current = bufs[1]
+  end
+
+  local lines = { 'cd ' .. vim.fn.fnameescape(cwd) }
+  for _, b in ipairs(bufs) do
+    if b ~= current then
+      table.insert(lines, ('badd +%d %s'):format(b.lnum, vim.fn.fnameescape(b.name)))
+    end
+  end
+  table.insert(lines, ('edit +%d %s'):format(current.lnum, vim.fn.fnameescape(current.name)))
+  vim.fn.writefile(lines, get_session_file())
 end
 
 -- Switch to another directory (e.g. a worktree), restoring its last session.
