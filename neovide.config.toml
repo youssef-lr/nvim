@@ -10,13 +10,13 @@ edging = "antialias"
 
 
 [font.normal]
-family = "SauceCodePro Nerd Font Mono"
+family = "CaskaydiaCove Nerd Font Mono"
 style = "Bold"
-#family = "FiraCode Nerd Font Mono"
 
-#family = "Caskaydia Cove"
 #family = "0xProto Nerd Font Mono"
-#family = "CaskaydiaCove Nerd Font Mono"
+#family = "SauceCodePro Nerd Font Mono"
+#family = "FiraCode Nerd Font Mono"
+#family = "Caskaydia Cove"
 #family = "CommitMono"
 
 [box-drawing]

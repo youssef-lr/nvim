@@ -36,7 +36,11 @@ M.opts = {
   hide_patterns = { '%.claude/worktrees/' },
 }
 
-M.db_path = vim.fn.stdpath('data') .. '/smart-open-fzf.json'
+-- Lists files, plus .md and .env files even when gitignored (deduplicated, order kept)
+M.unignored_cmd = [[rg --files --hidden --no-ignore-vcs --glob "*.md" --glob ".env*" --glob "!.git" --glob "!node_modules" --glob "!vendor" --glob "!.claude/worktrees"]]
+M.default_cmd = string.format([[{ rg --files --hidden --glob "!.git"; %s; } 2>/dev/null | awk '!seen[$0]++']], M.unignored_cmd)
+
+M.db_path =vim.fn.stdpath('data') .. '/smart-open-fzf.json'
 M.db = nil
 
 local function is_ignored(filepath)
@@ -280,7 +284,7 @@ end
 
 --- Open the smart-open picker.
 ---@param opts table|nil
----  * cmd string: file listing command (default: rg --files)
+---  * cmd string: file listing command (default: M.default_cmd)
 ---  * cwd string: directory to search (default: current working directory)
 ---  * cwd_only boolean: restrict history to files under cwd (default: true)
 function M.open(opts)
@@ -289,7 +293,7 @@ function M.open(opts)
   local fzf_config = require('fzf-lua.config')
   local fzf_path = require('fzf-lua.path')
 
-  local cmd = opts.cmd or 'rg --files --hidden --glob "!.git"'
+  local cmd = opts.cmd or M.default_cmd
   local cwd_only = opts.cwd_only ~= false
   opts.cmd = nil
   opts.prompt = opts.prompt or 'SmartOpen❯ '

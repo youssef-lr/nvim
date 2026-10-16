@@ -71,8 +71,11 @@ return {
     -- Smart open: files ranked by frecency/recency/proximity (port of smart-open.nvim)
     require('smart-open-fzf').setup()
 
-    local expensidev_cmd =
-      [[sh -c '{ rg --files --hidden --glob "!.git"; for d in Auth/ Web-Expensify/ App/; do [ -d "${d}.git" ] && (cd "$d" && rg --files --hidden --glob "!.git" | sed "s|^|${d}|"); done; } 2>/dev/null']]
+    -- Gitignored .md/.env files are only listed inside the sub-repos, since the root ignores every repo
+    local expensidev_cmd = string.format(
+      [[sh -c '{ rg --files --hidden --glob "!.git"; for d in Auth/ Web-Expensify/ App/; do [ -d "${d}.git" ] && (cd "$d" && { rg --files --hidden --glob "!.git"; %s; } | sed "s|^|${d}|"); done; } 2>/dev/null | awk "!seen[\$0]++"']],
+      require('smart-open-fzf').unignored_cmd
+    )
     local open_files = function()
       local opts = {}
       if vim.fn.getcwd() == vim.fn.expand('~/Expensidev') then
@@ -167,7 +170,20 @@ return {
     vim.api.nvim_set_keymap('n', '<leader>gc', '<cmd>FzfLua git_commits<CR>', { noremap = true, silent = true })
 
     -- Git worktrees: pick one and :cd into it
+    local function close_codediff()
+      local ok, lc = pcall(require, 'codediff.ui.lifecycle')
+      if not ok then
+        return
+      end
+      for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+        if #vim.api.nvim_list_tabpages() > 1 and lc.get_git_context(tab) then
+          pcall(vim.cmd, vim.api.nvim_tabpage_get_number(tab) .. 'tabclose')
+        end
+      end
+    end
+
     local function worktree_select()
+      close_codediff()
       local lines = vim.fn.systemlist({ 'git', 'worktree', 'list' })
       if vim.v.shell_error ~= 0 then
         vim.notify('Not a git repository', vim.log.levels.ERROR)

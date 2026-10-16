@@ -94,5 +94,6 @@ local M = {
 
 vim.keymap.set('n', '<leader>cd', ':CodeDiff origin/main...<CR>', { noremap = true })
 vim.keymap.set('n', '<leader><leader>cd', ':CodeDiff<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>cl', ':CodeDiff HEAD~1 HEAD<CR>', { noremap = true, desc = 'CodeDiff last commit' })
 
 return M
