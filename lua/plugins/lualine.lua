@@ -62,9 +62,61 @@ local diagnostics = {
   },
 }
 
+local git_dirty = {}
+
+local function current_git_root()
+  local name = vim.api.nvim_buf_get_name(0)
+  local dir = name ~= '' and vim.fs.dirname(name) or vim.fn.getcwd()
+  if vim.fn.isdirectory(dir) == 0 then
+    dir = vim.fn.getcwd()
+  end
+  return vim.fs.root(dir, '.git')
+end
+
+local function refresh_git_dirty()
+  local root = current_git_root()
+  if not root then
+    return
+  end
+  vim.system({ 'git', '-C', root, 'status', '--porcelain' }, { text = true }, function(out)
+    local dirty = out.code == 0 and vim.trim(out.stdout or '') ~= ''
+    if git_dirty[root] ~= dirty then
+      git_dirty[root] = dirty
+      vim.schedule(function()
+        require('lualine').refresh()
+      end)
+    end
+  end)
+end
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'FocusGained', 'DirChanged', 'TermLeave' }, {
+  callback = refresh_git_dirty,
+})
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'FugitiveChanged',
+  callback = refresh_git_dirty,
+})
+
+local function with_dirty(str)
+  if str == '' then
+    return str
+  end
+  local root = current_git_root()
+  if root and git_dirty[root] then
+    return str .. ' *'
+  end
+  return str
+end
+
+local branch = {
+  'branch',
+  fmt = with_dirty,
+  color = { fg = VagueColors.number },
+}
+
 local function fugitive_branch()
-  local icon = '' -- e0a0
-  return icon .. ' ' .. vim.fn.FugitiveHead()
+  local icon = '' -- e0a0
+  return with_dirty(icon .. ' ' .. vim.fn.FugitiveHead())
 end
 local function get_short_cwd()
   return 'NvimTree'
@@ -204,10 +256,7 @@ local M = {
     sections = {
       lualine_a = { 'mode', macro_recording },
       lualine_b = {
-        {
-          'branch',
-          color = { fg = VagueColors.number },
-        },
+        branch,
         'diff',
         diagnostics,
         'filename',
@@ -237,10 +286,7 @@ local M = {
         diagnostics,
       },
       lualine_b = {
-        {
-          'branch',
-          color = { fg = VagueColors.number },
-        },
+        branch,
       },
       lualine_x = {
         lsp_clients,
