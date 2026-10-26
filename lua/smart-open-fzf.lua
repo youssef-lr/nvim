@@ -299,7 +299,7 @@ function M.open(opts)
   opts.prompt = opts.prompt or 'SmartOpen❯ '
   opts.cwd_prompt = false
   -- fzf match score first; our smart ordering breaks ties (and owns the empty prompt)
-  opts.fzf_opts = vim.tbl_extend('keep', opts.fzf_opts or {}, { ['--tiebreak'] = 'index' })
+  opts.fzf_opts = vim.tbl_extend('keep', opts.fzf_opts or {}, { ['--tiebreak'] = 'index', ['--scheme'] = 'default' })
 
   -- Apply the 'files' profile so file_icons/color_icons/previewer are set; the
   -- multiprocess child reads these to render devicons
